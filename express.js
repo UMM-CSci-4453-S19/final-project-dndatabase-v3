@@ -35,3 +35,52 @@ app.get("/login", function(req, res)
         }
     });
 });
+
+app.get("/meta", function(req, res)
+{
+    var page = req.param('page');
+
+    switch(page)
+    {
+        // Main Page?
+        case 1:
+            break;
+
+        // Race Gender
+        case 2:
+            break;
+
+        // Class Subclass
+        case 3:
+            break;
+
+        // Ability Scores (Stats)
+        case 4:
+            break;
+
+        // Class Skills (Dependent on Class)
+        case 5:
+            break;
+
+        // Feats (Dependent on Race)
+        case 6:
+            break;
+
+        // Proficiencies
+        case 7:
+            break;
+
+        // Equipment
+        case 8:
+            break;
+
+        // Characteristics
+        case 9:
+            break;
+
+        // Personality
+        case 10:
+            break;
+    }
+
+});
