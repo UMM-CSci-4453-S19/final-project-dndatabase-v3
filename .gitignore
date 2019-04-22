@@ -1,0 +1,5 @@
+# This makes github ignore credentials.json when commits are made
+credentials.json
+
+# This keeps local idea settings off github repository
+*.idea

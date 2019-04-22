@@ -6,8 +6,8 @@ var using = Promise.using;
 Promise.promisifyAll(require("mysql/lib/Connection").prototype);
 Promise.promisifyAll(require("mysql/lib/Pool").prototype);
 
-credentials.host = "ids"
-credentials.database = "dndatabase"
+credentials.host = "ids";
+credentials.database = "dndatabase";
 var connection = mysql.createConnection(credentials);
 
 var pool=mysql.createPool(credentials); //Setup the pool using our credentials.
@@ -25,7 +25,7 @@ var query=function(command){ //SQL comes in and a promise comes out.
 
 var endPool=function(){
     pool.end(function(err){});
-}
+};
 
 exports.query = query;
 exports.releaseDBF=endPool;
