@@ -11,7 +11,7 @@ app.listen(port);
 var DoQuery = function(sql)
 {
     return dbf.query(mysql.format(sql));
-}
+};
 
 app.get("/login", function(req, res)
 {
@@ -39,47 +39,55 @@ app.get("/login", function(req, res)
 app.get("/meta", function(req, res)
 {
     var page = req.param('page');
+    console.log("The page passed /meta in express.js is " + page);
 
     switch(page)
     {
         // Main Page?
-        case 1:
+        case "1":
+            var sql = "SELECT * FROM dnd_races;";
+            var pResult = DoQuery(sql);
+            var pResolve = Promise.resolve(pResult);
+            pResolve.then(function(rows)
+            {
+               res.send(rows);
+            });
             break;
 
         // Race Gender
-        case 2:
+        case "2":
             break;
 
         // Class Subclass
-        case 3:
+        case "3":
             break;
 
         // Ability Scores (Stats)
-        case 4:
+        case "4":
             break;
 
         // Class Skills (Dependent on Class)
-        case 5:
+        case "5":
             break;
 
         // Feats (Dependent on Race)
-        case 6:
+        case "6":
             break;
 
         // Proficiencies
-        case 7:
+        case "7":
             break;
 
         // Equipment
-        case 8:
+        case "8":
             break;
 
         // Characteristics
-        case 9:
+        case "9":
             break;
 
         // Personality
-        case 10:
+        case "10":
             break;
     }
 
