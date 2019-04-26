@@ -11,15 +11,26 @@
 
 <div class="container-fluid" ng-controller="mainCtrl">
 
-    <div ng-hide="logged_in">
+    <div ng-show="!logged_in">
+        <h1> Welcome to Dungeons and Dancers</h1>
+        <h4> Log In Below </h4>
         <input type="text" ng-model="uname" placeholder="Username" size="20" maxlength="20">
         <input type="password" ng-model="pword" placeholder="Password" size="16" maxlength="16">
         <button ng-click="logIn(uname, pword)">Login</button>
     </div>
 
-    <div ng-hide="!logged_in">
-        <p>Actual Stuff</p>
+    <div ng-show="logged_in && !races">
+        <p> You Characters will show here </p>
+        <button ng-click="createCharacter()"> Create Character  </button>
         <button ng-click="logOut()">Logout</button>
+    </div>
+
+    <div ng-show="logged_in && races">
+        <div ng-repeat="race in races">
+            <header>Race: {{race.race}}
+            <p>Description: {{race.description}}</p>
+            </header>
+        </div>
     </div>
 
 </div>
