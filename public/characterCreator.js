@@ -11,6 +11,10 @@ function MainCtrl($scope, mainApi)
     $scope.logIn = logIn;
     $scope.uname = '';
     $scope.pword = '';
+    $scope.pageArr = [true, false, false, false, false, false, false, false, false];
+    $scope.curPage = 0;
+    $scope.next = next;
+    $scope.prev = prev;
 
 
     function logIn(uname, pword)
@@ -19,15 +23,43 @@ function MainCtrl($scope, mainApi)
         mainApi.logInUser(uname, pword).success(function (rows)
         {
             $scope.logged_in = rows;
+            setPage(0);
         }).error(function (rows)
         {
             console.log(rows);
         });
     }
 
+    function setPage(pageNum) {
+        console.log(pageNum);
+        for (var i = 0; i < $scope.pageArr.length; i++) {
+            if (i == pageNum) {
+                $scope.pageArr[i] = true;
+                $scope.curPage = i;
+            } else {
+                $scope.pageArr[i] = false;
+            }
+        }
+        console.log($scope.pageArr);
+    }
+
     function logOut()
     {
         $scope.logged_in = !$scope.logged_in;
+    }
+    function next() {
+        if ($scope.curPage < $scope.pageArr.length - 1) {
+            $scope.curPage++;
+            setPage($scope.curPage);
+            console.log($scope.curPage);
+        }
+    }
+    function prev() {
+        if ($scope.curPage > 0) {
+            $scope.curPage--;
+            setPage($scope.curPage);
+            console.log($scope.curPage);
+        }
     }
 
 }
