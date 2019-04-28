@@ -1,23 +1,27 @@
-<html>
-<head lang="en">
+<html lang="en">
+<head>
     <meta charset="utf-8">
-    <title>Cash Register</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
+    <title>DnD Character Creator</title>
+    <link rel="stylesheet" href="index.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.4/angular.min.js"></script>
     <script src="characterCreator.js"></script>
 </head>
 
-<body ng-app="characterCreator">
+<body id="mainBody" ng-app="characterCreator">
 
 <div class="container-fluid" ng-controller="mainCtrl">
 
     <div ng-show="!logged_in">
-        <h1> Welcome to Dungeons and Dancers</h1>
+        <h1> Welcome to Mazes and Monsters</h1>
         <h4> Log In Below </h4>
         <input type="text" ng-model="uname" placeholder="Username" size="20" maxlength="20">
         <input type="password" ng-model="pword" placeholder="Password" size="16" maxlength="16">
-        <button ng-click="logIn(uname, pword)">Login</button>
+        <br> <br>
+        <button ng-click="logIn(uname, pword)">Login</button> &nbsp;
+<!-- This is a quick workaround to getting past the log in screen when not working from lab/not having the database set up
+        <button ng-click="logged_in=true">Fake Log In</button>
+-->
     </div>
 
     <div ng-show="logged_in && !races">
