@@ -18,6 +18,15 @@ function MainCtrl($scope, mainApi)
     $scope.curPage = 0;
     $scope.serverData = [];
 
+    // page 5 skills/abilities
+    $scope.power1Ctrl = '';
+
+    var _power1Val = '';
+    $scope.power1Ctrl = {
+        value: function(newVal) {
+            return arguments.length ? (_power1Val = newVal) : _power1Val;
+        }
+    };
 
     function logIn(uname, pword)
     {
@@ -38,7 +47,8 @@ function MainCtrl($scope, mainApi)
     }
 
     function setPage(pageNum) {
-        console.log("Before set Page runs " + pageNum);
+        $scope.serverData = null;
+        console.log(pageNum);
         for (var i = 0; i < $scope.pageArr.length; i++) {
             if (i === pageNum) {
                 $scope.pageArr[i] = true;
@@ -47,14 +57,21 @@ function MainCtrl($scope, mainApi)
                 $scope.pageArr[i] = false;
             }
         }
-        console.log("After set page runs " + $scope.pageArr);
-        $scope.serverData = null;
-        mainApi.changePage($scope.curPage).success(function (response) {
-            $scope.serverData = response;
-        }).error(function (response)
+        console.log($scope.pageArr);
+        console.log('setting page!!!');
+        mainApi.changePage($scope.curPage).success(function (serverData) {
+            $scope.serverData = serverData;
+            console.log('stuff from the server!!!!: ');
+            console.log($scope.serverData);
+        }).error(function (serverData)
         {
-            console.log("Error while retrieving server data " + response);
+            console.log("Error while retrieving data " + serverData);
         });
+    }
+
+    function logOut()
+    {
+        $scope.logged_in = !$scope.logged_in;
     }
 
     function prev() {
