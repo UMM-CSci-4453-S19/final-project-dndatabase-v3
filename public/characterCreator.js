@@ -18,13 +18,27 @@ function MainCtrl($scope, mainApi)
     $scope.curPage = 0;
     $scope.serverData = [];
 
+    $scope.loading = false;
+    $scope.race = -1;
+    $scope.class = -1;
+
     // page 5 skills/abilities
     $scope.power1Ctrl = '';
+
+    // page 8 weapons as part of equipment
+     $scope.weaponCtrl = '';
 
     var _power1Val = '';
     $scope.power1Ctrl = {
         value: function(newVal) {
             return arguments.length ? (_power1Val = newVal) : _power1Val;
+        }
+    };
+
+    var weaponVal = '';
+    $scope.weaponCtrl = {
+        value: function(newVal) {
+            return arguments.length ? (weaponVal = newVal) : weaponVal;
         }
     };
 
@@ -48,6 +62,7 @@ function MainCtrl($scope, mainApi)
 
     function setPage(pageNum) {
         $scope.serverData = null;
+        $scope.loading = true;
         console.log(pageNum);
         for (var i = 0; i < $scope.pageArr.length; i++) {
             if (i === pageNum) {
@@ -57,21 +72,16 @@ function MainCtrl($scope, mainApi)
                 $scope.pageArr[i] = false;
             }
         }
-        console.log($scope.pageArr);
-        console.log('setting page!!!');
+        console.log('This is current page ' + $scope.curPage);
         mainApi.changePage($scope.curPage).success(function (serverData) {
+            console.log('response back from server ' + serverData);
             $scope.serverData = serverData;
-            console.log('stuff from the server!!!!: ');
-            console.log($scope.serverData);
+            console.log('stuff from the server!!!! ' , $scope.serverData);
+            $scope.loading = false;
         }).error(function (serverData)
         {
             console.log("Error while retrieving data " + serverData);
         });
-    }
-
-    function logOut()
-    {
-        $scope.logged_in = !$scope.logged_in;
     }
 
     function prev() {
