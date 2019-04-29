@@ -6,56 +6,57 @@ angular.module('characterCreator', [])
 
 function MainCtrl($scope, mainApi)
 {
-    $scope.logOut = logOut;
-    $scope.logged_in = false;
     $scope.logIn = logIn;
+    $scope.logOut = logOut;
+    $scope.prev = prev;
+    $scope.next = next;
+
+    $scope.logged_in = false;
     $scope.uname = '';
     $scope.pword = '';
     $scope.pageArr = [true, false, false, false, false, false, false, false, false];
     $scope.curPage = 0;
-    $scope.next = next;
-    $scope.prev = prev;
+    $scope.serverData = [];
 
-    $scope.createCharacter = createCharacter;
-    $scope.races = null;
 
     function logIn(uname, pword)
     {
         console.log("Trying to log in with name " + uname + " and password " + pword);
-        mainApi.logInUser(uname, pword).success(function (rows)
+        mainApi.logInUser(uname, pword).success(function (response)
         {
-            $scope.logged_in = rows;
+            $scope.logged_in = response;
             setPage(0);
-        }).error(function (rows)
+        }).error(function (response)
         {
-            console.log(rows);
+            console.log(response);
         });
-    }
-
-    function setPage(pageNum) {
-        console.log(pageNum);
-        for (var i = 0; i < $scope.pageArr.length; i++) {
-            if (i == pageNum) {
-                $scope.pageArr[i] = true;
-                $scope.curPage = i;
-            } else {
-                $scope.pageArr[i] = false;
-            }
-        }
-        console.log($scope.pageArr);
     }
 
     function logOut()
     {
         $scope.logged_in = !$scope.logged_in;
     }
-    function next() {
-        if ($scope.curPage < $scope.pageArr.length - 1) {
-            $scope.curPage++;
-            setPage($scope.curPage);
-            console.log($scope.curPage);
+
+    function setPage(pageNum) {
+        console.log("Before set Page runs " + pageNum);
+        for (var i = 0; i < $scope.pageArr.length; i++) {
+            if (i === pageNum) {
+                $scope.pageArr[i] = true;
+                $scope.curPage = i;
+            } else {
+                $scope.pageArr[i] = false;
+            }
         }
+        console.log("After set page runs " + $scope.pageArr);
+        $scope.serverData = null;
+        mainApi.changePage($scope.curPage).success(function (response) {
+            $scope.serverData = response;
+        }).error(function (response)
+        {
+            console.log("Error while retrieving server data " + response);
+        });
     }
+
     function prev() {
         if ($scope.curPage > 0) {
             $scope.curPage--;
@@ -64,22 +65,13 @@ function MainCtrl($scope, mainApi)
         }
     }
 
-    // This can be a generic doFunction(pageNum) function that takes in input,pageNum, from html and then we have a switch(PageNum)
-    // statement after mainApi.changePage(pageNum).success.... to see which value should store the response
-    // or we create a function for each thing, ex: createCharacter and this way I guess we are writing more code, but being more
-    // explicit and clear what a function means
-    function createCharacter()
-    {
-        $scope.pageNum = 1;
-        console.log("User " + $scope.uname + " wants to create a new character by going to pageNum " + $scope.pageNum);
-        mainApi.changePage($scope.pageNum).success(function (raceRows) {
-            $scope.races = raceRows;
-        }).error(function (raceRows)
-        {
-            console.log("Error while retrieving races " + raceRows);
-        });
+    function next() {
+        if ($scope.curPage < $scope.pageArr.length - 1) {
+            $scope.curPage++;
+            setPage($scope.curPage);
+            console.log("clicking next makes current page " + $scope.curPage);
+        }
     }
-
 }
 
 function mainApi($http, apiUrl)

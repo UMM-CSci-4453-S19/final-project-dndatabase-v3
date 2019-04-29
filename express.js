@@ -44,6 +44,9 @@ app.get("/meta", function(req, res)
     switch(page)
     {
         // Main Page?
+        case"0":
+            break;
+        // Race
         case "1":
             var sql = "SELECT * FROM dnd_races;";
             var pResult = DoQuery(sql);
@@ -80,6 +83,13 @@ app.get("/meta", function(req, res)
 
         // Equipment
         case "8":
+            var sql = "SELECT * FROM dnd_weapons;";
+            var result = DoQuery(sql);
+            var resolve = Promise.resolve(result);
+            resolve.then(function(rows)
+            {
+                res.send(rows);
+            });
             break;
 
         // Characteristics
