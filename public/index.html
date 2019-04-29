@@ -9,7 +9,7 @@
 
 <body id="mainBody" ng-app="characterCreator">
 
-<div class="container-fluid" ng-controller="mainCtrl">
+<div class="container-fluid" ng-controller="mainCtrl" ng-hide="loading">
     <h1>DnD Character Creator</h1>
     <div layout="row" style="float: right;" ng-show="logged_in">
         <button ng-click="logOut()">Logout</button>
@@ -50,8 +50,8 @@
             <form novalidate>
             <label> Power 1:
                 <select ng-model="power1Ctrl.value" ng-model-options="{ getterSetter: true }">
-            <option ng-repeat="x in serverData" value="{{x.name}}">{{x.name}}</option>
-            </select> </label> <br />
+            <option ng-repeat="x in serverData" value="{{x.powerId}}">{{x.name}}</option>
+            </select> </label>
                 {{power1Ctrl.value()}}
             </form>
         </div>
@@ -61,8 +61,24 @@
         </div>
 
         <div layout="row" ng-show="pageArr[7]">
-            <b>page 8!!!!</b>
-            <p>{{serverData}}</p>
+            <b>Equipment: </b>
+            <form novalidate>
+
+                <label> Choose a Weapon:
+                    <select ng-model="weaponCtrl.value" ng-model-options="{ getterSetter: true }">
+                        <option ng-repeat="x in serverData" value="{{x.weaponId}}">{{x.name}}</option>
+                    </select>
+                </label>
+                <br> <br>
+                <p>Weapon Description:</p>
+                <div ng-repeat="x in serverData" ng-show="weaponCtrl.value() == x.weaponId">
+                    <p> Weapon Name: {{x.name}} <br>
+                        Weapon Type : {{x.type}} <br>
+                        Weapon Damage : {{x.damage}} <br>
+                        Weapon Weight : {{x.weight}} <br>
+                        Weapon Properties : {{x.properties}} </p>
+                </div>
+            </form>
         </div>
 
         <div layout="row" ng-show="pageArr[8]">
