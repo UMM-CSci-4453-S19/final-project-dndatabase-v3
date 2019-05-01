@@ -14,7 +14,7 @@ function MainCtrl($scope, mainApi)
     $scope.logged_in = false;
     $scope.uname = '';
     $scope.pword = '';
-    $scope.pageArr = [true, false, false, false, false, false, false, false, false];
+    $scope.pageArr = [true, false, false, false, false, false, false, false, false, false];
     $scope.curPage = 0;
     $scope.serverData = [];
 
