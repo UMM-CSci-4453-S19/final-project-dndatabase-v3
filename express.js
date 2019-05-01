@@ -44,7 +44,16 @@ app.get("/meta", function(req, res)
     switch(page)
     {
         // Main Page?
+        case "0":
+            res.send("{}");
+            break;
+        // Race
         case "1":
+
+            var user = req.param('opt1');
+
+            var sql = "SELECT characterId, name, race, class, subclass FROM dnd_characters WHERE userId = (SELECT id FROM dnd_users WHERE user = " + user + ")";
+
             var sql = "SELECT * FROM dnd_races;";
             var pResult = DoQuery(sql);
             var pResolve = Promise.resolve(pResult);
@@ -56,14 +65,17 @@ app.get("/meta", function(req, res)
 
         // Race Gender
         case "2":
+            res.send("{}");
             break;
 
         // Class Subclass
         case "3":
+            res.send("{}");
             break;
 
         // Ability Scores (Stats)
         case "4":
+            res.send("{}");
             break;
 
         // Class Skills (Dependent on Class)
@@ -83,7 +95,7 @@ app.get("/meta", function(req, res)
             pResolve.then(function(rows)
             {
                 res.send(rows);
-                console.log(rows);
+                // console.log(rows);
             });
             console.log("Get Skills!!!!");
             break;
@@ -103,18 +115,30 @@ app.get("/meta", function(req, res)
 
         // Proficiencies
         case "7":
+            console.log("Ayyy case 7 squad");
+            var sql = "SELECT * FROM dnd_weapons";
+            var result = DoQuery(sql);
+            var resolve = Promise.resolve(result);
+            resolve.then(function(rows)
+            {
+                console.log("here are the rows!!", rows);
+                res.send(rows);
+            });
             break;
 
         // Equipment
         case "8":
+            res.send("{}");
             break;
 
         // Characteristics
         case "9":
+            res.send("{}");
             break;
 
         // Personality
         case "10":
+            res.send("{}");
             break;
     }
 
