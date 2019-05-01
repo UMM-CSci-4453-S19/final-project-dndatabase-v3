@@ -57,7 +57,25 @@
         </div>
 
         <div layout="row" ng-show="pageArr[6]">
-            <b>page 7!!!!</b>
+
+            <b>Character Skills</b>
+                <br>
+            <h1>Choose 3 Skills:</h1>
+                    <h2>Skill 1: </h2>
+                        <select>
+                            <option ng-repeat="x in serverData">{{x.name}}</option>
+                        </select>
+
+                <h2>Skill 2: </h2>
+                    <select>
+                        <option ng-repeat="x in serverData">{{x.name}}</option>
+                    </select>
+
+                <h2>Skill 3: </h2>
+                    <select>
+                        <option ng-repeat="x in serverData">{{x.name}}</option>
+                    </select>
+
         </div>
 
         <div layout="row" ng-show="pageArr[7]">
@@ -67,6 +85,7 @@
         <div layout="row" ng-show="pageArr[8]">
             <b>page 9!!!!</b>
         </div>
+
     </div>
 
     <div layout="row"  ng-show="logged_in">

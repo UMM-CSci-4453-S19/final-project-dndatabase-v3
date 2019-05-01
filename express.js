@@ -90,6 +90,15 @@ app.get("/meta", function(req, res)
 
         // Feats (Dependent on Race)
         case "6":
+            var sql = "SELECT * FROM dnd_proficiencies;";
+            var pResult = DoQuery(sql);
+            var pResolve = Promise.resolve(pResult);
+            pResolve.then(function(rows)
+            {
+                res.send(rows);
+                console.log(rows);
+            });
+            console.log("Got proficencies!");
             break;
 
         // Proficiencies

@@ -15,6 +15,8 @@ function MainCtrl($scope, mainApi)
     $scope.curPage = 0;
     $scope.next = next;
     $scope.prev = prev;
+
+    $scope.createCharacter = createCharacter;
     $scope.races = null;
 
     $scope.serverData = [];
@@ -32,6 +34,18 @@ function MainCtrl($scope, mainApi)
         }
     };
 
+    $scope.serverData = [];
+
+    // page 7 proficiencies
+    $scope.profCtrl = '';
+
+    var profVal = '';
+    $scope.profCtrl = {
+        value: function(newVal) {
+            return arguments.length ? (profVal = newVal) : profVal;
+        }
+    };
+
     function logIn(uname, pword)
     {
         console.log("Trying to log in with name " + uname + " and password " + pword);
@@ -43,10 +57,6 @@ function MainCtrl($scope, mainApi)
         {
             console.log(rows);
         });
-    }
-
-    function setupPage5() {
-        console.log($scope.power1Ctrl);
     }
 
     function setPage(pageNum) {
@@ -77,7 +87,6 @@ function MainCtrl($scope, mainApi)
         $scope.logged_in = !$scope.logged_in;
     }
     function next() {
-        setupPage5();
         if ($scope.curPage < $scope.pageArr.length - 1) {
             $scope.curPage++;
             setPage($scope.curPage);
@@ -85,12 +94,27 @@ function MainCtrl($scope, mainApi)
         }
     }
     function prev() {
-        setupPage5();
         if ($scope.curPage > 0) {
             $scope.curPage--;
             setPage($scope.curPage);
             console.log($scope.curPage);
         }
+    }
+
+    // This can be a generic doFunction(pageNum) function that takes in input,pageNum, from html and then we have a switch(PageNum)
+    // statement after mainApi.changePage(pageNum).success.... to see which value should store the response
+    // or we create a function for each thing, ex: createCharacter and this way I guess we are writing more code, but being more
+    // explicit and clear what a function means
+    function createCharacter()
+    {
+        $scope.pageNum = 1;
+        console.log("User " + $scope.uname + " wants to create a new character by going to pageNum " + $scope.pageNum);
+        mainApi.changePage($scope.pageNum).success(function (raceRows) {
+            $scope.races = raceRows;
+        }).error(function (raceRows)
+        {
+            console.log("Error while retrieving races " + raceRows);
+        });
     }
 
 }
