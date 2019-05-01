@@ -19,8 +19,9 @@ function MainCtrl($scope, mainApi)
     $scope.serverData = [];
 
     $scope.loading = false;
-    $scope.race = -1;
-    $scope.class = -1;
+    $scope.race = {};
+    $scope.class = {};
+    $scope.subClass = {};
 
     // page 5 skills/abilities
 
@@ -92,6 +93,17 @@ function MainCtrl($scope, mainApi)
         });
     }
 
+    // starter function to update the race class and subclass of selected character on server
+    function updateRaceClass(race, charClass, subClass) {
+        mainApi.changeRaceClass(race,charClass,subClass).success(function (serverData) {
+            // here will be any subsequent server requests or variables changes to initiate subsequent requests
+            console.log('server updated race class');
+        }).error(function (serverData)
+        {
+            console.log("Error while retrieving data " + serverData);
+        });
+    }
+
     function logOut()
     {
         $scope.logged_in = !$scope.logged_in;
@@ -125,6 +137,10 @@ function mainApi($http, apiUrl)
         changePage: function (pageNum)
         {
             var url = apiUrl + '/meta?page=' + pageNum;
+            return $http.get(url);
+        },
+        changeRaceClass: function (race, charClass, subClass) {
+            var url = apiUrl + '/changeRaceClass?page=10&race=' + race + '&charClass=' + charClass + '&subClass=' + subClass;
             return $http.get(url);
         }
     };

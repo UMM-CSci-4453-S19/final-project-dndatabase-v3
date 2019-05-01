@@ -8,6 +8,10 @@ var express=require('express'),
 app.use(express.static(__dirname + '/public'));
 app.listen(port);
 
+var race = '';
+var charClass = '';
+var subClass = '';
+
 var DoQuery = function(sql)
 {
     return dbf.query(mysql.format(sql));
@@ -36,11 +40,17 @@ app.get("/login", function(req, res)
     });
 });
 
+// create another request to update server variables of race and class
+app.get("/changeRaceClass", function(req, res) {
+    race = req.param('race');
+    charClass = req.param('charClass');
+    subClass = req.param('subClass');
+});
+
 app.get("/meta", function(req, res)
 {
     var page = req.param('page');
     console.log("The page passed /meta in express.js is " + page);
-
     switch(page)
     {
         // Main Page?
@@ -59,6 +69,7 @@ app.get("/meta", function(req, res)
             var pResolve = Promise.resolve(pResult);
             pResolve.then(function(rows)
             {
+                charClass = rows.class;
                res.send(rows);
             });
             break;
@@ -86,6 +97,7 @@ app.get("/meta", function(req, res)
             // subclass id sql = select subclass.id from dnd_charactors;
             // var subclassId = resolve this request and then move on....
             // if (var subclassId < 3) {
+
             var sql = "select * from dnd_powers where powerID < 2*100 + 2*10 and powerID >= 2*100 + 1*10;";
             // else {
             //      var sql = "select * from dnd_powers where powerID < 2*100 and powerID >= 2*100 + 1*10;";
@@ -138,6 +150,7 @@ app.get("/meta", function(req, res)
 
         // Personality
         case "10":
+
             res.send("{}");
             break;
     }
