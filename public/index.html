@@ -24,30 +24,57 @@
         <div layout="row" ng-show="pageArr[0]">
             <b>page 1!!!!</b>
         </div>
+
         <div layout="row" ng-show="pageArr[1]">
             <b>page 2!!!!</b>
         </div>
+
         <div layout="row" ng-show="pageArr[2]">
             <b>page 3!!!!</b>
         </div>
+
         <div layout="row" ng-show="pageArr[3]">
             <b>page 4!!!!</b>
         </div>
+
         <div layout="row" ng-show="pageArr[4]">
             <b>page 5!!!!</b>
         </div>
+
         <div layout="row" ng-show="pageArr[5]">
             <b>page 6!!!!</b>
         </div>
+
         <div layout="row" ng-show="pageArr[6]">
-            <b>page 7!!!!</b>
+
+            <b>Character Skills</b>
+                <br>
+            <h1>Choose 3 Skills:</h1>
+                    <h2>Skill 1: </h2>
+                        <select>
+                            <option ng-repeat="x in serverData">{{x.name}}</option>
+                        </select>
+
+                <h2>Skill 2: </h2>
+                    <select>
+                        <option ng-repeat="x in serverData">{{x.name}}</option>
+                    </select>
+
+                <h2>Skill 3: </h2>
+                    <select>
+                        <option ng-repeat="x in serverData">{{x.name}}</option>
+                    </select>
+
         </div>
+
         <div layout="row" ng-show="pageArr[7]">
             <b>page 8!!!!</b>
         </div>
+
         <div layout="row" ng-show="pageArr[8]">
             <b>page 9!!!!</b>
         </div>
+
     </div>
 
     <div layout="row"  ng-show="logged_in">

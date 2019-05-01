@@ -19,6 +19,18 @@ function MainCtrl($scope, mainApi)
     $scope.createCharacter = createCharacter;
     $scope.races = null;
 
+    $scope.serverData = [];
+
+    // page 7 proficiencies
+    $scope.profCtrl = '';
+
+    var profVal = '';
+    $scope.profCtrl = {
+        value: function(newVal) {
+            return arguments.length ? (profVal = newVal) : profVal;
+        }
+    };
+
     function logIn(uname, pword)
     {
         console.log("Trying to log in with name " + uname + " and password " + pword);
@@ -33,6 +45,7 @@ function MainCtrl($scope, mainApi)
     }
 
     function setPage(pageNum) {
+        $scope.serverData = null;
         console.log(pageNum);
         for (var i = 0; i < $scope.pageArr.length; i++) {
             if (i == pageNum) {
@@ -43,6 +56,15 @@ function MainCtrl($scope, mainApi)
             }
         }
         console.log($scope.pageArr);
+        console.log('setting page!!!');
+        mainApi.changePage($scope.curPage).success(function (serverData) {
+            $scope.serverData = serverData;
+            console.log('stuff from the server!!!!: ');
+            console.log($scope.serverData);
+        }).error(function (serverData)
+        {
+            console.log("Error while retrieving data " + serverData);
+        });
     }
 
     function logOut()
