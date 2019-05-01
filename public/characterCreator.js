@@ -19,6 +19,9 @@ function MainCtrl($scope, mainApi)
     $scope.createCharacter = createCharacter;
     $scope.races = null;
 
+    $scope.displayCharacters = displayCharacters;
+    $scope.characters = [];
+
     function logIn(uname, pword)
     {
         console.log("Trying to log in with name " + uname + " and password " + pword);
@@ -80,6 +83,18 @@ function MainCtrl($scope, mainApi)
         });
     }
 
+    function displayCharacters()
+    {
+        console.log("Fetching all characters...");
+
+        mainApi.changePage(1, $scope.username, null).success(function (rows){
+            $scope.characters = rows;
+        }).error(function (rows)
+        {
+            console.log("Error while retrieving characters " + rows);
+        })
+    }
+
 }
 
 function mainApi($http, apiUrl)
@@ -91,9 +106,21 @@ function mainApi($http, apiUrl)
             return $http.get(url);
         },
         // This is a abstract function that can be called with a value between 1-10 to reach different pages
-        changePage: function (pageNum)
+        changePage: function (pageNum, opt1, opt2)
         {
             var url = apiUrl + '/meta?page=' + pageNum;
+
+            // If extra options
+            if(opt1 != null)
+            {
+                url += '&opt1=' + opt1;
+            }
+
+            // If extra options
+            if(opt2 != null)
+            {
+                url += '&opt2=' + opt2;
+            }
             return $http.get(url);
         }
     };

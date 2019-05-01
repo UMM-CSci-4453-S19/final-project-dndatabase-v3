@@ -43,15 +43,22 @@ app.get("/meta", function(req, res)
 
     switch(page)
     {
-        // Main Page?
+        // Character Selection Screen. Needs parameters: page, username
         case "1":
-            var sql = "SELECT * FROM dnd_races;";
+
+            // Require extra user param
+            var username = req.param('opt1');
+
+            // Construct SQL
+            var sql = "SELECT characterId, name, race, class, subclass FROM dnd_characters WHERE userID = (SELECT id FROM dnd_users WHERE user = " + username + ")";
             var pResult = DoQuery(sql);
             var pResolve = Promise.resolve(pResult);
             pResolve.then(function(rows)
             {
-               res.send(rows);
+                // Returns multiple characters with a given username
+                res.send(rows);
             });
+
             break;
 
         // Race Gender

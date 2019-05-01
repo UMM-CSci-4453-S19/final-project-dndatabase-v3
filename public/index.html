@@ -23,6 +23,25 @@
     <div ng-show="logged_in" layout="column" style="height: 90vh; width: 90vw;">
         <div layout="row" ng-show="pageArr[0]">
             <b>page 1!!!!</b>
+
+
+            <!-- Needs testing! Thinking of doing a collapsible box-like format for the characters on this page -->
+            <!-- Unfortunately I've never used AngularJS, and I'm pretty sure this incorporates bootstrapper methods so I'm not sure if it will work. -->
+            <div ng-repeat="character in characters">
+                <div class="panel panel-default">
+                    <div class="panel-heading" toggle target="collapse{{ $index + 1 }}">
+                        <h4 class="panel-title">
+                            {{character.name}}
+                        </h4>
+                    </div>
+                    <div id="collapse{{$index + 1}}" toggleable active-class="in" exclusion-group="accordion1" default="active" class="panel-collapse collapse">
+                        <div class="panel-body">
+                            {{character}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
         </div>
         <div layout="row" ng-show="pageArr[1]">
             <b>page 2!!!!</b>
