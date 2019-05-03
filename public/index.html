@@ -12,7 +12,7 @@
 
 <body id="mainBody" ng-app="characterCreator">
 
-<div class="container-fluid" ng-controller="mainCtrl">
+<div class="container-fluid" ng-controller="mainCtrl" ng-hide="loading">
     <h1>DnD Character Creator</h1>
     <div layout="row" style="float: right;" ng-show="logged_in">
         <button ng-click="logOut()">Logout</button>
@@ -23,8 +23,8 @@
         <button ng-click="logIn(uname, pword)">Login</button>
     </div>
 
-    <div ng-show="logged_in" layout="column" style="height: 90vh; width: 90vw;">
-        <div layout="row" ng-show="pageArr[0]">
+    <div ng-show="logged_in" layout="column" style="height: 80vh; width: 90vw;">
+        <div layout="row" ng-show="curPage===0">
             <b>page 1!!!!</b>
 
             <div class="panel panel-default" ng-repeat="character in characters">
@@ -36,29 +36,84 @@
             </div>
 
         </div>
-        <div layout="row" ng-show="pageArr[1]">
-            <b>page 2!!!!</b>
+
+        <div layout="row" ng-show="curPage===1">
+            <b>Race + Gender</b>
         </div>
-        <div layout="row" ng-show="pageArr[2]">
-            <b>page 3!!!!</b>
+
+        <div layout="row" ng-show="curPage===2">
+            <b>Class + subclass</b>
         </div>
-        <div layout="row" ng-show="pageArr[3]">
-            <b>page 4!!!!</b>
+
+        <div layout="row" ng-show="curPage===3">
+            <b>Stats</b>
         </div>
-        <div layout="row" ng-show="pageArr[4]">
-            <b>page 5!!!!</b>
+
+        <div layout="row" ng-show="curPage===4">
+            <b>Feats + Proficiencies</b>
         </div>
-        <div layout="row" ng-show="pageArr[5]">
-            <b>page 6!!!!</b>
+
+        <div layout="row" ng-show="curPage===5">
+            <b>Skills/Abilities</b>
+            <p>TODO: Skill 1</p>
+            <p>TODO: Skill 2</p>
+            <p>TODO: Power 1</p>
+            <p>TODO: Power 2</p>
+            <form novalidate>
+            <label> Power 1:
+                <select ng-model="power1Ctrl.value" ng-model-options="{ getterSetter: true }">
+            <option ng-repeat="x in serverData" value="{{x.powerId}}">{{x.name}}</option>
+            </select> </label>
+                {{power1Ctrl.value()}}
+            </form>
         </div>
-        <div layout="row" ng-show="pageArr[6]">
-            <b>page 7!!!!</b>
+
+        <div layout="row" ng-show="curPage===6">
+
+            <b>Character Skills</b>
+                <br>
+            <h1>Choose 3 Skills:</h1>
+                    <h2>Skill 1: </h2>
+                        <select>
+                            <option ng-repeat="x in serverData">{{x.name}}</option>
+                        </select>
+
+                <h2>Skill 2: </h2>
+                    <select>
+                        <option ng-repeat="x in serverData">{{x.name}}</option>
+                    </select>
+
+                <h2>Skill 3: </h2>
+                    <select>
+                        <option ng-repeat="x in serverData">{{x.name}}</option>
+                    </select>
+
         </div>
-        <div layout="row" ng-show="pageArr[7]">
-            <b>page 8!!!!</b>
+        <div layout="row" ng-show="curPage===7">
+            <b>Equipment: </b>
+            <form novalidate>
+
+                <label> Choose a Weapon:
+                    <select ng-model="weaponCtrl.value" ng-model-options="{ getterSetter: true }">
+                        <option ng-repeat="x in serverData" value="{{x.weaponId}}">{{x.name}}</option>
+                    </select>
+                </label>
+                <br> <br>
+                <p>Weapon Description:</p>
+                <div ng-repeat="x in serverData" ng-show="weaponCtrl.value() == x.weaponId">
+                    <p> Weapon Name: {{x.name}} <br>
+                        Weapon Type : {{x.type}} <br>
+                        Weapon Damage : {{x.damage}} <br>
+                        Weapon Weight : {{x.weight}} <br>
+                        Weapon Properties : {{x.properties}} </p>
+                </div>
+            </form>
         </div>
-        <div layout="row" ng-show="pageArr[8]">
-            <b>page 9!!!!</b>
+        <div layout="row" ng-show="curPage===8">
+            <b>Characteristics</b>
+        </div>
+        <div layout="row" ng-show="curPage===9">
+            <b>Personality</b>
         </div>
     </div>
 
