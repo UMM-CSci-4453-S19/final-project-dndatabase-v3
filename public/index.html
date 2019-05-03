@@ -3,7 +3,10 @@
     <meta charset="utf-8">
     <title>Character Creator</title>
     <link rel="stylesheet" href="index.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.4/angular.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
     <script src="characterCreator.js"></script>
 </head>
 
@@ -24,22 +27,12 @@
         <div layout="row" ng-show="pageArr[0]">
             <b>page 1!!!!</b>
 
-
-            <!-- Needs testing! Thinking of doing a collapsible box-like format for the characters on this page -->
-            <!-- Unfortunately I've never used AngularJS, and I'm pretty sure this incorporates bootstrapper methods so I'm not sure if it will work. -->
-            <div ng-repeat="character in characters">
-                <div class="panel panel-default">
-                    <div class="panel-heading" toggle target="collapse{{ $index + 1 }}">
-                        <h4 class="panel-title">
-                            {{character.name}}
-                        </h4>
-                    </div>
-                    <div id="collapse{{$index + 1}}" toggleable active-class="in" exclusion-group="accordion1" default="active" class="panel-collapse collapse">
-                        <div class="panel-body">
-                            {{character}}
-                        </div>
-                    </div>
+            <div class="panel panel-default" ng-repeat="character in characters">
+                <div class="panel-heading">
+                    {{character.name}}, Level {{character.level}} {{character.class}} {{character.subclass}}
+                    <button ng-click="character.isCollapsed = !character.isCollapsed">Show more</button>
                 </div>
+                <div collapse="element.isCollapsed"><div ng-show="character.isCollapsed" class="panel-body ">Test Data</div></div>
             </div>
 
         </div>

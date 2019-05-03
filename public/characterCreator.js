@@ -29,6 +29,12 @@ function MainCtrl($scope, mainApi)
         {
             $scope.logged_in = rows;
             setPage(0);
+
+            if(rows == true)
+            {
+                displayCharacters();
+            }
+
         }).error(function (rows)
         {
             console.log(rows);
@@ -87,7 +93,7 @@ function MainCtrl($scope, mainApi)
     {
         console.log("Fetching all characters...");
 
-        mainApi.changePage(1, $scope.username, null).success(function (rows){
+        mainApi.changePage(1, $scope.uname, null).success(function (rows){
             $scope.characters = rows;
         }).error(function (rows)
         {
@@ -121,6 +127,7 @@ function mainApi($http, apiUrl)
             {
                 url += '&opt2=' + opt2;
             }
+
             return $http.get(url);
         }
     };
