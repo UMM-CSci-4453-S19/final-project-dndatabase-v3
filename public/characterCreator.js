@@ -75,32 +75,57 @@ function MainCtrl($scope, mainApi)
     function setPage(pageNum) {
         $scope.serverData = null;
         $scope.loading = true;
-        console.log(pageNum);
-        for (var i = 0; i < $scope.pageArr.length; i++) {
-            if (i === pageNum) {
-                $scope.pageArr[i] = true;
-                $scope.curPage = i;
-            } else {
-                $scope.pageArr[i] = false;
-            }
+        switch(pageNum) {
+            case 0:
+                console.log('page 0!');
+                genericCall($scope.username, null, 'characters');
+                break;
+            case 1:
+                console.log('page 1!');
+                genericCall($scope.username, null, 'characters');
+                break;
+            case 2:
+                console.log('page 2!');
+                genericCall(null, null, 'serverData');
+                break;
+            case 3:
+                console.log('page 3!');
+                genericCall(null, null, 'serverData');
+                break;
+            case 4:
+                console.log('page 4!');
+                genericCall(null, null, 'serverData');
+                break;
+            case 5:
+                console.log('page 5!');
+                genericCall(null, null, 'serverData');
+                break;
+            case 6:
+                console.log('page 6!');
+                genericCall(null, null, 'serverData');
+                break;
+            case 7:
+                console.log('page 7!');
+                genericCall(null, null, 'serverData');
+                break;
+            case 8:
+                console.log('page 8!');
+                genericCall(null, null, 'serverData');
+                break;
+            case 9:
+                console.log('page 9!');
+                genericCall(null, null, 'serverData');
+                break;
         }
-        console.log($scope.pageArr);
-        console.log('setting page!!!');
-        mainApi.changePage($scope.curPage).success(function (serverData) {
-            $scope.serverData = serverData;
-            console.log('stuff from the server!!!! ' , $scope.serverData);
-            $scope.loading = false;
-        }).error(function (serverData)
-        {
-            console.log("Error while retrieving data " + serverData);
-        });
     }
 
-    // starter function to update the race class and subclass of selected character on server
-    function updateRaceClass(race, charClass, subClass) {
-        mainApi.changeRaceClass(race,charClass,subClass).success(function (serverData) {
-            // here will be any subsequent server requests or variables changes to initiate subsequent requests
-            console.log('server updated race class');
+    function genericCall(param1, param2, scopeVar) {
+        mainApi.changePage($scope.curPage, param1, param2).success(function (serverData) {
+            if (scopeVar) {
+                $scope[scopeVar] = serverData;
+            }
+            console.log('stuff from the server!!!! ' , $scope.serverData);
+            $scope.loading = false;
         }).error(function (serverData)
         {
             console.log("Error while retrieving data " + serverData);
@@ -148,6 +173,7 @@ function MainCtrl($scope, mainApi)
 
         mainApi.changePage(1, $scope.username, null).success(function (rows){
             $scope.characters = rows;
+            $scope.loading = false;
         }).error(function (rows)
         {
             console.log("Error while retrieving characters " + rows);

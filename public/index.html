@@ -20,8 +20,8 @@
         <button ng-click="logIn(uname, pword)">Login</button>
     </div>
 
-    <div ng-show="logged_in" layout="column" style="height: 90vh; width: 90vw;">
-        <div layout="row" ng-show="pageArr[0]">
+    <div ng-show="logged_in" layout="column" style="height: 80vh; width: 90vw;">
+        <div layout="row" ng-show="curPage===0">
             <b>page 1!!!!</b>
 
 
@@ -44,23 +44,23 @@
 
         </div>
 
-        <div layout="row" ng-show="pageArr[1]">
+        <div layout="row" ng-show="curPage===1">
             <b>Race + Gender</b>
         </div>
 
-        <div layout="row" ng-show="pageArr[2]">
+        <div layout="row" ng-show="curPage===2">
             <b>Class + subclass</b>
         </div>
 
-        <div layout="row" ng-show="pageArr[3]">
+        <div layout="row" ng-show="curPage===3">
             <b>Stats</b>
         </div>
 
-        <div layout="row" ng-show="pageArr[4]">
+        <div layout="row" ng-show="curPage===4">
             <b>Feats + Proficiencies</b>
         </div>
 
-        <div layout="row" ng-show="pageArr[5]">
+        <div layout="row" ng-show="curPage===5">
             <b>Skills/Abilities</b>
             <p>TODO: Skill 1</p>
             <p>TODO: Skill 2</p>
@@ -75,7 +75,7 @@
             </form>
         </div>
 
-        <div layout="row" ng-show="pageArr[6]">
+        <div layout="row" ng-show="curPage===6">
 
             <b>Character Skills</b>
                 <br>
@@ -96,7 +96,7 @@
                     </select>
 
         </div>
-        <div layout="row" ng-show="pageArr[7]">
+        <div layout="row" ng-show="curPage===7">
             <b>Equipment: </b>
             <form novalidate>
 
@@ -116,10 +116,10 @@
                 </div>
             </form>
         </div>
-        <div layout="row" ng-show="pageArr[8]">
+        <div layout="row" ng-show="curPage===8">
             <b>Characteristics</b>
         </div>
-        <div layout="row" ng-show="pageArr[9]">
+        <div layout="row" ng-show="curPage===9">
             <b>Personality</b>
         </div>
     </div>

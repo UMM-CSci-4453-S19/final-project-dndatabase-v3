@@ -8,10 +8,6 @@ var express=require('express'),
 app.use(express.static(__dirname + '/public'));
 app.listen(port);
 
-var race = '';
-var charClass = '';
-var subClass = '';
-
 var DoQuery = function(sql)
 {
     return dbf.query(mysql.format(sql));
@@ -38,13 +34,6 @@ app.get("/login", function(req, res)
             res.send(true);
         }
     });
-});
-
-// create another request to update server variables of race and class
-app.get("/changeRaceClass", function(req, res) {
-    race = req.param('race');
-    charClass = req.param('charClass');
-    subClass = req.param('subClass');
 });
 
 app.get("/meta", function(req, res)
@@ -78,7 +67,6 @@ app.get("/meta", function(req, res)
             {
                 // Returns multiple characters with a given username
                 res.send(rows);
-                charClass = rows.class;
                res.send(rows);
             });
 
