@@ -53,12 +53,19 @@ app.get("/meta", function(req, res)
     console.log("The page passed /meta in express.js is " + page);
     switch(page)
     {
+        // Character Selection Screen. Needs parameters: page, username
         // Main Page?
         case "0":
             res.send("{}");
             break;
         // Race
         case "1":
+
+            // Require extra user param
+            var username = req.param('opt1');
+
+            // Construct SQL
+            var sql = "SELECT characterId, name, race, class, subclass FROM dnd_characters WHERE userID = (SELECT id FROM dnd_users WHERE user = " + username + ")";
 
             var user = req.param('opt1');
 
@@ -69,9 +76,12 @@ app.get("/meta", function(req, res)
             var pResolve = Promise.resolve(pResult);
             pResolve.then(function(rows)
             {
+                // Returns multiple characters with a given username
+                res.send(rows);
                 charClass = rows.class;
                res.send(rows);
             });
+
             break;
 
         // Race Gender

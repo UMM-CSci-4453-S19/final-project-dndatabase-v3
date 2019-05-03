@@ -56,6 +56,9 @@ function MainCtrl($scope, mainApi)
         }
     };
 
+    $scope.displayCharacters = displayCharacters;
+    $scope.characters = [];
+
     function logIn(uname, pword)
     {
         console.log("Trying to log in with name " + uname + " and password " + pword);
@@ -123,6 +126,34 @@ function MainCtrl($scope, mainApi)
         }
     }
 
+    // This can be a generic doFunction(pageNum) function that takes in input,pageNum, from html and then we have a switch(PageNum)
+    // statement after mainApi.changePage(pageNum).success.... to see which value should store the response
+    // or we create a function for each thing, ex: createCharacter and this way I guess we are writing more code, but being more
+    // explicit and clear what a function means
+    function createCharacter()
+    {
+        $scope.pageNum = 1;
+        console.log("User " + $scope.uname + " wants to create a new character by going to pageNum " + $scope.pageNum);
+        mainApi.changePage($scope.pageNum).success(function (raceRows) {
+            $scope.races = raceRows;
+        }).error(function (raceRows)
+        {
+            console.log("Error while retrieving races " + raceRows);
+        });
+    }
+
+    function displayCharacters()
+    {
+        console.log("Fetching all characters...");
+
+        mainApi.changePage(1, $scope.username, null).success(function (rows){
+            $scope.characters = rows;
+        }).error(function (rows)
+        {
+            console.log("Error while retrieving characters " + rows);
+        })
+    }
+
 }
 
 function mainApi($http, apiUrl)
@@ -134,9 +165,21 @@ function mainApi($http, apiUrl)
             return $http.get(url);
         },
         // This is a abstract function that can be called with a value between 1-10 to reach different pages
-        changePage: function (pageNum)
+        changePage: function (pageNum, opt1, opt2)
         {
             var url = apiUrl + '/meta?page=' + pageNum;
+
+            // If extra options
+            if(opt1 != null)
+            {
+                url += '&opt1=' + opt1;
+            }
+
+            // If extra options
+            if(opt2 != null)
+            {
+                url += '&opt2=' + opt2;
+            }
             return $http.get(url);
         },
         changeRaceClass: function (race, charClass, subClass) {
