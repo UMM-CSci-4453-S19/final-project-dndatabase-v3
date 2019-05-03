@@ -50,13 +50,20 @@ app.get("/meta", function(req, res)
             var username = req.param('opt1');
 
             // Construct SQL
-            var sql = "SELECT characterId, name, race, class, subclass FROM dnd_characters WHERE userID = (SELECT id FROM dnd_users WHERE user = " + username + ")";
+            var sql = "SELECT characterId, name, level, race, class, subclass FROM dnd_characters WHERE userID = (SELECT id FROM dnd_users WHERE user = '" + username + "');";
             var pResult = DoQuery(sql);
             var pResolve = Promise.resolve(pResult);
             pResolve.then(function(rows)
             {
                 // Returns multiple characters with a given username
-                res.send(rows);
+                sql = "SELECT class FROM dnd_classes WHERE classId = " + rows[0].class;
+                var classResult = DoQuery(sql);
+                var classResolve = Promise.resolve(classResult);
+                classResolve.then(function(classRows)
+                {
+                    console.log(JSON.stringify(rows) + JSON.stringify(classRows));
+                    res.send(rows);
+                })
             });
 
             break;
