@@ -45,12 +45,7 @@ app.get("/meta", function(req, res)
         // Character Selection Screen. Needs parameters: page, username
         // Main Page?
         case "0":
-            res.send("{}");
-            break;
-        // Race
-        case "1":
 
-            // Require extra user param
             var username = req.param('opt1');
 
             // Construct SQL
@@ -70,6 +65,12 @@ app.get("/meta", function(req, res)
                 })
             });
 
+            break;
+        // Race
+        case "1":
+
+            // Require extra user param
+            res.send("{}");
             break;
 
         // Race Gender

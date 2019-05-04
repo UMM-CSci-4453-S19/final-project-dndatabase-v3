@@ -78,11 +78,11 @@ function MainCtrl($scope, mainApi)
         switch(pageNum) {
             case 0:
                 console.log('page 0!');
-                genericCall($scope.uname, null, 'serverData');
+                genericCall($scope.uname, null, 'characters');
                 break;
             case 1:
                 console.log('page 1!');
-                genericCall($scope.uname, null, 'characters');
+                genericCall($scope.uname, null, 'serverData');
                 break;
             case 2:
                 console.log('page 2!');
