@@ -78,11 +78,11 @@ function MainCtrl($scope, mainApi)
         switch(pageNum) {
             case 0:
                 console.log('page 0!');
-                genericCall($scope.username, null, 'characters');
+                genericCall($scope.uname, null, 'serverData');
                 break;
             case 1:
                 console.log('page 1!');
-                genericCall($scope.username, null, 'characters');
+                genericCall($scope.uname, null, 'characters');
                 break;
             case 2:
                 console.log('page 2!');
@@ -123,8 +123,8 @@ function MainCtrl($scope, mainApi)
         mainApi.changePage($scope.curPage, param1, param2).success(function (serverData) {
             if (scopeVar) {
                 $scope[scopeVar] = serverData;
+                console.log('stuff from the server!!!! ' , $scope[scopeVar]);
             }
-            console.log('stuff from the server!!!! ' , $scope.serverData);
             $scope.loading = false;
         }).error(function (serverData)
         {
