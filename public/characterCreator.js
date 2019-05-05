@@ -22,6 +22,8 @@ function MainCtrl($scope, mainApi)
     $scope.race = {};
     $scope.class = {};
     $scope.subClass = {};
+    $scope.currentCharacter = {};
+    $scope.setCharTest = setCharTest;
 
     // page 5 skills/abilities
 
@@ -98,7 +100,7 @@ function MainCtrl($scope, mainApi)
                 break;
             case 5:
                 console.log('page 5!');
-                genericCall(null, null, 'serverData');
+                genericCall($scope.currentCharacter.class, $scope.currentCharacter.subclass , 'serverData');
                 break;
             case 6:
                 console.log('page 6!');
@@ -149,6 +151,11 @@ function MainCtrl($scope, mainApi)
             setPage($scope.curPage);
             console.log($scope.curPage);
         }
+    }
+
+    function setCharTest(char) {
+        $scope.currentCharacter = char;
+        console.log('current character has been set', $scope.currentCharacter);
     }
 
     // This can be a generic doFunction(pageNum) function that takes in input,pageNum, from html and then we have a switch(PageNum)

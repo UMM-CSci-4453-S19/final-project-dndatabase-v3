@@ -31,6 +31,7 @@
                 <div class="panel-heading">
                     {{character.name}}, Level {{character.level}} {{character.class}} {{character.subclass}}
                     <button ng-click="character.isCollapsed = !character.isCollapsed">Show more</button>
+                    <button ng-click="setCharTest(character)">Set Char Test</button>
                 </div>
                 <div collapse="element.isCollapsed"><div ng-show="character.isCollapsed" class="panel-body ">Test Data</div></div>
             </div>

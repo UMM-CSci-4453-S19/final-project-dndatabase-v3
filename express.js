@@ -90,17 +90,12 @@ app.get("/meta", function(req, res)
 
         // Class Skills (Dependent on Class)
         case "5":
-            //change hardcoded 2*100 and 3*100 to select max from dnd_charactors * 100 AND 2*10 to be select max from
-            // dnd_charactors.class
-
-            // subclass id sql = select subclass.id from dnd_charactors;
-            // var subclassId = resolve this request and then move on....
-            // if (var subclassId < 3) {
-
-            var sql = "select * from dnd_powers where powerID < 2*100 + 2*10 and powerID >= 2*100 + 1*10;";
-            // else {
-            //      var sql = "select * from dnd_powers where powerID < 2*100 and powerID >= 2*100 + 1*10;";
-            //}
+            var charClass = req.param('opt1');
+            var subClass = req.param('opt2');
+            var maxId = parseInt(charClass)*100 + ((parseInt(subClass)+1)*10);
+            var minId = parseInt(charClass)*100 + ((parseInt(subClass))*10);
+            var sql = "select * from dnd_powers where powerID < " + maxId +
+                " and powerID >= " + minId;
             var pResult = DoQuery(sql);
             var pResolve = Promise.resolve(pResult);
             pResolve.then(function(rows)
