@@ -50,20 +50,35 @@ app.get("/meta", function(req, res)
 
             // Construct SQL
             var sql = "SELECT characterId, name, level, race, class, subclass FROM dnd_characters WHERE userID = (SELECT id FROM dnd_users WHERE user = '" + username + "');";
-            var pResult = DoQuery(sql);
+
+            var leftJoinSql = "SELECT dnd_characters.characterId, dnd_characters.name, dnd_characters.level, " +
+                "dnd_characters.race, dnd_races.race, dnd_characters.class, dnd_classes.class, dnd_characters.subclass, " +
+                "dnd_subclasses.subclass FROM dnd_characters left join dnd_classes on dnd_characters.class = dnd_classes.classId " +
+                "left join dnd_races on dnd_races.raceId = dnd_characters.race left join dnd_subclasses on " +
+                "(select concat(dnd_characters.class, dnd_characters.subclass)) = dnd_subclasses.subclassId WHERE userID = " +
+                "(SELECT id FROM dnd_users WHERE user = '" + username +"');";
+            var pResult = DoQuery(leftJoinSql);
             var pResolve = Promise.resolve(pResult);
-            pResolve.then(function(rows)
-            {
-                // Returns multiple characters with a given username
-                sql = "SELECT class FROM dnd_classes WHERE classId = " + rows[0].class;
-                var classResult = DoQuery(sql);
-                var classResolve = Promise.resolve(classResult);
-                classResolve.then(function(classRows)
-                {
-                    console.log(JSON.stringify(rows) + JSON.stringify(classRows));
-                    res.send(rows);
-                })
-            });
+
+
+
+            // pResolve.then(function(rows)
+            // {
+            //     // Returns multiple characters with a given username
+            //     sql = "SELECT class FROM dnd_classes WHERE classId = " + rows[0].class;
+            //     var classResult = DoQuery(sql);
+            //     var classResolve = Promise.resolve(classResult);
+            //     classResolve.then(function(classRows)
+            //     {
+            //         console.log(JSON.stringify(rows) + JSON.stringify(classRows));
+            //         res.send(rows);
+            //     })
+            // });
+
+            pResolve.then(function (rows) {
+                console.log('are we getting the correct characters ????', rows);
+                res.send(rows);
+            })
 
             break;
         // Race
