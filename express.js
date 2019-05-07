@@ -51,8 +51,6 @@ app.get("/meta", function(req, res)
             var username = req.param('opt1');
 
             // Construct SQL
-            var sql = "SELECT characterId, name, level, race, class, subclass FROM dnd_characters WHERE userID = (SELECT id FROM dnd_users WHERE user = '" + username + "');";
-
             var leftJoinSql = "SELECT dnd_characters.characterId, dnd_characters.name, dnd_characters.level, " +
                 "dnd_characters.race as raceId, dnd_races.race, dnd_characters.class as classId, dnd_classes.class, dnd_characters.subclass as subclassId, " +
                 "dnd_subclasses.subclass FROM dnd_characters left join dnd_classes on dnd_characters.class = dnd_classes.classId " +
@@ -62,35 +60,26 @@ app.get("/meta", function(req, res)
             var pResult = DoQuery(leftJoinSql);
             var pResolve = Promise.resolve(pResult);
 
-
-
-            // pResolve.then(function(rows)
-            // {
-            //     // Returns multiple characters with a given username
-            //     sql = "SELECT class FROM dnd_classes WHERE classId = " + rows[0].class;
-            //     var classResult = DoQuery(sql);
-            //     var classResolve = Promise.resolve(classResult);
-            //     classResolve.then(function(classRows)
-            //     {
-            //         console.log(JSON.stringify(rows) + JSON.stringify(classRows));
-            //         res.send(rows);
-            //     })
-            // });
-
             pResolve.then(function (rows) {
                 console.log('are we getting the correct characters ????', rows);
                 res.send(rows);
-            })
+            });
 
             break;
         // Race
         case "1":
 
-            // Require extra user param
-            res.send("{}");
+            var sql = "SELECT * FROM dnd_races";
+
+            var pResult = DoQuery(sql);
+            var pResolve = Promise.resolve(pResult);
+
+            pResolve.then(function (rows) {
+                res.send(rows);
+            });
             break;
 
-        // Race Gender
+        // ???
         case "2":
             res.send("{}");
             break;

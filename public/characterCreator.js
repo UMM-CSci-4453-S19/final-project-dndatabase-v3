@@ -30,6 +30,7 @@ function MainCtrl($scope, mainApi)
     $scope.setCharTest = setCharTest;
     $scope.selectCharacter = selectCharacter;
     $scope.submitEdits = submitEdits;
+    $scope.parseRaceDescription = parseRaceDescription;
 
     // page 5 skills/abilities
 
@@ -85,6 +86,22 @@ function MainCtrl($scope, mainApi)
         {
             console.log(response);
         });
+    }
+
+    function parseRaceDescription()
+    {
+        if($scope.curPage === 1 && !$scope.loading)
+        {
+            var raceId = document.getElementById("raceSelector").value;
+            console.log(raceId);
+            $scope.serverData.forEach(function(race)
+            {
+                if(race.raceId === raceId)
+                {
+                    return race.description;
+                }
+            })
+        }
     }
 
     function setPage(pageNum) {
