@@ -209,7 +209,7 @@ function MainCtrl($scope, mainApi)
             // page 5 ctrl values
             {power1: $scope.power1Ctrl.value(), power2: $scope.power2Ctrl.value()},
             // page 6 ctrl values
-            {},
+            {prof1: $scope.prof1Ctrl.value(), prof2: $scope.prof2Ctrl.value(), prof3: $scope.prof3Ctrl.value()},
             // page 7 ctrl values
             {},
             // page 8 ctrl values
