@@ -117,6 +117,9 @@ app.get("/meta", function(req, res)
         case "5":
             var charClass = req.param('opt1');
             var subClass = req.param('opt2');
+            var user = req.param('opt3');
+            var charId = req.param('opt4');
+            console.log('opt1' + charClass + ', opt2' + subClass + ', opt3' + user +', opt4' + charId)
             var maxId = parseInt(charClass)*100 + ((parseInt(subClass)+1)*10);
             var minId = parseInt(charClass)*100 + ((parseInt(subClass))*10);
             var sql = "select * from dnd_powers where powerID < " + maxId +
@@ -125,7 +128,14 @@ app.get("/meta", function(req, res)
             var pResolve = Promise.resolve(pResult);
             pResolve.then(function(rows)
             {
-                res.send(rows);
+                var powers = rows;
+                var charAbilitesSQL = "SELECT power1, power2 FROM dnd_character_abilities WHERE characterId = " + charId +
+                    " AND userId = '" + user + "'";
+                var subResult = DoQuery(charAbilitesSQL);
+                var subResolve = Promise.resolve(subResult);
+                subResolve.then( function (values){
+                    res.send([powers, values]);
+                });
                 // console.log(rows);
             });
             console.log("Get Skills!!!!");
@@ -141,7 +151,7 @@ app.get("/meta", function(req, res)
                 res.send(rows);
                 console.log(rows);
             });
-            console.log("Got proficiencies!");
+            console.log("Got proficencies!");
             break;
 
         // Proficiencies
@@ -203,22 +213,25 @@ app.post("/character", function(req, res) {
 function page5submit(user, charId, pageArr) {
     var sql = "SELECT * FROM dnd_character_abilities WHERE characterId = " + charId;
     var pResult = DoQuery(sql);
+    console.log("user is: " + user, "character id is: " + charId);
     var pResolve = Promise.resolve(pResult);
     pResolve.then( function (res) {
         if (res[0]) {
             var updateSql = "UPDATE dnd_character_abilities SET power1 = " + pageArr[4].power1 + ", power2 = " + pageArr[4].power2 +
-            " WHERE characterId = " + charId + " AND userId = " + user;
+            " WHERE characterId = " + charId + " AND userId = '" + user + "'";
 
             var updateResult = DoQuery(updateSql);
-            var updateResolve = Promise.resolve(updateResult);
-            return updateResolve;
+            return updateResult;
+            // var updateResolve = Promise.resolve(updateResult);
+            // return updateResolve;
         } else {
             var addSql = "INSERT INTO dnd_character_abilities (userId, characterId, power1, power2) VALUES ( '" +
                 user + "', " + charId + ", " + pageArr[4].power1 + ", " + pageArr[4].power1 + ")";
 
             var addResult = DoQuery(addSql);
-            var addResolve = Promise.resolve(addResult);
-            return addResolve;
+            return addResult;
+            // var addResolve = Promise.resolve(addResult);
+            // return addResolve;
         }
     })
 }
