@@ -6,6 +6,9 @@ var express=require('express'),
     port = process.env.PORT || 1337;
 
 app.use(express.static(__dirname + '/public'));
+var bodyParser = require('body-parser');
+app.use(bodyParser.urlencoded({extended: false}));
+app.use(bodyParser.json());
 app.listen(port);
 
 var DoQuery = function(sql)
@@ -17,7 +20,6 @@ app.get("/login", function(req, res)
 {
     var uname = req.param('uname');
     var pword = req.param('pword');
-
     var sql = "SELECT * FROM dnd_users WHERE user = '" + uname + "' AND password = '" + pword + "';";
     var pResult = DoQuery(sql);
 
@@ -27,11 +29,11 @@ app.get("/login", function(req, res)
         //If the result is not null we found a valid login
         if(!rows[0])
         {
-            res.send(false);
+            res.send('false');
         }
         else
         {
-            res.send(true);
+            res.send('true');
         }
     });
 });
@@ -164,4 +166,16 @@ app.get("/meta", function(req, res)
             break;
     }
 
+});
+
+app.post("/character", function(req, res) {
+    var message = req.param('message');
+    console.log('request: ', req.body);
+    if (message === 'add') {
+        console.log('add requested on server!!!');
+        res.send('{}');
+    } else if (message === 'update') {
+        console.log('update requested on server!!!!');
+        res.send('{}');
+    }
 });

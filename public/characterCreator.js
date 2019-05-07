@@ -12,9 +12,9 @@ function MainCtrl($scope, mainApi)
     $scope.next = next;
 
     $scope.logged_in = false;
+    $scope.addMode = false;
     $scope.uname = '';
     $scope.pword = '';
-    $scope.pageArr = [true, false, false, false, false, false, false, false, false, false];
     $scope.curPage = 0;
     $scope.serverData = [];
 
@@ -23,7 +23,13 @@ function MainCtrl($scope, mainApi)
     $scope.class = {};
     $scope.subClass = {};
     $scope.currentCharacter = {};
+    $scope.emptyCharacter = {
+        classId: 0,
+        subclassId: 0,
+    };
     $scope.setCharTest = setCharTest;
+    $scope.selectCharacter = selectCharacter;
+    $scope.submitEdits = submitEdits;
 
     // page 5 skills/abilities
 
@@ -36,6 +42,13 @@ function MainCtrl($scope, mainApi)
     $scope.power1Ctrl = {
         value: function(newVal) {
             return arguments.length ? (_power1Val = newVal) : _power1Val;
+        }
+    };
+
+    var _power2Val = '';
+    $scope.power2Ctrl = {
+        value: function(newVal) {
+            return arguments.length ? (_power2Val = newVal) : _power2Val;
         }
     };
 
@@ -137,12 +150,26 @@ function MainCtrl($scope, mainApi)
     function logOut()
     {
         $scope.logged_in = !$scope.logged_in;
+        $scope.curPage = 0;
+        $scope.currentCharacter = {};
+    }
+    function selectCharacter(char) {
+        $scope.curPage++;
+        setPage($scope.curPage);
+        $scope.currentCharacter = char;
+        $scope.addMode = false;
+        console.log('addmode change', $scope.addMode);
     }
     function next() {
-        if ($scope.curPage < $scope.pageArr.length - 1) {
+        if ($scope.curPage < 9) {
             $scope.curPage++;
             setPage($scope.curPage);
             console.log($scope.curPage);
+        }
+        if ($scope.curPage === 1) {
+            $scope.currentCharacter = $scope.emptyCharacter;
+            $scope.addMode = true;
+            console.log('addmode change', $scope.addMode);
         }
     }
     function prev() {
@@ -151,6 +178,34 @@ function MainCtrl($scope, mainApi)
             setPage($scope.curPage);
             console.log($scope.curPage);
         }
+    }
+    // submit edits handles both add and update
+    // an array is build which has formcontrol values arranges as object attributes for each page
+    // this is sent in a post request to the server
+    function submitEdits() {
+        var pageArr = [
+            // page 1 ctrl values
+            {},
+            // page 2 ctrl values
+            {},
+            // page 3 ctrl values
+            {},
+            // page 4 ctrl values
+            {},
+            // page 5 ctrl values
+            {power1: $scope.power1Ctrl.value(), power2: $scope.power2Ctrl.value()},
+            // page 6 ctrl values
+            {},
+            // page 7 ctrl values
+            {},
+            // page 8 ctrl values
+            {},
+            // page 9 ctrl values
+            {}];
+        mainApi.submitCharacter(pageArr, $scope.addMode).success(function (res) {
+            console.log('successful submission made!');
+            $scope.curPage = 0;
+        });
     }
 
     function setCharTest(char) {
@@ -215,9 +270,14 @@ function mainApi($http, apiUrl)
             }
             return $http.get(url);
         },
-        changeRaceClass: function (race, charClass, subClass) {
-            var url = apiUrl + '/changeRaceClass?page=10&race=' + race + '&charClass=' + charClass + '&subClass=' + subClass;
-            return $http.get(url);
+        submitCharacter: function (pageArr, add) {
+            var addUrl = '/character?message=add';
+            var editUrl = '/character?message=update';
+            if (add) {
+                return $http.post(addUrl, pageArr);
+            } else {
+                return $http.post(editUrl, pageArr);
+            }
         }
     };
 }

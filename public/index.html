@@ -12,7 +12,7 @@
 
 <body id="mainBody" ng-app="characterCreator">
 
-<div class="container-fluid" ng-controller="mainCtrl" ng-hide="loading">
+<div class="container-fluid" ng-controller="mainCtrl">
     <h1>DnD Character Creator</h1>
     <div layout="row" style="float: right;" ng-show="logged_in">
         <button ng-click="logOut()">Logout</button>
@@ -25,7 +25,6 @@
 
     <div ng-show="logged_in" layout="column" style="height: 80vh; width: 90vw;">
         <div layout="row" ng-show="curPage===0">
-            <b>page 1!!!!</b>
 
             <div class="panel panel-default" ng-repeat="character in characters">
                 <div class="panel-heading">
@@ -33,7 +32,29 @@
                     <button ng-click="character.isCollapsed = !character.isCollapsed">Show more</button>
                     <button ng-click="setCharTest(character)">Set Char Test</button>
                 </div>
-                <div collapse="element.isCollapsed"><div ng-show="character.isCollapsed" class="panel-body ">Test Data</div></div>
+                <div collapse="element.isCollapsed"><div ng-show="character.isCollapsed" class="panel-body ">
+                    <table>
+                        <tr>
+                            <td>Name : {{character.name}}</td>
+                        </tr>
+                        <tr>
+                            <td>Level : {{character.level}}</td>
+                        </tr>
+                        <tr>
+                            <td>Class : {{character.class}}</td>
+                        </tr>
+                        <tr>
+                            <td>Subclass : {{character.subclass}}</td>
+                        </tr>
+                        <tr>
+                            <td>Race : {{character.race}}</td>
+                        </tr>
+                        <tr>
+                            <button ng-click="selectCharacter(character)">Select Character</button>
+                        </tr>
+                    </table>
+
+                </div></div>
             </div>
 
         </div>
@@ -55,17 +76,20 @@
         </div>
 
         <div layout="row" ng-show="curPage===5">
-            <b>Skills/Abilities</b>
-            <p>TODO: Skill 1</p>
-            <p>TODO: Skill 2</p>
-            <p>TODO: Power 1</p>
-            <p>TODO: Power 2</p>
-            <form novalidate>
-            <label> Power 1:
+            <form novalidate layout="column">
+            <label layout="row"> Power 1:
                 <select ng-model="power1Ctrl.value" ng-model-options="{ getterSetter: true }">
             <option ng-repeat="x in serverData" value="{{x.powerId}}">{{x.name}}</option>
             </select> </label>
                 {{power1Ctrl.value()}}
+
+                <label layout="row"> Power 2:
+                    <select ng-model="power2Ctrl.value" ng-model-options="{ getterSetter: true }">
+                        <option ng-repeat="x in serverData" value="{{x.powerId}}">{{x.name}}</option>
+                    </select> </label>
+                {{power2Ctrl.value()}}
+
+
             </form>
         </div>
 
@@ -118,9 +142,13 @@
         </div>
     </div>
 
-    <div layout="row"  ng-show="logged_in">
+    <div layout="row"  ng-show="logged_in && curPage!=0 && !loading">
         <button ng-click="prev()">Back</button>
-        <button ng-click="next()">Next</button>
+        <button ng-click="next()" ng-hide="curPage===9">Next</button>
+        <button ng-click="submitEdits()" ng-hide="curPage!=9">Submit</button>
+    </div>
+    <div layout="row"  ng-show="logged_in && curPage===0 && !loading">
+        <button ng-click="next()">Create New</button>
     </div>
 
 </div>
