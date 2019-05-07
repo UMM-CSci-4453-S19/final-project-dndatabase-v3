@@ -65,6 +65,11 @@
 
         <div layout="row" ng-show="curPage===2">
             <b>Class + subclass</b>
+            <h2>Class: </h2>
+            <select ng-model="classCtrl.value" ng-model-options="{ getterSetter: true }">
+                <option ng-repeat="x in serverData" value="{{x.classId}}">{{x.class}}</option>
+            </select>
+            <br>
         </div>
 
         <div layout="row" ng-show="curPage===3">

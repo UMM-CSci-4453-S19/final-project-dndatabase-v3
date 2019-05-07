@@ -31,6 +31,16 @@ function MainCtrl($scope, mainApi)
     $scope.selectCharacter = selectCharacter;
     $scope.submitEdits = submitEdits;
 
+    //Page 3 Class/subclass
+    $scope.classCtrl = '';
+
+    var classVal = '';
+    $scope.classCtrl = {
+        value: function (newVal) {
+            return arguments.length ? (classVal = newVal) : classVal;
+        }
+    };
+
     // page 5 skills/abilities
 
     $scope.power1Ctrl = '';

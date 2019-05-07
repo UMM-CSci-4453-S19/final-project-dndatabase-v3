@@ -90,9 +90,23 @@ app.get("/meta", function(req, res)
             res.send("{}");
             break;
 
-        // Race Gender
+        // Class
         case "2":
-            res.send("{}");
+            var sql = "SELECT * from dnd_classes";
+            var pResult = DoQuery(sql);
+            var pResolve = Promise.resolve(pResult);
+            pResolve.then(function(rows)
+            {
+                var sql2 = "SELECT * FROM dnd_subclasses;";
+                var pResult2 = DoQuery(sql2);
+                var pResolve2 = Promise.resolve(pResult2);
+                pResolve2.then(function(rows2) {
+
+                    console.log([rows,rows2]);
+                    res.send([rows,rows2]);
+                });
+            });
+            console.log("Got classes!");
             break;
 
         // Class Subclass
@@ -183,6 +197,7 @@ app.post("/character", function(req, res) {
 
     // page 5 Powers
     page5submit(user, charId, req.body);
+    page6submit(user, charId, req.body);
 
 
 
@@ -206,6 +221,29 @@ function page5submit(user, charId, pageArr) {
         } else {
             var addSql = "INSERT INTO dnd_character_abilities (userId, characterId, power1, power2) VALUES ( '" +
                 user + "', " + charId + ", " + pageArr[4].power1 + ", " + pageArr[4].power1 + ")";
+
+            var addResult = DoQuery(addSql);
+            var addResolve = Promise.resolve(addResult);
+            return addResolve;
+        }
+    })
+}
+
+function page6submit(user, charId, pageArr) {
+    var sql = "SELECT * FROM dnd_proficiencies";
+    var pResult = DoQuery(sql);
+    var pResolve = Promise.resolve(pResult);
+    pResolve.then( function (res) {
+        if (res[0]) {
+            var updateSql = "UPDATE dnd_character_abilities SET prof1 = " + pageArr[5].prof1 + ", prof2 = " + pageArr[5].prof2 + ", prof3 = " + pageArr[5].prof3 +
+                " WHERE characterId = " + charId + " AND userId = " + user;
+
+            var updateResult = DoQuery(updateSql);
+            var updateResolve = Promise.resolve(updateResult);
+            return updateResolve;
+        } else {
+            var addSql = "INSERT INTO dnd_character_abilities (userId, characterId, prof1, prof2, prof3) VALUES ( '" +
+                user + "', " + charId + ", " + pageArr[5].prof1 + ", " + pageArr[5].prof2 + ", " + pageArr[5].prof3 + ")";
 
             var addResult = DoQuery(addSql);
             var addResolve = Promise.resolve(addResult);
