@@ -216,7 +216,7 @@ function MainCtrl($scope, mainApi)
             {},
             // page 9 ctrl values
             {}];
-        mainApi.submitCharacter(pageArr, $scope.addMode).success(function (res) {
+        mainApi.submitCharacter(pageArr, $scope.addMode, $scope.currentCharacter.characterId, $scope.user).success(function (res) {
             console.log('successful submission made!');
             $scope.curPage = 0;
         });
@@ -284,9 +284,9 @@ function mainApi($http, apiUrl)
             }
             return $http.get(url);
         },
-        submitCharacter: function (pageArr, add) {
-            var addUrl = '/character?message=add';
-            var editUrl = '/character?message=update';
+        submitCharacter: function (pageArr, add, charId, user) {
+            var addUrl = '/character?message=add&characterId=' + charId + '&user=' + user;
+            var editUrl = '/character?message=update&characterId=' + charId + '&user=' + user;
             if (add) {
                 return $http.post(addUrl, pageArr);
             } else {
