@@ -170,12 +170,46 @@ app.get("/meta", function(req, res)
 
 app.post("/character", function(req, res) {
     var message = req.param('message');
+    var charId = req.param('characterId');
+    var user = req.param('user');
     console.log('request: ', req.body);
-    if (message === 'add') {
-        console.log('add requested on server!!!');
-        res.send('{}');
-    } else if (message === 'update') {
-        console.log('update requested on server!!!!');
-        res.send('{}');
-    }
+    // if (message === 'add') {
+    //     console.log('add requested on server!!!');
+    //     res.send('{}');
+    // } else if (message === 'update') {
+    //     console.log('update requested on server!!!!');
+    //     res.send('{}');
+    // }
+
+    // page 5 Powers
+    page5submit(user, charId, req.body);
+
+
+
+    res.send('{}');
 });
+
+///////// update/add functions per page
+
+function page5submit(user, charId, pageArr) {
+    var sql = "SELECT * FROM dnd_character_abilities WHERE characterId = " + charId;
+    var pResult = DoQuery(sql);
+    var pResolve = Promise.resolve(pResult);
+    pResolve.then( function (res) {
+        if (res[0]) {
+            var updateSql = "UPDATE dnd_character_abilities SET power1 = " + pageArr[4].power1 + ", power2 = " + pageArr[4].power2 +
+            " WHERE characterId = " + charId + " AND userId = " + user;
+
+            var updateResult = DoQuery(updateSql);
+            var updateResolve = Promise.resolve(updateResult);
+            return updateResolve;
+        } else {
+            var addSql = "INSERT INTO dnd_character_abilities (userId, characterId, power1, power2) VALUES ( '" +
+                user + "', " + charId + ", " + pageArr[4].power1 + ", " + pageArr[4].power1 + ")";
+
+            var addResult = DoQuery(addSql);
+            var addResolve = Promise.resolve(addResult);
+            return addResolve;
+        }
+    })
+}
