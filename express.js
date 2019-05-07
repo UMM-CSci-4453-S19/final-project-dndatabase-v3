@@ -92,19 +92,13 @@ app.get("/meta", function(req, res)
 
         // Class
         case "2":
-            var sql = "SELECT * from dnd_classes";
+            var sql = "SELECT dnd_classes.classId, dnd_classes.class, dnd_subclasses.classId, " +
+                "dnd_subclasses.subclass FROM dnd_classes left join dnd_subclasses on dnd_classes.classId = dnd_subclasses.classId;";
             var pResult = DoQuery(sql);
             var pResolve = Promise.resolve(pResult);
             pResolve.then(function(rows)
             {
-                var sql2 = "SELECT * FROM dnd_subclasses;";
-                var pResult2 = DoQuery(sql2);
-                var pResolve2 = Promise.resolve(pResult2);
-                pResolve2.then(function(rows2) {
-
-                    console.log([rows,rows2]);
-                    res.send([rows,rows2]);
-                });
+                    res.send(rows);
             });
             console.log("Got classes!");
             break;

@@ -1,4 +1,4 @@
-angular.module('characterCreator', [])
+angular.module('characterCreator', ['angular.filter'])
     .controller('mainCtrl', MainCtrl)
     .factory('mainApi', mainApi)
     //.factory('transactionApi', transactionApi)
