@@ -64,10 +64,24 @@ function MainCtrl($scope, mainApi)
     // page 7 proficiencies
     $scope.profCtrl = '';
 
-    var profVal = '';
-    $scope.profCtrl = {
+    var prof1Val = '';
+    $scope.prof1Ctrl = {
         value: function(newVal) {
-            return arguments.length ? (profVal = newVal) : profVal;
+            return arguments.length ? (prof1Val = newVal) : prof1Val;
+        }
+    };
+
+    var prof2Val = '';
+    $scope.prof2Ctrl = {
+        value: function(newVal) {
+            return arguments.length ? (prof2Val = newVal) : prof2Val;
+        }
+    };
+
+    var prof3Val = '';
+    $scope.prof3Ctrl = {
+        value: function(newVal) {
+            return arguments.length ? (prof3Val = newVal) : prof3Val;
         }
     };
 

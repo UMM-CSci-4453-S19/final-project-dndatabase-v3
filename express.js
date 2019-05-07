@@ -133,7 +133,7 @@ app.get("/meta", function(req, res)
                 res.send(rows);
                 console.log(rows);
             });
-            console.log("Got proficencies!");
+            console.log("Got proficiencies!");
             break;
 
         // Proficiencies
