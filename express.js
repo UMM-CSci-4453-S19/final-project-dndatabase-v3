@@ -52,7 +52,7 @@ app.get("/meta", function(req, res)
             var sql = "SELECT characterId, name, level, race, class, subclass FROM dnd_characters WHERE userID = (SELECT id FROM dnd_users WHERE user = '" + username + "');";
 
             var leftJoinSql = "SELECT dnd_characters.characterId, dnd_characters.name, dnd_characters.level, " +
-                "dnd_characters.race, dnd_races.race, dnd_characters.class, dnd_classes.class, dnd_characters.subclass, " +
+                "dnd_characters.race as raceId, dnd_races.race, dnd_characters.class as classId, dnd_classes.class, dnd_characters.subclass as subclassId, " +
                 "dnd_subclasses.subclass FROM dnd_characters left join dnd_classes on dnd_characters.class = dnd_classes.classId " +
                 "left join dnd_races on dnd_races.raceId = dnd_characters.race left join dnd_subclasses on " +
                 "(select concat(dnd_characters.class, dnd_characters.subclass)) = dnd_subclasses.subclassId WHERE userID = " +

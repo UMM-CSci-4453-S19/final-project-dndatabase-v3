@@ -100,7 +100,7 @@ function MainCtrl($scope, mainApi)
                 break;
             case 5:
                 console.log('page 5!');
-                genericCall($scope.currentCharacter.class, $scope.currentCharacter.subclass , 'serverData');
+                genericCall($scope.currentCharacter.classId, $scope.currentCharacter.subclassId , 'serverData');
                 break;
             case 6:
                 console.log('page 6!');
