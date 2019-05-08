@@ -64,7 +64,7 @@
         <div layout="row" ng-if="curPage===1 && loading === false">
             <b>Race</b>
 
-            <select ng-init="raceSelector = serverData[currentCharacter.raceId - 1]" ng-model="raceSelector" ng-options="race.race for race in serverData"></select>
+            <select ng-init="raceSelector = serverData[0]" ng-model="raceSelector" ng-options="race.race for race in serverData"></select>
 
             <b>Gender</b>
             <select>
@@ -120,24 +120,46 @@
         </div>
 
         <div layout="row" ng-show="curPage===6">
-
-            <b>Character Skills</b>
+            <h2>Character Skills</h2>
             <br>
-            <h1>Choose 3 Skills:</h1>
-            <h2>Skill 1: </h2>
-            <select>
-                <option ng-repeat="x in serverData">{{x.name}}</option>
-            </select>
 
+            <form novalidate>
+                            <h2>Skill 1: </h2>
+                                <select ng-model="prof1Ctrl.value" ng-model-options="{ getterSetter: true }">
+                                    <option ng-repeat="x in serverData" value="{{x.proficiencyId}}">{{x.name}}</option>
+                                </select>
+                                    <br>
+                                        <div ng-repeat="x in serverData" ng-show="prof1Ctrl.value() == x.proficiencyId">
+                                            <br>
+                                                <p>{{x.description}}</p>
+                                        </div>
+
+            </form>
+            <br>
+            <form novalidate>
             <h2>Skill 2: </h2>
-            <select>
-                <option ng-repeat="x in serverData">{{x.name}}</option>
-            </select>
+                                <select ng-model="prof2Ctrl.value" ng-model-options="{ getterSetter: true }">
+                                    <option ng-repeat="y in serverData" value="{{y.proficiencyId}}">{{y.name}}</option>
+                                </select>
+                                    <br>
+                                        <div ng-repeat="y in serverData" ng-show="prof2Ctrl.value() == y.proficiencyId">
+                                            <br>
+                                                <p>{{y.description}}</p>
+                                        </div>
+            </form>
+            <br>
+            <form novalidate>
+                            <h2>Skill 3: </h2>
+                    <select ng-model="prof3Ctrl.value" ng-model-options="{ getterSetter: true }">
+                        <option ng-repeat="z in serverData" value="{{z.proficiencyId}}">{{z.name}}</option>
+                                </select>
+                                    <br>
+                                        <div ng-repeat="z in serverData" ng-show="prof3Ctrl.value() == z.proficiencyId">
+                                            <br>
+                                                <p>{{z.description}}</p>
+                                        </div>
+            </form>
 
-            <h2>Skill 3: </h2>
-            <select>
-                <option ng-repeat="x in serverData">{{x.name}}</option>
-            </select>
 
         </div>
 

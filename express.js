@@ -79,7 +79,7 @@ app.get("/meta", function(req, res)
             });
             break;
 
-        // ???
+        // Class
         case "2":
             var sql = "SELECT dnd_classes.classId, dnd_classes.class, dnd_subclasses.classId, dnd_subclasses.description, " +
                 "dnd_subclasses.subclass FROM dnd_classes left join dnd_subclasses on dnd_classes.classId = dnd_subclasses.classId;";
