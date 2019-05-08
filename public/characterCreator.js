@@ -26,7 +26,7 @@ function MainCtrl($scope, mainApi)
     $scope.currentCharacter = {};
     $scope.emptyCharacter = {
         classId: 0,
-        subclassId: 0,
+        subclassId: 0
     };
     $scope.setCharTest = setCharTest;
     $scope.selectCharacter = selectCharacter;
@@ -92,12 +92,12 @@ function MainCtrl($scope, mainApi)
         }
     };
 
+    $scope.power1Ctrl = '';
+     $scope.weaponCtrl = '';
+
     // page 5 skills/abilities
 
-    $scope.power1Ctrl = '';
-
-    // page 8 weapons as part of equipment
-     $scope.weaponCtrl = '';
+    var page5CtrlArr = ['power1Ctrl', 'power2Ctrl']
 
     var _power1Val = '';
     $scope.power1Ctrl = {
@@ -113,6 +113,7 @@ function MainCtrl($scope, mainApi)
         }
     };
 
+    // page 8 weapons as part of equipment
     var weaponVal = '';
     $scope.weaponCtrl = {
         value: function(newVal) {
@@ -189,10 +190,10 @@ function MainCtrl($scope, mainApi)
                 genericCall(null, null, 'serverData');
                 break;
             case 5:
+                // formCtrlData is being set here!!
                 console.log('page 5!');
                 extendedGenericCall($scope.currentCharacter.classId, $scope.currentCharacter.subclassId,
-                    $scope.uname, $scope.currentCharacter.characterId, 'serverData', 'formCtrlData',
-                    'power1Ctrl', 'power2Ctrl', null);
+                    $scope.uname, $scope.currentCharacter.characterId, 'serverData', 'formCtrlData', page5CtrlArr);
                 break;
             case 6:
                 console.log('page 6!');
@@ -225,7 +226,7 @@ function MainCtrl($scope, mainApi)
             console.log("Error while retrieving data " + serverData);
         });
     }
-    function extendedGenericCall(param1, param2, param3, param4, scopeVar, scopeVar2, fCtrl1, fCtrl2, fCtrl3) {
+    function extendedGenericCall(param1, param2, param3, param4, scopeVar, scopeVar2, fCtrlArr) {
         mainApi.changePage($scope.curPage, param1, param2, param3, param4).success(function (serverData) {
             console.log('returned data from request!!!, ', serverData);
             if (scopeVar&&scopeVar2) {
@@ -240,29 +241,24 @@ function MainCtrl($scope, mainApi)
                 $scope[scopeVar2] = serverData;
                 console.log('stuff from the server extended generic call!!!! ' , $scope[scopeVar]);
             }
-            setCtrls(fCtrl1, fCtrl2, fCtrl3);
+            setCtrls(fCtrlArr);
             $scope.loading = false;
         }).error(function (serverData)
         {
             console.log("Error while retrieving data " + serverData);
         });
     }
-    function setCtrls(fctrl1, fctrl2, fctrl3) {
+    function setCtrls(fCtrlArr) {
         console.log('setting formControls!!!');
         console.log('serverData, ', $scope.formCtrlData[0]);
-        var fCtrlCounter = 0;
-        for (var val in $scope.formCtrlData[0]) {
-            if (fctrl1 && fCtrlCounter === 0) {
-                console.log('setting the formCtrl!!!', $scope.formCtrlData[0][val]);
-                $scope[fctrl1].value($scope.formCtrlData[0][val]);
-            } else if (fctrl2 && fCtrlCounter === 1) {
-                console.log('setting the formCtrl!!!', $scope.formCtrlData[0][val]);
-                $scope[fctrl2].value($scope.formCtrlData[0][val]);
-            } else if (fctrl3 && fCtrlCounter === 2) {
-                console.log('setting the formCtrl!!!', $scope.formCtrlData[0][val]);
-                $scope[fctrl3].value($scope.formCtrlData[0][val]);
+        var ctrlsObj = $scope.formCtrlData[0];
+        for (var i = 0; i < fCtrlArr.length; i++) {
+
+            if ($scope.formCtrlData[0]) {
+                var currentKey = Object.keys(ctrlsObj)[i];
+                $scope[fCtrlArr[i]].value($scope.formCtrlData[0][currentKey]);
+                console.log($scope[fCtrlArr[i]].value());
             }
-            fCtrlCounter++
         }
     }
 
