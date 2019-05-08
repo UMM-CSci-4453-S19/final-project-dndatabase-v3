@@ -1,4 +1,4 @@
-angular.module('characterCreator', [])
+angular.module('characterCreator', ['angular.filter'])
     .controller('mainCtrl', MainCtrl)
     .factory('mainApi', mainApi)
     //.factory('transactionApi', transactionApi)
@@ -33,12 +33,13 @@ function MainCtrl($scope, mainApi)
     $scope.submitEdits = submitEdits;
 
     // Page 1 Race & Gender
+    $scope.raceCtrl = '';
     var _raceVal = '';
     $scope.raceCtrl = {
         value: function(newVal) {
             return arguments.length ? (_raceVal = newVal) : _raceVal;
         }
-    }
+    };
 
     //Page 3 Class/subclass
     $scope.classCtrl = '';
@@ -99,14 +100,6 @@ function MainCtrl($scope, mainApi)
             return arguments.length ? (wisVal = newVal) : wisVal;
         }
     };
-
-    // Page 1 Race & Gender
-    var _raceVal = '';
-    $scope.raceCtrl = {
-        value: function(newVal) {
-            return arguments.length ? (_raceVal = newVal) : _raceVal;
-        }
-    }
 
     // page 5 skills/abilities
 
@@ -190,7 +183,8 @@ function MainCtrl($scope, mainApi)
                 break;
             case 1:
                 console.log('page 1!');
-                genericCall(null, null, 'serverData');
+                //genericCall(null, null, 'serverData');
+                extendedGenericCall(null, null, null, null, 'serverData', null, 'raceCtrl', null, null);
                 break;
             case 2:
                 console.log('page 2!');

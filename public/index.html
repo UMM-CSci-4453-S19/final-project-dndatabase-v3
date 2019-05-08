@@ -64,7 +64,7 @@
         <div layout="row" ng-if="curPage===1 && loading === false">
             <b>Race</b>
 
-            <select ng-init="raceCtrl = serverData[currentCharacter.raceId - 1]" ng-model="raceCtrl" ng-options="race.race for race in serverData"></select>
+            <select ng-init="raceCtrl.value = serverData[currentCharacter.raceId - 1]" ng-model="raceCtrl.value" ng-model-options="{ getterSetter: true }" ng-options="race.race for race in serverData"></select>
 
             <b>Gender</b>
             <select>
@@ -73,8 +73,7 @@
                 <option>Other</option>
             </select>
 
-            <button ng-click="test()"></button>
-            <h3>{{raceSelector.description}}</h3>
+            <h3>{{raceCtrl.value.description}}</h3>
 
         </div>
 
