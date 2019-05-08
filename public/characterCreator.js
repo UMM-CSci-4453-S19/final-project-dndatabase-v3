@@ -159,6 +159,7 @@ function MainCtrl($scope, mainApi)
         $scope.currentCharacter = char;
         $scope.addMode = false;
         console.log('addmode change', $scope.addMode);
+        console.log($scope.currentCharacter.raceId);
     }
     function next() {
         if ($scope.curPage < 9) {

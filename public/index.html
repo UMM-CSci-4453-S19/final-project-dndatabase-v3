@@ -63,7 +63,7 @@
         <div layout="row" ng-if="curPage===1 && loading === false">
             <b>Race</b>
 
-            <select ng-init="raceSelector = serverData[0]" ng-model="raceSelector" ng-options="race.race for race in serverData"></select>
+            <select ng-init="raceSelector = serverData[currentCharacter.raceId - 1]" ng-model="raceSelector" ng-options="race.race for race in serverData"></select>
 
             <b>Gender</b>
             <select>
