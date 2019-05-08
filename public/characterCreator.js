@@ -174,7 +174,7 @@ function MainCtrl($scope, mainApi)
                 break;
             case 1:
                 console.log('page 1!');
-                genericCall($scope.uname, null, 'serverData');
+                genericCall(null, null, 'serverData');
                 break;
             case 2:
                 console.log('page 2!');
