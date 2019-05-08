@@ -169,7 +169,6 @@ app.get("/meta", function(req, res)
 
         // Proficiencies
         case "7":
-            console.log("Ayyy case 7 squad");
             var sql = "SELECT * FROM dnd_weapons";
             var result = DoQuery(sql);
             var resolve = Promise.resolve(result);
