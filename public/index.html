@@ -74,6 +74,10 @@
             <option ng-repeat="x in serverData" ng-show="classCtrl.value() == x.classId">{{x.subclass}}</option>
             </select>
             <br>
+            <div ng-repeat="x in serverData" ng-show="classCtrl.value() == x.classId"> <!-- Shows both subclass descriptions... -->
+                <br>
+                <p>{{x.description}}</p>
+            </div>
         </div>
 
         <div layout="row" ng-show="curPage===3">

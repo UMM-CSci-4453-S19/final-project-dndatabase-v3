@@ -42,6 +42,56 @@ function MainCtrl($scope, mainApi)
         }
     };
 
+    //Page 4 Stats!!!
+    $scope.strCtrl = '';
+    $scope.dexCtrl = '';
+    $scope.conCtrl = '';
+    $scope.chaCtrl = '';
+    $scope.intCtrl = '';
+    $scope.wisCtrl = '';
+
+    var strVal = '';
+    $scope.strCtrl = {
+        value: function(newVal) {
+            return arguments.length ? (strVal = newVal) : strVal;
+        }
+    };
+
+    var dexVal = '';
+    $scope.dexCtrl = {
+        value: function(newVal) {
+            return arguments.length ? (dexVal = newVal) : dexVal;
+        }
+    };
+
+    var conVal = '';
+    $scope.conCtrl = {
+        value: function(newVal) {
+            return arguments.length ? (conVal = newVal) : conVal;
+        }
+    };
+
+    var chaVal = '';
+    $scope.chaCtrl = {
+        value: function(newVal) {
+            return arguments.length ? (chaVal = newVal) : chaVal;
+        }
+    };
+
+    var intVal = '';
+    $scope.intCtrl = {
+        value: function(newVal) {
+            return arguments.length ? (intVal = newVal) : intVal;
+        }
+    };
+
+    var wisVal = '';
+    $scope.wisCtrl = {
+        value: function(newVal) {
+            return arguments.length ? (wisVal = newVal) : wisVal;
+        }
+    };
+
     // page 5 skills/abilities
 
     $scope.power1Ctrl = '';
@@ -73,7 +123,9 @@ function MainCtrl($scope, mainApi)
     $scope.serverData = [];
 
     // page 7 proficiencies
-    $scope.profCtrl = '';
+    $scope.prof1Ctrl = '';
+    $scope.prof2Ctrl = '';
+    $scope.prof3Ctrl = '';
 
     var prof1Val = '';
     $scope.prof1Ctrl = {
