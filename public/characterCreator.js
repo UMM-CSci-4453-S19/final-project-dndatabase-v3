@@ -30,7 +30,6 @@ function MainCtrl($scope, mainApi)
     $scope.setCharTest = setCharTest;
     $scope.selectCharacter = selectCharacter;
     $scope.submitEdits = submitEdits;
-    $scope.parseRaceDescription = parseRaceDescription;
 
     // page 5 skills/abilities
 
@@ -88,22 +87,6 @@ function MainCtrl($scope, mainApi)
         });
     }
 
-    function parseRaceDescription()
-    {
-        if($scope.curPage === 1 && !$scope.loading)
-        {
-            var raceId = document.getElementById("raceSelector").value;
-            console.log(raceId);
-            $scope.serverData.forEach(function(race)
-            {
-                if(race.raceId === raceId)
-                {
-                    return race.description;
-                }
-            })
-        }
-    }
-
     function setPage(pageNum) {
         $scope.serverData = null;
         $scope.loading = true;
@@ -114,7 +97,7 @@ function MainCtrl($scope, mainApi)
                 break;
             case 1:
                 console.log('page 1!');
-                genericCall($scope.uname, null, 'serverData');
+                genericCall(null, null, 'serverData');
                 break;
             case 2:
                 console.log('page 2!');
