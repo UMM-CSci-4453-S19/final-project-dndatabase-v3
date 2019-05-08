@@ -31,8 +31,15 @@ function MainCtrl($scope, mainApi)
     $scope.selectCharacter = selectCharacter;
     $scope.submitEdits = submitEdits;
 
-    // page 5 skills/abilities
+    // Page 1 Race & Gender
+    var _raceVal = '';
+    $scope.raceCtrl = {
+        value: function(newVal) {
+            return arguments.length ? (_raceVal = newVal) : _raceVal;
+        }
+    }
 
+    // page 5 skills/abilities
     $scope.power1Ctrl = '';
 
     // page 8 weapons as part of equipment
@@ -186,7 +193,7 @@ function MainCtrl($scope, mainApi)
     function submitEdits() {
         var pageArr = [
             // page 1 ctrl values
-            {},
+            {race: $scope.raceCtrl.value()},
             // page 2 ctrl values
             {},
             // page 3 ctrl values
