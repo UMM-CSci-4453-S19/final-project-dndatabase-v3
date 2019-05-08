@@ -213,6 +213,7 @@ app.post("/character", function(req, res) {
     // }
 
     // page 5 Powers
+    page3submit(user, charId, req.body);
     page5submit(user, charId, req.body);
     page6submit(user, charId, req.body);
 
@@ -223,7 +224,8 @@ app.post("/character", function(req, res) {
 
 ///////// update/add functions per page
 
-/*function page2submit(user, charId, pageArr) {
+/*
+    })function page2submit(user, charId, pageArr) {
     var sql = "SELECT dnd_classes.classId, dnd_classes.class, dnd_subclasses.classId, dnd_subclasses.description, " +
         "dnd_subclasses.subclass FROM dnd_classes left join dnd_subclasses on dnd_classes.classId = dnd_subclasses.classId";
     var pResult = DoQuery(sql);
@@ -247,8 +249,35 @@ app.post("/character", function(req, res) {
             // var addResolve = Promise.resolve(addResult);
             // return addResolve;
         }
-    })
 }*/
+
+function page3submit(user, charId, pageArr) {
+    console.log("Page 3 submit", pageArr);
+    var sql = "SELECT * from dnd_stats";
+    var pResult = DoQuery(sql);
+    console.log("user is: " + user, "character id is: " + charId);
+    var pResolve = Promise.resolve(pResult);
+    pResolve.then( function (res) {
+        if (res[0]) {
+            var updateSql = "UPDATE dnd_stats SET strength = " + pageArr[2].strength + ", dexterity = " + pageArr[2].dexterity + ", constitution = " + pageArr[2].constitution +
+            ", charisma = " + pageArr[2].charisma + ", intelligence = " + pageArr[2].intelligence + ", wisdom = " + pageArr[2].wisdom + " WHERE characterId = " + charId + " AND userId = '" + user + "'";
+            console.log(updateSql);
+            var updateResult = DoQuery(updateSql);
+            return updateResult;
+            // var updateResolve = Promise.resolve(updateResult);
+            // return updateResolve;
+        } else {
+            var addSql = "INSERT INTO dnd_stats (userId, characterId, strength, dexterity, constitution, charisma, intelligence, wisdom) VALUES ( '" +
+                user + "', " + charId + ", " + pageArr[2].strength + ", " + pageArr[2].dexterity + ", " + pageArr[2].constitution + ", " + pageArr[2].charisma
+                + ", " + pageArr[2].intelligence + ", " + pageArr[2].wisdom + ")";
+            console.log(addSql);
+            var addResult = DoQuery(addSql);
+            return addResult;
+            // var addResolve = Promise.resolve(addResult);
+            // return addResolve;
+        }
+    })
+}
 
 function page5submit(user, charId, pageArr) {
     var sql = "SELECT * FROM dnd_character_abilities WHERE characterId = " + charId;
@@ -282,8 +311,8 @@ function page6submit(user, charId, pageArr) {
     var pResolve = Promise.resolve(pResult);
     pResolve.then( function (res) {
         if (res[0]) {
-            var updateSql = "UPDATE dnd_character_abilities SET prof1 = " + pageArr[5].prof1 + ", prof2 = " + pageArr[5].prof2 + ", prof3 = " + pageArr[5].prof3 +
-                " WHERE characterId = " + charId + " AND userId = '" + user + "'";
+            var updateSql = "UPDATE dnd_character_abilities SET prof1 = '" + pageArr[5].prof1 + "', prof2 = '" + pageArr[5].prof2 + "', prof3 = '" + pageArr[5].prof3 +
+                "' WHERE characterId = " + charId + " AND userId = '" + user + "'";
 
             var updateResult = DoQuery(updateSql);
             var updateResolve = Promise.resolve(updateResult);
