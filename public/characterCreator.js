@@ -174,7 +174,7 @@ function MainCtrl($scope, mainApi)
                 break;
             case 1:
                 console.log('page 1!');
-                genericCall($scope.uname, null, 'serverData');
+                genericCall(null, null, 'serverData');
                 break;
             case 2:
                 console.log('page 2!');
@@ -278,6 +278,7 @@ function MainCtrl($scope, mainApi)
         $scope.currentCharacter = char;
         $scope.addMode = false;
         console.log('addmode change', $scope.addMode);
+        console.log($scope.currentCharacter.raceId);
     }
     function next() {
         if ($scope.curPage < 9) {

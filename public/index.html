@@ -31,37 +31,50 @@
                 <div class="panel-heading">
                     {{character.name}}, Level {{character.level}} {{character.class}} {{character.subclass}}
                     <button ng-click="character.isCollapsed = !character.isCollapsed">Show more</button>
-                    <button ng-click="setCharTest(character)">Set Char Test</button>
                 </div>
-                <div collapse="element.isCollapsed"><div ng-show="character.isCollapsed" class="panel-body ">
-                    <table>
-                        <tr>
-                            <td>Name : {{character.name}}</td>
-                        </tr>
-                        <tr>
-                            <td>Level : {{character.level}}</td>
-                        </tr>
-                        <tr>
-                            <td>Class : {{character.class}}</td>
-                        </tr>
-                        <tr>
-                            <td>Subclass : {{character.subclass}}</td>
-                        </tr>
-                        <tr>
-                            <td>Race : {{character.race}}</td>
-                        </tr>
-                        <tr>
-                            <button ng-click="selectCharacter(character)">Select Character</button>
-                        </tr>
-                    </table>
+                <div collapse="element.isCollapsed">
+                    <div ng-show="character.isCollapsed" class="panel-body ">
+                        <table>
+                            <tr>
+                                <td>Name : {{character.name}}</td>
+                            </tr>
+                            <tr>
+                                <td>Level : {{character.level}}</td>
+                            </tr>
+                            <tr>
+                                <td>Class : {{character.class}}</td>
+                            </tr>
+                            <tr>
+                                <td>Subclass : {{character.subclass}}</td>
+                            </tr>
+                            <tr>
+                                <td>Race : {{character.race}}</td>
+                            </tr>
+                            <tr>
+                                <button ng-click="selectCharacter(character)">Select Character</button>
+                            </tr>
+                        </table>
 
-                </div></div>
+                    </div>
+                </div>
             </div>
 
         </div>
 
-        <div layout="row" ng-show="curPage===1">
-            <b>Race + Gender</b>
+        <div layout="row" ng-if="curPage===1 && loading === false">
+            <b>Race</b>
+
+            <select ng-init="raceSelector = serverData[currentCharacter.raceId - 1]" ng-model="raceSelector" ng-options="race.race for race in serverData"></select>
+
+            <b>Gender</b>
+            <select>
+                <option>Male</option>
+                <option>Female</option>
+                <option>Other</option>
+            </select>
+
+            <h3>{{raceSelector.description}}</h3>
+
         </div>
 
         <div layout="row" ng-show="curPage===2">
@@ -110,10 +123,10 @@
 
         <div layout="row" ng-show="curPage===5">
             <form novalidate layout="column">
-            <label layout="row"> Power 1:
-                <select ng-model="power1Ctrl.value" ng-model-options="{ getterSetter: true }">
-            <option ng-repeat="x in serverData" value="{{x.powerId}}">{{x.name}}</option>
-            </select> </label>
+                <label layout="row"> Power 1:
+                    <select ng-model="power1Ctrl.value" ng-model-options="{ getterSetter: true }">
+                        <option ng-repeat="x in serverData" value="{{x.powerId}}">{{x.name}}</option>
+                    </select> </label>
                 {{power1Ctrl.value()}}
 
                 <label layout="row"> Power 2:
@@ -198,12 +211,12 @@
         </div>
     </div>
 
-    <div layout="row"  ng-show="logged_in && curPage!=0 && !loading">
+    <div layout="row" ng-show="logged_in && curPage!=0 && !loading">
         <button ng-click="prev()">Back</button>
         <button ng-click="next()" ng-hide="curPage===9">Next</button>
         <button ng-click="submitEdits()" ng-hide="curPage!=9">Submit</button>
     </div>
-    <div layout="row"  ng-show="logged_in && curPage===0 && !loading">
+    <div layout="row" ng-show="logged_in && curPage===0 && !loading">
         <button ng-click="next()">Create New</button>
     </div>
 
