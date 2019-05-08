@@ -52,12 +52,12 @@ function MainCtrl($scope, mainApi)
     };
 
     //Page 4 Stats!!!
-    $scope.strCtrl = '';
-    $scope.dexCtrl = '';
-    $scope.conCtrl = '';
-    $scope.chaCtrl = '';
-    $scope.intCtrl = '';
-    $scope.wisCtrl = '';
+    $scope.strCtrl = '8';
+    $scope.dexCtrl = '8';
+    $scope.conCtrl = '8';
+    $scope.chaCtrl = '8';
+    $scope.intCtrl = '8';
+    $scope.wisCtrl = '8';
 
     var strVal = '';
     $scope.strCtrl = {
@@ -65,6 +65,7 @@ function MainCtrl($scope, mainApi)
             return arguments.length ? (strVal = newVal) : strVal;
         }
     };
+    $scope.strCtrl.value('8');
 
     var dexVal = '';
     $scope.dexCtrl = {
@@ -72,6 +73,7 @@ function MainCtrl($scope, mainApi)
             return arguments.length ? (dexVal = newVal) : dexVal;
         }
     };
+    $scope.dexCtrl.value('8');
 
     var conVal = '';
     $scope.conCtrl = {
@@ -79,6 +81,7 @@ function MainCtrl($scope, mainApi)
             return arguments.length ? (conVal = newVal) : conVal;
         }
     };
+    $scope.conCtrl.value('8');
 
     var chaVal = '';
     $scope.chaCtrl = {
@@ -86,6 +89,7 @@ function MainCtrl($scope, mainApi)
             return arguments.length ? (chaVal = newVal) : chaVal;
         }
     };
+    $scope.chaCtrl.value('8');
 
     var intVal = '';
     $scope.intCtrl = {
@@ -93,6 +97,7 @@ function MainCtrl($scope, mainApi)
             return arguments.length ? (intVal = newVal) : intVal;
         }
     };
+    $scope.intCtrl.value('8');
 
     var wisVal = '';
     $scope.wisCtrl = {
@@ -100,6 +105,7 @@ function MainCtrl($scope, mainApi)
             return arguments.length ? (wisVal = newVal) : wisVal;
         }
     };
+    $scope.wisCtrl.value('8');
 
     // page 5 skills/abilities
 
@@ -318,7 +324,8 @@ function MainCtrl($scope, mainApi)
             // page 2 ctrl values
             {},
             // page 3 ctrl values
-            {},
+            {strength: $scope.strCtrl.value(), dexterity: $scope.dexCtrl.value(), constitution: $scope.conCtrl.value(),
+                intelligence: $scope.intCtrl.value(), wisdom: $scope.wisCtrl.value(), charisma: $scope.chaCtrl.value()},
             // page 4 ctrl values
             {},
             // page 5 ctrl values
@@ -331,7 +338,7 @@ function MainCtrl($scope, mainApi)
             {},
             // page 9 ctrl values
             {}];
-        mainApi.submitCharacter(pageArr, $scope.addMode, $scope.currentCharacter.characterId, $scope.username).success(function (res) {
+        mainApi.submitCharacter(pageArr, $scope.addMode, $scope.currentCharacter.characterId, $scope.uname).success(function (res) {
             console.log('successful submission made!');
             $scope.curPage = 0;
         });
@@ -412,6 +419,7 @@ function mainApi($http, apiUrl)
             return $http.get(url);
         },
         submitCharacter: function (pageArr, add, charId, user) {
+            console.log(charId, user);
             var addUrl = '/character?message=add&characterId=' + charId + '&user=' + user;
             var editUrl = '/character?message=update&characterId=' + charId + '&user=' + user;
             if (add) {
