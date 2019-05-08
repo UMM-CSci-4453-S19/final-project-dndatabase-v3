@@ -17,6 +17,7 @@ function MainCtrl($scope, mainApi)
     $scope.pword = '';
     $scope.curPage = 0;
     $scope.serverData = [];
+    $scope.formCtrlData = [];
 
     $scope.loading = false;
     $scope.race = {};
@@ -39,7 +40,76 @@ function MainCtrl($scope, mainApi)
         }
     }
 
+    //Page 3 Class/subclass
+    $scope.classCtrl = '';
+
+    var classVal = '';
+    $scope.classCtrl = {
+        value: function (newVal) {
+            return arguments.length ? (classVal = newVal) : classVal;
+        }
+    };
+
+    //Page 4 Stats!!!
+    $scope.strCtrl = '';
+    $scope.dexCtrl = '';
+    $scope.conCtrl = '';
+    $scope.chaCtrl = '';
+    $scope.intCtrl = '';
+    $scope.wisCtrl = '';
+
+    var strVal = '';
+    $scope.strCtrl = {
+        value: function(newVal) {
+            return arguments.length ? (strVal = newVal) : strVal;
+        }
+    };
+
+    var dexVal = '';
+    $scope.dexCtrl = {
+        value: function(newVal) {
+            return arguments.length ? (dexVal = newVal) : dexVal;
+        }
+    };
+
+    var conVal = '';
+    $scope.conCtrl = {
+        value: function(newVal) {
+            return arguments.length ? (conVal = newVal) : conVal;
+        }
+    };
+
+    var chaVal = '';
+    $scope.chaCtrl = {
+        value: function(newVal) {
+            return arguments.length ? (chaVal = newVal) : chaVal;
+        }
+    };
+
+    var intVal = '';
+    $scope.intCtrl = {
+        value: function(newVal) {
+            return arguments.length ? (intVal = newVal) : intVal;
+        }
+    };
+
+    var wisVal = '';
+    $scope.wisCtrl = {
+        value: function(newVal) {
+            return arguments.length ? (wisVal = newVal) : wisVal;
+        }
+    };
+
+    // Page 1 Race & Gender
+    var _raceVal = '';
+    $scope.raceCtrl = {
+        value: function(newVal) {
+            return arguments.length ? (_raceVal = newVal) : _raceVal;
+        }
+    }
+
     // page 5 skills/abilities
+
     $scope.power1Ctrl = '';
 
     // page 8 weapons as part of equipment
@@ -69,12 +139,28 @@ function MainCtrl($scope, mainApi)
     $scope.serverData = [];
 
     // page 7 proficiencies
-    $scope.profCtrl = '';
+    $scope.prof1Ctrl = '';
+    $scope.prof2Ctrl = '';
+    $scope.prof3Ctrl = '';
 
-    var profVal = '';
-    $scope.profCtrl = {
+    var prof1Val = '';
+    $scope.prof1Ctrl = {
         value: function(newVal) {
-            return arguments.length ? (profVal = newVal) : profVal;
+            return arguments.length ? (prof1Val = newVal) : prof1Val;
+        }
+    };
+
+    var prof2Val = '';
+    $scope.prof2Ctrl = {
+        value: function(newVal) {
+            return arguments.length ? (prof2Val = newVal) : prof2Val;
+        }
+    };
+
+    var prof3Val = '';
+    $scope.prof3Ctrl = {
+        value: function(newVal) {
+            return arguments.length ? (prof3Val = newVal) : prof3Val;
         }
     };
 
@@ -120,7 +206,9 @@ function MainCtrl($scope, mainApi)
                 break;
             case 5:
                 console.log('page 5!');
-                genericCall($scope.currentCharacter.classId, $scope.currentCharacter.subclassId , 'serverData');
+                extendedGenericCall($scope.currentCharacter.classId, $scope.currentCharacter.subclassId,
+                    $scope.uname, $scope.currentCharacter.characterId, 'serverData', 'formCtrlData',
+                    'power1Ctrl', 'power2Ctrl', null);
                 break;
             case 6:
                 console.log('page 6!');
@@ -153,6 +241,46 @@ function MainCtrl($scope, mainApi)
             console.log("Error while retrieving data " + serverData);
         });
     }
+    function extendedGenericCall(param1, param2, param3, param4, scopeVar, scopeVar2, fCtrl1, fCtrl2, fCtrl3) {
+        mainApi.changePage($scope.curPage, param1, param2, param3, param4).success(function (serverData) {
+            console.log('returned data from request!!!, ', serverData);
+            if (scopeVar&&scopeVar2) {
+                $scope[scopeVar] = serverData[0];
+                console.log('stuff from the server extended generic call!!!! ' , $scope[scopeVar]);
+                $scope[scopeVar2] = serverData[1];
+                console.log('stuff from the server extended generic call!!!! ' , $scope[scopeVar2]);
+            } else if (scopeVar) {
+                $scope[scopeVar] = serverData;
+                console.log('stuff from the server extended generic call!!!! ' , $scope[scopeVar]);
+            } else if (scopeVar2) {
+                $scope[scopeVar2] = serverData;
+                console.log('stuff from the server extended generic call!!!! ' , $scope[scopeVar]);
+            }
+            setCtrls(fCtrl1, fCtrl2, fCtrl3);
+            $scope.loading = false;
+        }).error(function (serverData)
+        {
+            console.log("Error while retrieving data " + serverData);
+        });
+    }
+    function setCtrls(fctrl1, fctrl2, fctrl3) {
+        console.log('setting formControls!!!');
+        console.log('serverData, ', $scope.formCtrlData[0]);
+        var fCtrlCounter = 0;
+        for (var val in $scope.formCtrlData[0]) {
+            if (fctrl1 && fCtrlCounter === 0) {
+                console.log('setting the formCtrl!!!', $scope.formCtrlData[0][val]);
+                $scope[fctrl1].value($scope.formCtrlData[0][val]);
+            } else if (fctrl2 && fCtrlCounter === 1) {
+                console.log('setting the formCtrl!!!', $scope.formCtrlData[0][val]);
+                $scope[fctrl2].value($scope.formCtrlData[0][val]);
+            } else if (fctrl3 && fCtrlCounter === 2) {
+                console.log('setting the formCtrl!!!', $scope.formCtrlData[0][val]);
+                $scope[fctrl3].value($scope.formCtrlData[0][val]);
+            }
+            fCtrlCounter++
+        }
+    }
 
     function logOut()
     {
@@ -166,7 +294,6 @@ function MainCtrl($scope, mainApi)
         $scope.currentCharacter = char;
         $scope.addMode = false;
         console.log('addmode change', $scope.addMode);
-        console.log($scope.currentCharacter.raceId);
     }
     function next() {
         if ($scope.curPage < 9) {
@@ -203,14 +330,14 @@ function MainCtrl($scope, mainApi)
             // page 5 ctrl values
             {power1: $scope.power1Ctrl.value(), power2: $scope.power2Ctrl.value()},
             // page 6 ctrl values
-            {},
+            {prof1: $scope.prof1Ctrl.value(), prof2: $scope.prof2Ctrl.value(), prof3: $scope.prof3Ctrl.value()},
             // page 7 ctrl values
             {},
             // page 8 ctrl values
             {},
             // page 9 ctrl values
             {}];
-        mainApi.submitCharacter(pageArr, $scope.addMode).success(function (res) {
+        mainApi.submitCharacter(pageArr, $scope.addMode, $scope.currentCharacter.characterId, $scope.username).success(function (res) {
             console.log('successful submission made!');
             $scope.curPage = 0;
         });
@@ -261,7 +388,7 @@ function mainApi($http, apiUrl)
             return $http.get(url);
         },
         // This is a abstract function that can be called with a value between 1-10 to reach different pages
-        changePage: function (pageNum, opt1, opt2)
+        changePage: function (pageNum, opt1, opt2, opt3, opt4)
         {
             var url = apiUrl + '/meta?page=' + pageNum;
 
@@ -276,11 +403,23 @@ function mainApi($http, apiUrl)
             {
                 url += '&opt2=' + opt2;
             }
+
+            // If extra options
+            if(opt3 != null)
+            {
+                url += '&opt3=' + opt3;
+            }
+
+            // If extra options
+            if(opt4 != null)
+            {
+                url += '&opt4=' + opt4;
+            }
             return $http.get(url);
         },
-        submitCharacter: function (pageArr, add) {
-            var addUrl = '/character?message=add';
-            var editUrl = '/character?message=update';
+        submitCharacter: function (pageArr, add, charId, user) {
+            var addUrl = '/character?message=add&characterId=' + charId + '&user=' + user;
+            var editUrl = '/character?message=update&characterId=' + charId + '&user=' + user;
             if (add) {
                 return $http.post(addUrl, pageArr);
             } else {
