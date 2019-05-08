@@ -98,7 +98,17 @@ function MainCtrl($scope, mainApi)
     };
     $scope.wisCtrl.value('8');
 
-    // page 5 skills/abilities
+    //Page 5 Feats
+    $scope.featCtrl = '';
+
+    var featVal = '';
+    $scope.featCtrl = {
+        value: function(newVal) {
+            return arguments.length ? (featVal = newVal) : featVal;
+        }
+    };
+
+    // page 6 skills/abilities
 
     $scope.power1Ctrl = '';
 
@@ -318,7 +328,7 @@ function MainCtrl($scope, mainApi)
             {strength: $scope.strCtrl.value(), dexterity: $scope.dexCtrl.value(), constitution: $scope.conCtrl.value(),
                 intelligence: $scope.intCtrl.value(), wisdom: $scope.wisCtrl.value(), charisma: $scope.chaCtrl.value()},
             // page 4 ctrl values
-            {},
+            {feat1: $scope.featCtrl.value()},
             // page 5 ctrl values
             {power1: $scope.power1Ctrl.value(), power2: $scope.power2Ctrl.value()},
             // page 6 ctrl values

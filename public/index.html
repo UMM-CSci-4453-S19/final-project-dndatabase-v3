@@ -119,6 +119,16 @@
 
         <div layout="row" ng-show="curPage===4">
             <b>Feats + Proficiencies</b>
+
+            <select ng-model="featCtrl.value" ng-model-options="{ getterSetter: true }">
+                <option ng-repeat="x in serverData" value="{{x.featId}}">{{x.name}}</option>
+            </select>
+            <br>
+            <div ng-repeat="x in serverData" ng-show="featCtrl.value() == x.featId">
+                <br>
+                <p>{{x.description}}</p>
+            </div>
+
         </div>
 
         <div layout="row" ng-show="curPage===5">

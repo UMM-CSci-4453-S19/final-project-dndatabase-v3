@@ -106,7 +106,14 @@ app.get("/meta", function(req, res)
 
         // Ability Scores (Stats)
         case "4":
-            res.send("{}");
+            var sql = "SELECT * from dnd_feats;";
+            var pResult = DoQuery(sql);
+            var pResolve = Promise.resolve(pResult);
+            pResolve.then(function(rows)
+            {
+                res.send(rows);
+            });
+            console.log("Got feats!");
             break;
 
         // Class Skills (Dependent on Class)
@@ -203,6 +210,7 @@ app.post("/character", function(req, res) {
 
     // page 5 Powers
     page3submit(user, charId, req.body);
+    page4submit(user, charId, req.body);
     page5submit(user, charId, req.body);
     page6submit(user, charId, req.body);
 
@@ -260,6 +268,31 @@ function page3submit(user, charId, pageArr) {
                 user + "', " + charId + ", " + pageArr[2].strength + ", " + pageArr[2].dexterity + ", " + pageArr[2].constitution + ", " + pageArr[2].charisma
                 + ", " + pageArr[2].intelligence + ", " + pageArr[2].wisdom + ")";
             console.log(addSql);
+            var addResult = DoQuery(addSql);
+            return addResult;
+            // var addResolve = Promise.resolve(addResult);
+            // return addResolve;
+        }
+    })
+}
+
+function page4submit(user, charId, pageArr) {
+    var sql = "SELECT * FROM dnd_feats";
+    var pResult = DoQuery(sql);
+    console.log("user is: " + user, "character id is: " + charId);
+    var pResolve = Promise.resolve(pResult);
+    pResolve.then( function (res) {
+        if (res[0]) {
+            var updateSql = "UPDATE dnd_character_abilities SET feat1 = " + pageArr[3].feat1 + " WHERE characterId = " + charId + " AND userId = '" + user + "'";
+
+            var updateResult = DoQuery(updateSql);
+            return updateResult;
+            // var updateResolve = Promise.resolve(updateResult);
+            // return updateResolve;
+        } else {
+            var addSql = "INSERT INTO dnd_character_abilities (userId, characterId, feat) VALUES ( '" +
+                user + "', " + charId + ", " + pageArr[3].feat1 + ")";
+
             var addResult = DoQuery(addSql);
             return addResult;
             // var addResolve = Promise.resolve(addResult);
