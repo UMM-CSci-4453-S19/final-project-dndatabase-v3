@@ -320,7 +320,7 @@ function MainCtrl($scope, mainApi)
     function submitEdits() {
         var pageArr = [
             // page 1 ctrl values
-            {race: $scope.raceCtrl.value()},
+            {},
             // page 2 ctrl values
             {},
             // page 3 ctrl values
