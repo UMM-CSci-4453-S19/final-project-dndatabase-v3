@@ -56,6 +56,7 @@ function MainCtrl($scope, mainApi)
             return arguments.length ? (strVal = newVal) : strVal;
         }
     };
+    $scope.strCtrl.value('8');
 
     var dexVal = '';
     $scope.dexCtrl = {
@@ -63,6 +64,7 @@ function MainCtrl($scope, mainApi)
             return arguments.length ? (dexVal = newVal) : dexVal;
         }
     };
+    $scope.dexCtrl.value('8');
 
     var conVal = '';
     $scope.conCtrl = {
@@ -70,6 +72,7 @@ function MainCtrl($scope, mainApi)
             return arguments.length ? (conVal = newVal) : conVal;
         }
     };
+    $scope.conCtrl.value('8');
 
     var chaVal = '';
     $scope.chaCtrl = {
@@ -77,6 +80,7 @@ function MainCtrl($scope, mainApi)
             return arguments.length ? (chaVal = newVal) : chaVal;
         }
     };
+    $scope.chaCtrl.value('8');
 
     var intVal = '';
     $scope.intCtrl = {
@@ -84,6 +88,7 @@ function MainCtrl($scope, mainApi)
             return arguments.length ? (intVal = newVal) : intVal;
         }
     };
+    $scope.intCtrl.value('8');
 
     var wisVal = '';
     $scope.wisCtrl = {
@@ -91,6 +96,7 @@ function MainCtrl($scope, mainApi)
             return arguments.length ? (wisVal = newVal) : wisVal;
         }
     };
+    $scope.wisCtrl.value('8');
 
     // page 5 skills/abilities
 
