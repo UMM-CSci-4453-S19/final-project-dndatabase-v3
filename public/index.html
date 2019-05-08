@@ -3,7 +3,11 @@
     <meta charset="utf-8">
     <title>Character Creator</title>
     <link rel="stylesheet" href="index.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.4/angular.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-filter/0.5.8/angular-filter.min.js"></script>
     <script src="characterCreator.js"></script>
 </head>
 
@@ -20,39 +24,200 @@
         <button ng-click="logIn(uname, pword)">Login</button>
     </div>
 
-    <div ng-show="logged_in" layout="column" style="height: 90vh; width: 90vw;">
-        <div layout="row" ng-show="pageArr[0]">
-            <b>page 1!!!!</b>
+    <div ng-show="logged_in" layout="column" style="height: 80vh; width: 90vw;">
+        <div layout="row" ng-show="curPage===0">
+
+            <div class="panel panel-default" ng-repeat="character in characters">
+                <div class="panel-heading">
+                    {{character.name}}, Level {{character.level}} {{character.class}} {{character.subclass}}
+                    <button ng-click="character.isCollapsed = !character.isCollapsed">Show more</button>
+                </div>
+                <div collapse="element.isCollapsed">
+                    <div ng-show="character.isCollapsed" class="panel-body ">
+                        <table>
+                            <tr>
+                                <td>Name : {{character.name}}</td>
+                            </tr>
+                            <tr>
+                                <td>Level : {{character.level}}</td>
+                            </tr>
+                            <tr>
+                                <td>Class : {{character.class}}</td>
+                            </tr>
+                            <tr>
+                                <td>Subclass : {{character.subclass}}</td>
+                            </tr>
+                            <tr>
+                                <td>Race : {{character.race}}</td>
+                            </tr>
+                            <tr>
+                                <button ng-click="selectCharacter(character)">Select Character</button>
+                            </tr>
+                        </table>
+
+                    </div>
+                </div>
+            </div>
+
         </div>
-        <div layout="row" ng-show="pageArr[1]">
-            <b>page 2!!!!</b>
+
+        <div layout="row" ng-if="curPage===1 && loading === false">
+            <b>Race</b>
+
+            <select ng-init="raceSelector = serverData[currentCharacter.raceId - 1]" ng-model="raceSelector" ng-options="race.race for race in serverData"></select>
+
+            <b>Gender</b>
+            <select>
+                <option>Male</option>
+                <option>Female</option>
+                <option>Other</option>
+            </select>
+
+            <h3>{{raceSelector.description}}</h3>
+
         </div>
-        <div layout="row" ng-show="pageArr[2]">
-            <b>page 3!!!!</b>
+
+        <div layout="row" ng-show="curPage===2">
+            <b>Class + subclass</b>
+            <h2>Class: </h2>
+            <select ng-model="classCtrl.value" ng-model-options="{ getterSetter: true }">
+                <option ng-repeat="x in serverData | unique: 'class'" value="{{x.classId}}">{{x.class}}</option>
+            </select>
+            <select>
+            <option ng-repeat="x in serverData" ng-show="classCtrl.value() == x.classId">{{x.subclass}}</option>
+            </select>
+            <br>
+            <div ng-repeat="x in serverData" ng-show="classCtrl.value() == x.classId"> <!-- Shows both subclass descriptions... -->
+                <br>
+                <p>{{x.description}}</p>
+            </div>
         </div>
-        <div layout="row" ng-show="pageArr[3]">
-            <b>page 4!!!!</b>
+
+        <div layout="row" ng-show="curPage===3">
+            <h2><b>Stats</b></h2>
+
+            <p>Please use arrows to set value</p>
+
+            <h2>Strength:</h2>
+            <input type="number" value ="8" max="16" min="8" onkeydown="return false" ng-model="strCtrl.value" ng-model-options="{ getterSetter: true }">
+            <br>
+            <h2>Dexterity:</h2>
+            <input type="number" value ="8" max="16" min="8" onkeydown="return false" ng-model="dexCtrl.value" ng-model-options="{ getterSetter: true }">
+            <br>
+            <h2>Constitution:</h2>
+            <input type="number" value ="8" max="16" min="8" onkeydown="return false" ng-model="conCtrl.value" ng-model-options="{ getterSetter: true }">
+            <br>
+            <h2>Intelligence:</h2>
+            <input type="number" value ="8" max="16" min="8" onkeydown="return false" ng-model="intCtrl.value" ng-model-options="{ getterSetter: true }">
+            <br>
+            <h2>Wisdom:</h2>
+            <input type="number" value ="8" max="16" min="8" onkeydown="return false" ng-model="wisCtrl.value" ng-model-options="{ getterSetter: true }">
+            <h2>Charisma:</h2>
+            <input type="number" value ="8" max="16" min="8" onkeydown="return false" ng-model="chaCtrl.value" ng-model-options="{ getterSetter: true }">
+
         </div>
-        <div layout="row" ng-show="pageArr[4]">
-            <b>page 5!!!!</b>
+
+        <div layout="row" ng-show="curPage===4">
+            <b>Feats + Proficiencies</b>
         </div>
-        <div layout="row" ng-show="pageArr[5]">
-            <b>page 6!!!!</b>
+
+        <div layout="row" ng-show="curPage===5">
+            <form novalidate layout="column">
+                <label layout="row"> Power 1:
+                    <select ng-model="power1Ctrl.value" ng-model-options="{ getterSetter: true }">
+                        <option ng-repeat="x in serverData" value="{{x.powerId}}">{{x.name}}</option>
+                    </select> </label>
+                {{power1Ctrl.value()}}
+
+                <label layout="row"> Power 2:
+                    <select ng-model="power2Ctrl.value" ng-model-options="{ getterSetter: true }">
+                        <option ng-repeat="x in serverData" value="{{x.powerId}}">{{x.name}}</option>
+                    </select> </label>
+                {{power2Ctrl.value()}}
+
+
+            </form>
         </div>
-        <div layout="row" ng-show="pageArr[6]">
-            <b>page 7!!!!</b>
+
+        <div layout="row" ng-show="curPage===6">
+            <h2>Character Skills</h2>
+            <br>
+
+            <form novalidate>
+                            <h2>Skill 1: </h2>
+                                <select ng-model="prof1Ctrl.value" ng-model-options="{ getterSetter: true }">
+                                    <option ng-repeat="x in serverData" value="{{x.proficiencyId}}">{{x.name}}</option>
+                                </select>
+                                    <br>
+                                        <div ng-repeat="x in serverData" ng-show="prof1Ctrl.value() == x.proficiencyId">
+                                            <br>
+                                                <p>{{x.description}}</p>
+                                        </div>
+
+            </form>
+            <br>
+            <form novalidate>
+            <h2>Skill 2: </h2>
+                                <select ng-model="prof2Ctrl.value" ng-model-options="{ getterSetter: true }">
+                                    <option ng-repeat="y in serverData" value="{{y.proficiencyId}}">{{y.name}}</option>
+                                </select>
+                                    <br>
+                                        <div ng-repeat="y in serverData" ng-show="prof2Ctrl.value() == y.proficiencyId">
+                                            <br>
+                                                <p>{{y.description}}</p>
+                                        </div>
+            </form>
+            <br>
+            <form novalidate>
+                            <h2>Skill 3: </h2>
+                    <select ng-model="prof3Ctrl.value" ng-model-options="{ getterSetter: true }">
+                        <option ng-repeat="z in serverData" value="{{z.proficiencyId}}">{{z.name}}</option>
+                                </select>
+                                    <br>
+                                        <div ng-repeat="z in serverData" ng-show="prof3Ctrl.value() == z.proficiencyId">
+                                            <br>
+                                                <p>{{z.description}}</p>
+                                        </div>
+            </form>
+
+
         </div>
-        <div layout="row" ng-show="pageArr[7]">
-            <b>page 8!!!!</b>
+
+        <div layout="row" ng-show="curPage===7">
+            <b>Equipment: </b>
+            <form novalidate>
+
+                <label> Choose a Weapon:
+                    <select ng-model="weaponCtrl.value" ng-model-options="{ getterSetter: true }">
+                        <option ng-repeat="x in serverData" value="{{x.weaponId}}">{{x.name}}</option>
+                    </select>
+                </label>
+                <br> <br>
+                <p>Weapon Description:</p>
+                <div ng-repeat="x in serverData" ng-show="weaponCtrl.value() == x.weaponId">
+                    <p> Weapon Name: {{x.name}} <br>
+                        Weapon Type : {{x.type}} <br>
+                        Weapon Damage : {{x.damage}} <br>
+                        Weapon Weight : {{x.weight}} <br>
+                        Weapon Properties : {{x.properties}} </p>
+                </div>
+            </form>
         </div>
-        <div layout="row" ng-show="pageArr[8]">
-            <b>page 9!!!!</b>
+        <div layout="row" ng-show="curPage===8">
+            <b>Characteristics</b>
+        </div>
+        <div layout="row" ng-show="curPage===9">
+            <b>Personality</b>
         </div>
     </div>
 
-    <div layout="row"  ng-show="logged_in">
+    <div layout="row" ng-show="logged_in && curPage!=0 && !loading">
         <button ng-click="prev()">Back</button>
-        <button ng-click="next()">Next</button>
+        <button ng-click="next()" ng-hide="curPage===9">Next</button>
+        <button ng-click="submitEdits()" ng-hide="curPage!=9">Submit</button>
+    </div>
+    <div layout="row" ng-show="logged_in && curPage===0 && !loading">
+        <button ng-click="next()">Create New</button>
     </div>
 
 </div>
