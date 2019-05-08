@@ -163,7 +163,7 @@
 
         </div>
 
-        <div layout="row" ng-show="curPage===7">
+       <!-- <div layout="row" ng-show="curPage===7">
             <b>Equipment: </b>
             <form novalidate>
 
@@ -182,7 +182,14 @@
                         Weapon Properties : {{x.properties}} </p>
                 </div>
             </form>
+        </div>-->
+        <div layout="row" ng-show="curPage===7">
+            <div ng-repeat="x in serverData">
+                {{x}}
+            </div>
         </div>
+
+
         <div layout="row" ng-show="curPage===8">
             <b>Characteristics</b>
         </div>
