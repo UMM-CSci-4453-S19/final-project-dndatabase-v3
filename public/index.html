@@ -64,7 +64,7 @@
         <div layout="row" ng-if="curPage===1 && loading === false">
             <b>Race</b>
 
-            <select ng-init="raceSelector = serverData[currentCharacter.raceId - 1]" ng-model="raceSelector" ng-options="race.race for race in serverData"></select>
+            <select ng-init="raceSelector = serverData[0]" ng-model="raceSelector" ng-options="race.race for race in serverData"></select>
 
             <b>Gender</b>
             <select>
@@ -203,7 +203,7 @@
 
         </div>
 
-        <div layout="row" ng-show="curPage===7">
+       <!-- <div layout="row" ng-show="curPage===7">
             <b>Equipment: </b>
             <form novalidate>
 
@@ -222,7 +222,65 @@
                         Weapon Properties : {{x.properties}} </p>
                 </div>
             </form>
+        </div>-->
+        <div layout="row" ng-show="curPage===7">
+            <h2> Equipment</h2>
+            <br>
+            <p> Weapon Slot 1 :</p>
+                <select ng-model="weaponCtrl.value" ng-model-options="{ getterSetter: true }">
+                    <option ng-repeat="x in serverData" value="{{x.weaponId}}" ng-show="x.weaponName">{{x.weaponName}}</option>
+                </select>
+            <br>
+            <p> Weapon Slot 2 :</p>
+            <select ng-model="weapon2Ctrl.value" ng-model-options="{ getterSetter: true }">
+                <option ng-repeat="x in serverData" value="{{x.weaponId}}" ng-show="x.weaponName">{{x.weaponName}}</option>
+            </select>
+            <br><br><br>
+            <p> Armor Slot:</p>
+            <select ng-model="armorCtrl.value" ng-model-options="{ getterSetter: true }">
+                <option ng-repeat="x in serverData" value="{{x.armorId}}" ng-show="x.armorName">{{x.armorName}}</option>
+            </select>
+            <br><br>
+            <div style="display: flex">
+                <div>
+            <h3> Weapon 1 Details</h3>
+            <div ng-repeat="x in serverData" ng-show="weaponCtrl.value() == x.weaponId">
+                <p> Weapon Name: {{x.weaponName}} <br>
+                    Weapon Type : {{x.weaponType}} <br>
+                    Weapon Damage : {{x.damage}} <br>
+                    Weapon Weight : {{x.weaponWeight}} <br>
+                    Weapon Properties : {{x.properties}}
+                </p>
+            </div>
+                </div>
+                &nbsp; &nbsp;
+                <div>
+            <h3> Weapon 2 Details</h3>
+            <div ng-repeat="x in serverData" ng-show="weapon2Ctrl.value() == x.weaponId">
+                <p> Weapon Name: {{x.weaponName}} <br>
+                    Weapon Type : {{x.weaponType}} <br>
+                    Weapon Damage : {{x.damage}} <br>
+                    Weapon Weight : {{x.weaponWeight}} <br>
+                    Weapon Properties : {{x.properties}}
+                </p>
+            </div>
+                </div>
+                &nbsp; &nbsp;
+                <div>
+            <h3> Armor Details</h3>
+            <div ng-repeat="x in serverData" ng-show="armorCtrl.value() == x.armorId">
+                <p> Armor Name: {{x.armorName}} <br>
+                    Armor Class : {{x.AC}} <br>
+                    Armor Weight: {{x.armorWeight}} <br>
+                    Armor Requirement : {{x.Requirement}} <br>
+                    Armor Stealth : {{x.Stealth}}
+                </p>
+            </div>
+                </div>
+            </div>
         </div>
+
+
         <div layout="row" ng-show="curPage===8">
             <b>Characteristics</b>
         </div>
