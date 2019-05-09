@@ -31,6 +31,7 @@ function MainCtrl($scope, mainApi)
     $scope.setCharTest = setCharTest;
     $scope.selectCharacter = selectCharacter;
     $scope.submitEdits = submitEdits;
+    $scope.newCharacter = newCharacter;
 
     //Page 3 Class/subclass
     $scope.classCtrl = '';
@@ -321,20 +322,12 @@ function MainCtrl($scope, mainApi)
         console.log('current character has been set', $scope.currentCharacter);
     }
 
-    // This can be a generic doFunction(pageNum) function that takes in input,pageNum, from html and then we have a switch(PageNum)
-    // statement after mainApi.changePage(pageNum).success.... to see which value should store the response
-    // or we create a function for each thing, ex: createCharacter and this way I guess we are writing more code, but being more
-    // explicit and clear what a function means
-    function createCharacter()
+    function newCharacter()
     {
-        $scope.pageNum = 1;
-        console.log("User " + $scope.uname + " wants to create a new character by going to pageNum " + $scope.pageNum);
-        mainApi.changePage($scope.pageNum).success(function (raceRows) {
-            $scope.races = raceRows;
-        }).error(function (raceRows)
-        {
-            console.log("Error while retrieving races " + raceRows);
+        mainApi.newCharacter($scope.uname, document.getElementById("newCharBox").value).success(function (rows){
+            $scope.currentCharacter = rows;
         });
+        next();
     }
 
     function displayCharacters()
@@ -358,6 +351,11 @@ function mainApi($http, apiUrl)
         logInUser: function (uname, pword)
         {
             var url = apiUrl + '/login?uname=' + uname + '&pword=' + pword;
+            return $http.get(url);
+        },
+        newCharacter: function(uname, cname)
+        {
+            var url = apiUrl + '/new?uname=' + uname + '&cname=' + cname;
             return $http.get(url);
         },
         // This is a abstract function that can be called with a value between 1-10 to reach different pages
