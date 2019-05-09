@@ -64,7 +64,7 @@
         <div layout="row" ng-if="curPage===1 && loading === false">
             <b>Race</b>
 
-            <select ng-init="raceSelector = serverData[0]" ng-model="raceSelector" ng-options="race.race for race in serverData"></select>
+            <select ng-init="raceCtrl.value = serverData[currentCharacter.raceId - 1]" ng-model="raceCtrl.value" ng-model-options="{ getterSetter: true }" ng-options="race.race for race in serverData"></select>
 
             <b>Gender</b>
             <select>
@@ -73,7 +73,7 @@
                 <option>Other</option>
             </select>
 
-            <h3>{{raceSelector.description}}</h3>
+            <h3>{{raceCtrl.value.description}}</h3>
 
         </div>
 
@@ -275,7 +275,7 @@
         <button ng-click="submitEdits()" ng-hide="curPage!=9">Submit</button>
     </div>
     <div layout="row" ng-show="logged_in && curPage===0 && !loading">
-        <button ng-click="next()">Create New</button>
+        <input type="text" name="textfield" id="newCharBox" placeholder="Character Name"/><input name="" type="button" value="Create New Character" ng-click="newCharacter()">
     </div>
 
 </div>
