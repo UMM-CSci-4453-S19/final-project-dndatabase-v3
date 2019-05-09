@@ -253,11 +253,6 @@ function MainCtrl($scope, mainApi)
             }
         }
     }
-    function getAttributeFromId(id, array, attr) {
-        console.log('attribute from ID!!!');
-        const value = array.filter(val => (val.powerId === power1Ctrl.value()));
-        return value[attr];
-    }
 
     function logOut()
     {
