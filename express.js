@@ -50,7 +50,14 @@ app.get("/new", function(req, res)
     var pResolve = Promise.resolve(pResult);
 
     pResolve.then(function (rows) {
-        res.send(rows);
+
+        var returnsql = "SELECT * FROM dnd_characters WHERE name = '" + cname + "';";
+        var qResult = DoQuery(returnsql);
+        var qResolve = Promise.resolve(qResult);
+
+        qResolve.then(function (char) {
+            res.send(char);
+        });
     });
 });
 

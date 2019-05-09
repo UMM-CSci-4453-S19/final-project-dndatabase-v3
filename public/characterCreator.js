@@ -35,12 +35,6 @@ function MainCtrl($scope, mainApi)
 
     $scope.newCharacter = newCharacter;
 
-    function newCharacter()
-    {
-        mainApi.newCharacter($scope.uname, document.getElementById("newCharBox").value);
-        next();
-    }
-
     // Page 1 Race & Gender
     $scope.raceCtrl = '';
     var _raceVal = '';
@@ -327,7 +321,15 @@ function MainCtrl($scope, mainApi)
         setPage($scope.curPage);
         $scope.currentCharacter = char;
         $scope.addMode = false;
+        console.log(char);
         console.log('addmode change', $scope.addMode);
+    }
+    function newCharacter()
+    {
+        mainApi.newCharacter($scope.uname, document.getElementById("newCharBox").value).success(function (rows){
+            $scope.currentCharacter = rows;
+        });
+        next();
     }
     function next() {
         if ($scope.curPage < 9) {
