@@ -108,9 +108,11 @@ function MainCtrl($scope, mainApi)
         }
     };
 
+    var page3CtrlArr = ['strCtrl', 'dexCtrl', 'conCtrl', 'chaCtrl', 'intCtrl', 'wisCtrl'];
+
     // page 6 skills/abilities
 
-    var page5CtrlArr = ['power1Ctrl', 'power2Ctrl']
+    var page5CtrlArr = ['power1Ctrl', 'power2Ctrl'];
 
     var _power1Val = '';
     $scope.power1Ctrl = {
@@ -196,7 +198,8 @@ function MainCtrl($scope, mainApi)
                 break;
             case 3:
                 console.log('page 3!');
-                genericCall(null, null, 'serverData');
+                extendedGenericCall(null, null, $scope.uname, $scope.currentCharacter.characterId, null,
+                    'serverData', 'formCtrlData', page3CtrlArr);
                 break;
             case 4:
                 console.log('page 4!');
