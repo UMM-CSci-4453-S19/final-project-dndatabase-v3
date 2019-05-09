@@ -33,6 +33,23 @@ function MainCtrl($scope, mainApi)
     $scope.selectCharacter = selectCharacter;
     $scope.submitEdits = submitEdits;
 
+    $scope.newCharacter = newCharacter;
+
+    function newCharacter()
+    {
+        mainApi.newCharacter($scope.uname, document.getElementById("newCharBox").value);
+        next();
+    }
+
+    // Page 1 Race & Gender
+    $scope.raceCtrl = '';
+    var _raceVal = '';
+    $scope.raceCtrl = {
+        value: function(newVal) {
+            return arguments.length ? (_raceVal = newVal) : _raceVal;
+        }
+    };
+
     //Page 3 Class/subclass
     $scope.classCtrl = '';
 
@@ -212,7 +229,8 @@ function MainCtrl($scope, mainApi)
                 break;
             case 1:
                 console.log('page 1!');
-                genericCall(null, null, 'serverData');
+                //genericCall(null, null, 'serverData');
+                extendedGenericCall(null, null, null, null, 'serverData', null, 'raceCtrl', null, null);
                 break;
             case 2:
                 console.log('page 2!');
@@ -309,7 +327,6 @@ function MainCtrl($scope, mainApi)
         $scope.currentCharacter = char;
         $scope.addMode = false;
         console.log('addmode change', $scope.addMode);
-        console.log($scope.currentCharacter.raceId);
     }
     function next() {
         if ($scope.curPage < 9) {
@@ -393,6 +410,11 @@ function mainApi($http, apiUrl)
         logInUser: function (uname, pword)
         {
             var url = apiUrl + '/login?uname=' + uname + '&pword=' + pword;
+            return $http.get(url);
+        },
+        newCharacter: function(uname, cname)
+        {
+            var url = apiUrl + '/new?uname=' + uname + '&cname=' + cname;
             return $http.get(url);
         },
         // This is a abstract function that can be called with a value between 1-10 to reach different pages

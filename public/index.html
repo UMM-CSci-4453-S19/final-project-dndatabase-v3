@@ -64,7 +64,7 @@
         <div layout="row" ng-if="curPage===1 && loading === false">
             <b>Race</b>
 
-            <select ng-init="raceSelector = serverData[0]" ng-model="raceSelector" ng-options="race.race for race in serverData"></select>
+            <select ng-init="raceCtrl.value = serverData[currentCharacter.raceId - 1]" ng-model="raceCtrl.value" ng-model-options="{ getterSetter: true }" ng-options="race.race for race in serverData"></select>
 
             <b>Gender</b>
             <select>
@@ -73,7 +73,7 @@
                 <option>Other</option>
             </select>
 
-            <h3>{{raceSelector.description}}</h3>
+            <h3>{{raceCtrl.value.description}}</h3>
 
         </div>
 
@@ -203,26 +203,7 @@
 
         </div>
 
-       <!-- <div layout="row" ng-show="curPage===7">
-            <b>Equipment: </b>
-            <form novalidate>
 
-                <label> Choose a Weapon:
-                    <select ng-model="weaponCtrl.value" ng-model-options="{ getterSetter: true }">
-                        <option ng-repeat="x in serverData" value="{{x.weaponId}}">{{x.name}}</option>
-                    </select>
-                </label>
-                <br> <br>
-                <p>Weapon Description:</p>
-                <div ng-repeat="x in serverData" ng-show="weaponCtrl.value() == x.weaponId">
-                    <p> Weapon Name: {{x.name}} <br>
-                        Weapon Type : {{x.type}} <br>
-                        Weapon Damage : {{x.damage}} <br>
-                        Weapon Weight : {{x.weight}} <br>
-                        Weapon Properties : {{x.properties}} </p>
-                </div>
-            </form>
-        </div>-->
         <div layout="row" ng-show="curPage===7">
             <h2> Equipment</h2>
             <br>
@@ -271,10 +252,10 @@
             <div ng-repeat="x in serverData" ng-show="armorCtrl.value() == x.armorId">
                 <p> Armor Name: {{x.armorName}} <br>
                     Armor Class : {{x.AC}} <br>
-                    Armor Weight: {{x.armorWeight}} <br>
-                    Armor Requirement : {{x.Requirement}} <br>
-                    Armor Stealth : {{x.Stealth}}
+                    Armor Weight: {{x.armorWeight}}
                 </p>
+                <p ng-show="armorCtrl.value() == x.armorId" ng-if="x.Requirement"> Armor Requirement : {{x.Requirement}}</p>
+                <p ng-show="armorCtrl.value() == x.armorId" ng-if="x.Stealth">   Armor Stealth : {{x.Stealth}} </p>
             </div>
                 </div>
             </div>
@@ -295,7 +276,7 @@
         <button ng-click="submitEdits()" ng-hide="curPage!=9">Submit</button>
     </div>
     <div layout="row" ng-show="logged_in && curPage===0 && !loading">
-        <button ng-click="next()">Create New</button>
+        <input type="text" name="textfield" id="newCharBox" placeholder="Character Name"/><input name="" type="button" value="Create New Character" ng-click="newCharacter()">
     </div>
 
 </div>
