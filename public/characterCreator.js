@@ -189,7 +189,8 @@ function MainCtrl($scope, mainApi)
                 // formCtrlData is being set here!!
                 console.log('page 5!');
                 extendedGenericCall($scope.currentCharacter.classId, $scope.currentCharacter.subclassId,
-                    $scope.uname, $scope.currentCharacter.characterId, 'serverData', 'formCtrlData', page5CtrlArr);
+                    $scope.uname, $scope.currentCharacter.characterId, $scope.currentCharacter.level,
+                    'serverData', 'formCtrlData', page5CtrlArr);
                 break;
             case 6:
                 console.log('page 6!');
@@ -222,8 +223,8 @@ function MainCtrl($scope, mainApi)
             console.log("Error while retrieving data " + serverData);
         });
     }
-    function extendedGenericCall(param1, param2, param3, param4, scopeVar, scopeVar2, fCtrlArr) {
-        mainApi.changePage($scope.curPage, param1, param2, param3, param4).success(function (serverData) {
+    function extendedGenericCall(param1, param2, param3, param4, param5, scopeVar, scopeVar2, fCtrlArr) {
+        mainApi.changePage($scope.curPage, param1, param2, param3, param4, param5).success(function (serverData) {
             console.log('returned data from request!!!, ', serverData);
             if (scopeVar&&scopeVar2) {
                 $scope[scopeVar] = serverData[0];
@@ -360,7 +361,7 @@ function mainApi($http, apiUrl)
             return $http.get(url);
         },
         // This is a abstract function that can be called with a value between 1-10 to reach different pages
-        changePage: function (pageNum, opt1, opt2, opt3, opt4)
+        changePage: function (pageNum, opt1, opt2, opt3, opt4, opt5)
         {
             var url = apiUrl + '/meta?page=' + pageNum;
 
@@ -386,6 +387,12 @@ function mainApi($http, apiUrl)
             if(opt4 != null)
             {
                 url += '&opt4=' + opt4;
+            }
+
+            // If extra options
+            if(opt5 != null)
+            {
+                url += '&opt5=' + opt5;
             }
             return $http.get(url);
         },
