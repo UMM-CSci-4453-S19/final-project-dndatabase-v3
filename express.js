@@ -122,11 +122,13 @@ app.get("/meta", function(req, res)
             var subClass = req.param('opt2');
             var user = req.param('opt3');
             var charId = req.param('opt4');
-            console.log('opt1' + charClass + ', opt2' + subClass + ', opt3' + user +', opt4' + charId)
+            var level = req.param('opt5');
+            console.log('opt1' + charClass + ', opt2' + subClass + ', opt3' + user +', opt4' + ', opt5: ' + level)
             var maxId = parseInt(charClass)*100 + ((parseInt(subClass)+1)*10);
             var minId = parseInt(charClass)*100 + ((parseInt(subClass))*10);
             var sql = "select * from dnd_powers where powerID < " + maxId +
-                " and powerID >= " + minId;
+                " and powerID >= " + minId + " AND level <= " + level;
+            console.log(sql);
             var pResult = DoQuery(sql);
             var pResolve = Promise.resolve(pResult);
             pResolve.then(function(rows)
