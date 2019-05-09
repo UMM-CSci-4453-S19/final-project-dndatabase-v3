@@ -91,10 +91,6 @@ function MainCtrl($scope, mainApi)
             return arguments.length ? (wisVal = newVal) : wisVal;
         }
     };
-
-    $scope.power1Ctrl = '';
-     $scope.weaponCtrl = '';
-
     // page 5 skills/abilities
 
     var page5CtrlArr = ['power1Ctrl', 'power2Ctrl']
@@ -103,14 +99,14 @@ function MainCtrl($scope, mainApi)
     $scope.power1Ctrl = {
         value: function(newVal) {
             return arguments.length ? (_power1Val = newVal) : _power1Val;
-        }
+        },
     };
 
     var _power2Val = '';
     $scope.power2Ctrl = {
         value: function(newVal) {
             return arguments.length ? (_power2Val = newVal) : _power2Val;
-        }
+        },
     };
 
     // page 8 weapons as part of equipment
@@ -257,6 +253,7 @@ function MainCtrl($scope, mainApi)
             if ($scope.formCtrlData[0]) {
                 var currentKey = Object.keys(ctrlsObj)[i];
                 $scope[fCtrlArr[i]].value($scope.formCtrlData[0][currentKey]);
+                $scope[fCtrlArr[i]].tempVal = ($scope.formCtrlData[0][currentKey]);
                 console.log($scope[fCtrlArr[i]].value());
             }
         }
