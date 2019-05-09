@@ -103,13 +103,13 @@
 
         <div layout="row" ng-show="curPage===5">
             <form novalidate layout="column">
-                <label layout="row"> Power 1:
+                <label layout="row"> Power 1 Selector:
                     <select ng-model="power1Ctrl.value" ng-model-options="{ getterSetter: true }">
                         <option ng-repeat="x in serverData" value="{{x.powerId}}">{{x.name}}</option>
                     </select> </label>
                 {{power1Ctrl.value()}}
 
-                <label layout="row"> Power 2:
+                <label layout="row"> Power 2 Selector:
                     <select ng-model="power2Ctrl.value" ng-model-options="{ getterSetter: true }">
                         <option ng-repeat="x in serverData" value="{{x.powerId}}">{{x.name}}</option>
                     </select> </label>
@@ -117,6 +117,16 @@
 
 
             </form>
+            <div ng-repeat="x in serverData" ng-show="power1Ctrl.value() == x.powerId"> <!-- Shows both subclass descriptions... -->
+                <h3>Power 1: {{x.name}}</h3>
+                <br>
+                <p>{{x.description}}</p>
+            </div>
+            <div ng-repeat="x in serverData" ng-show="power2Ctrl.value() == x.powerId"> <!-- Shows both subclass descriptions... -->
+                <h3>Power 2: {{x.name}}</h3>
+                <br>
+                <p>{{x.description}}</p>
+            </div>
         </div>
 
         <div layout="row" ng-show="curPage===6">

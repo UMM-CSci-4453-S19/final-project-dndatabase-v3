@@ -227,15 +227,11 @@ function MainCtrl($scope, mainApi)
             console.log('returned data from request!!!, ', serverData);
             if (scopeVar&&scopeVar2) {
                 $scope[scopeVar] = serverData[0];
-                console.log('stuff from the server extended generic call!!!! ' , $scope[scopeVar]);
                 $scope[scopeVar2] = serverData[1];
-                console.log('stuff from the server extended generic call!!!! ' , $scope[scopeVar2]);
             } else if (scopeVar) {
                 $scope[scopeVar] = serverData;
-                console.log('stuff from the server extended generic call!!!! ' , $scope[scopeVar]);
             } else if (scopeVar2) {
                 $scope[scopeVar2] = serverData;
-                console.log('stuff from the server extended generic call!!!! ' , $scope[scopeVar]);
             }
             setCtrls(fCtrlArr);
             $scope.loading = false;
@@ -250,13 +246,17 @@ function MainCtrl($scope, mainApi)
         var ctrlsObj = $scope.formCtrlData[0];
         for (var i = 0; i < fCtrlArr.length; i++) {
 
-            if ($scope.formCtrlData[0]) {
+            if ($scope.formCtrlData[0] && ($scope[fCtrlArr[i]].value() === '')) {
                 var currentKey = Object.keys(ctrlsObj)[i];
                 $scope[fCtrlArr[i]].value($scope.formCtrlData[0][currentKey]);
-                $scope[fCtrlArr[i]].tempVal = ($scope.formCtrlData[0][currentKey]);
                 console.log($scope[fCtrlArr[i]].value());
             }
         }
+    }
+    function getAttributeFromId(id, array, attr) {
+        console.log('attribute from ID!!!');
+        const value = array.filter(val => (val.powerId === power1Ctrl.value()));
+        return value[attr];
     }
 
     function logOut()
