@@ -168,10 +168,21 @@ app.get("/meta", function(req, res)
                 var armorResolve = Promise.resolve(armorResult);
                 armorResolve.then(function(armorResponse)
                 {
-                    var finalResponse = Object.assign(weaponResponse,armorResponse);
+                    // final response array
+                    var finalResponse = [];
+
+                    // Populate weapons into final response
+                    for(var weaponKey in weaponResponse) {
+                        finalResponse.push(weaponResponse[weaponKey]);
+                    }
+
+                    // Populate armors into final response
+                    for( var armorKey in armorResponse){
+                        finalResponse.push(armorResponse[armorKey]);
+                    }
+
                     res.send(finalResponse);
                 });
-
             });
             break;
 

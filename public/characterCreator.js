@@ -102,8 +102,10 @@ function MainCtrl($scope, mainApi)
 
     $scope.power1Ctrl = '';
 
-    // page 8 weapons as part of equipment
+    // page 8 weapons and armor as part of equipment
      $scope.weaponCtrl = '';
+     $scope.weapon2Ctrl = '';
+     $scope.armorCtrl = '';
 
     var _power1Val = '';
     $scope.power1Ctrl = {
@@ -123,6 +125,20 @@ function MainCtrl($scope, mainApi)
     $scope.weaponCtrl = {
         value: function(newVal) {
             return arguments.length ? (weaponVal = newVal) : weaponVal;
+        }
+    };
+
+    var weapon2Val = '';
+    $scope.weapon2Ctrl = {
+        value: function(newVal) {
+            return arguments.length ? (weapon2Val = newVal) : weapon2Val;
+        }
+    };
+
+    var armorVal = '';
+    $scope.armorCtrl = {
+        value: function(newVal) {
+            return arguments.length ? (armorVal = newVal) : armorVal;
         }
     };
 
