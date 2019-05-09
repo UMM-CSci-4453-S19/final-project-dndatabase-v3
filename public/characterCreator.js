@@ -14,6 +14,7 @@ function MainCtrl($scope, mainApi)
     $scope.logged_in = false;
     $scope.addMode = false;
     $scope.uname = '';
+    $scope.userId = '';
     $scope.pword = '';
     $scope.curPage = 0;
     $scope.serverData = [];
@@ -193,9 +194,11 @@ function MainCtrl($scope, mainApi)
         {
             $scope.logged_in = response;
             setPage(0);
+            $scope.userId = response[1];
+
         }).error(function (response)
         {
-            console.log(response);
+            console.log('invalid login', response);
         });
     }
 
@@ -217,8 +220,8 @@ function MainCtrl($scope, mainApi)
                 break;
             case 3:
                 console.log('page 3!');
-                extendedGenericCall(null, null, $scope.uname, $scope.currentCharacter.characterId, null,
-                    'serverData', 'formCtrlData', page3CtrlArr);
+                extendedGenericCall(null, null, $scope.userId, $scope.currentCharacter.characterId, null,
+                    'formCtrlData', null, page3CtrlArr);
                 break;
             case 4:
                 console.log('page 4!');
@@ -228,7 +231,7 @@ function MainCtrl($scope, mainApi)
                 // formCtrlData is being set here!!
                 console.log('page 5!');
                 extendedGenericCall($scope.currentCharacter.classId, $scope.currentCharacter.subclassId,
-                    $scope.uname, $scope.currentCharacter.characterId, $scope.currentCharacter.level,
+                    $scope.userId, $scope.currentCharacter.characterId, $scope.currentCharacter.level,
                     'serverData', 'formCtrlData', page5CtrlArr);
                 break;
             case 6:
@@ -331,6 +334,7 @@ function MainCtrl($scope, mainApi)
     // an array is build which has formcontrol values arranges as object attributes for each page
     // this is sent in a post request to the server
     function submitEdits() {
+        console.log('submit edits called!!!!!');
         var pageArr = [
             // page 1 ctrl values
             {},
@@ -351,8 +355,9 @@ function MainCtrl($scope, mainApi)
             {},
             // page 9 ctrl values
             {}];
-        mainApi.submitCharacter(pageArr, $scope.addMode, $scope.currentCharacter.characterId, $scope.uname).success(function (res) {
-            console.log('successful submission made!');
+        console.log(pageArr);
+        mainApi.submitCharacter(pageArr, $scope.addMode, $scope.currentCharacter.characterId, $scope.userId).success(function (res) {
+            console.log('successful submission made!', res);
             $scope.curPage = 0;
         });
     }
@@ -366,17 +371,6 @@ function MainCtrl($scope, mainApi)
     // statement after mainApi.changePage(pageNum).success.... to see which value should store the response
     // or we create a function for each thing, ex: createCharacter and this way I guess we are writing more code, but being more
     // explicit and clear what a function means
-    function createCharacter()
-    {
-        $scope.pageNum = 1;
-        console.log("User " + $scope.uname + " wants to create a new character by going to pageNum " + $scope.pageNum);
-        mainApi.changePage($scope.pageNum).success(function (raceRows) {
-            $scope.races = raceRows;
-        }).error(function (raceRows)
-        {
-            console.log("Error while retrieving races " + raceRows);
-        });
-    }
 
     function displayCharacters()
     {
