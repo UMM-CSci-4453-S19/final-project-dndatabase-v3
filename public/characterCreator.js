@@ -209,9 +209,10 @@ function MainCtrl($scope, mainApi)
         console.log("Trying to log in with name " + uname + " and password " + pword);
         mainApi.logInUser(uname, pword).success(function (response)
         {
-            $scope.logged_in = response;
+            $scope.logged_in = response[0];
             setPage(0);
             $scope.userId = response[1];
+            console.log(response);
 
         }).error(function (response)
         {
