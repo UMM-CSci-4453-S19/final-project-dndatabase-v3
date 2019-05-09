@@ -38,6 +38,20 @@ app.get("/login", function(req, res)
     });
 });
 
+app.get("/new", function(req, res)
+{
+    var uname = req.param('uname');
+    var cname = req.param('cname');
+
+    var sql = "INSERT INTO dnd_characters (userId, name) VALUES ( (SELECT id FROM dnd_users WHERE user = '" + uname + "' ), '" + cname + "')";
+    var pResult = DoQuery(sql);
+    var pResolve = Promise.resolve(pResult);
+
+    pResolve.then(function (rows) {
+        res.send(rows);
+    });
+});
+
 app.get("/meta", function(req, res)
 {
     var page = req.param('page');

@@ -32,6 +32,14 @@ function MainCtrl($scope, mainApi)
     $scope.selectCharacter = selectCharacter;
     $scope.submitEdits = submitEdits;
 
+    $scope.newCharacter = newCharacter;
+
+    function newCharacter()
+    {
+        mainApi.newCharacter($scope.uname, document.getElementById("newCharBox").value);
+        next();
+    }
+
     // Page 1 Race & Gender
     $scope.raceCtrl = '';
     var _raceVal = '';
@@ -386,6 +394,11 @@ function mainApi($http, apiUrl)
         logInUser: function (uname, pword)
         {
             var url = apiUrl + '/login?uname=' + uname + '&pword=' + pword;
+            return $http.get(url);
+        },
+        newCharacter: function(uname, cname)
+        {
+            var url = apiUrl + '/new?uname=' + uname + '&cname=' + cname;
             return $http.get(url);
         },
         // This is a abstract function that can be called with a value between 1-10 to reach different pages
