@@ -72,7 +72,8 @@
                 {{raceCtrl.value()}}
             </form>
 
-            <div ng-repeat="x in serverData" ng-show="raceCtrl.value() == x.raceId"> <!-- Shows both subclass descriptions... -->
+            <div ng-repeat="x in serverData" ng-show="raceCtrl.value() == x.raceId">
+                <!-- Shows both subclass descriptions... -->
                 <h3>Race: {{x.race}}</h3>
                 <br>
                 <p>{{x.description}}</p>
@@ -83,24 +84,28 @@
         <div layout="row" ng-show="curPage===2">
             <b>Class + subclass</b>
             <h2>Class: </h2>
-            <form novalidate layout="column"> <label>Class Selector: </label>
-            <select ng-model="classCtrl.value" ng-model-options="{ getterSetter: true }">
-                <option ng-repeat="x in serverData | unique: 'class'" value="{{x.classId}}">{{x.class}}</option>
-            </select>
+            <form novalidate layout="column"><label>Class Selector: </label>
+                <select ng-model="classCtrl.value" ng-model-options="{ getterSetter: true }">
+                    <option ng-repeat="x in serverData | unique: 'class'" value="{{x.classId}}">{{x.class}}</option>
+                </select>
                 {{classCtrl.value()}}
             </form>
 
-            <form novalidate layout="column"> <label>Subclass Selector: </label>
+            <form novalidate layout="column"><label>Subclass Selector: </label>
                 <select ng-model="subclassCtrl.value" ng-model-options="{ getterSetter: true }">
-                    <option ng-repeat="x in serverData" value="{{x.subclassId}}" ng-show="classCtrl.value() == x.classId">{{x.subclass}}</option>
+                    <option ng-repeat="x in serverData" value="{{x.subclassId}}"
+                            ng-show="classCtrl.value() == x.classId">{{x.subclass}}
+                    </option>
                 </select>
                 {{subclassCtrl.value()}}
             </form>
 
-            <div ng-repeat="x in serverData | unique: 'class'" ng-show="classCtrl.value() == x.classId"> <!-- Shows both subclass descriptions... -->
+            <div ng-repeat="x in serverData | unique: 'class'" ng-show="classCtrl.value() == x.classId">
+                <!-- Shows both subclass descriptions... -->
                 <p>Chosen Class:{{x.class}}</p>
             </div>
-            <div ng-repeat="x in serverData" ng-show="subclassCtrl.value() == x.subclassId"> <!-- Shows both subclass descriptions... -->
+            <div ng-repeat="x in serverData" ng-show="subclassCtrl.value() == x.subclassId">
+                <!-- Shows both subclass descriptions... -->
                 <p>Chosen Subclass: {{x.subclass}}</p>
                 <p>Subclass Description: {{x.description}}</p>
             </div>
@@ -131,12 +136,14 @@
 
 
             </form>
-            <div ng-repeat="x in serverData" ng-show="power1Ctrl.value() == x.powerId"> <!-- Shows both subclass descriptions... -->
+            <div ng-repeat="x in serverData" ng-show="power1Ctrl.value() == x.powerId">
+                <!-- Shows both subclass descriptions... -->
                 <h3>Power 1: {{x.name}}</h3>
                 <br>
                 <p>{{x.description}}</p>
             </div>
-            <div ng-repeat="x in serverData" ng-show="power2Ctrl.value() == x.powerId"> <!-- Shows both subclass descriptions... -->
+            <div ng-repeat="x in serverData" ng-show="power2Ctrl.value() == x.powerId">
+                <!-- Shows both subclass descriptions... -->
                 <h3>Power 2: {{x.name}}</h3>
                 <br>
                 <p>{{x.description}}</p>
@@ -148,65 +155,109 @@
             <br>
 
             <form novalidate>
-                            <h2>Skill 1: </h2>
-                                <select ng-model="prof1Ctrl.value" ng-model-options="{ getterSetter: true }">
-                                    <option ng-repeat="x in serverData" value="{{x.proficiencyId}}">{{x.name}}</option>
-                                </select>
-                                    <br>
-                                        <div ng-repeat="x in serverData" ng-show="prof1Ctrl.value() == x.proficiencyId">
-                                            <br>
-                                                <p>{{x.description}}</p>
-                                        </div>
+                <h2>Skill 1: </h2>
+                <select ng-model="prof1Ctrl.value" ng-model-options="{ getterSetter: true }">
+                    <option ng-repeat="x in serverData" value="{{x.proficiencyId}}">{{x.name}}</option>
+                </select>
+                <br>
+                <div ng-repeat="x in serverData" ng-show="prof1Ctrl.value() == x.proficiencyId">
+                    <br>
+                    <p>{{x.description}}</p>
+                </div>
 
             </form>
             <br>
             <form novalidate>
-            <h2>Skill 2: </h2>
-                                <select ng-model="prof2Ctrl.value" ng-model-options="{ getterSetter: true }">
-                                    <option ng-repeat="y in serverData" value="{{y.proficiencyId}}">{{y.name}}</option>
-                                </select>
-                                    <br>
-                                        <div ng-repeat="y in serverData" ng-show="prof2Ctrl.value() == y.proficiencyId">
-                                            <br>
-                                                <p>{{y.description}}</p>
-                                        </div>
+                <h2>Skill 2: </h2>
+                <select ng-model="prof2Ctrl.value" ng-model-options="{ getterSetter: true }">
+                    <option ng-repeat="y in serverData" value="{{y.proficiencyId}}">{{y.name}}</option>
+                </select>
+                <br>
+                <div ng-repeat="y in serverData" ng-show="prof2Ctrl.value() == y.proficiencyId">
+                    <br>
+                    <p>{{y.description}}</p>
+                </div>
             </form>
             <br>
             <form novalidate>
-                            <h2>Skill 3: </h2>
-                    <select ng-model="prof3Ctrl.value" ng-model-options="{ getterSetter: true }">
-                        <option ng-repeat="z in serverData" value="{{z.proficiencyId}}">{{z.name}}</option>
-                                </select>
-                                    <br>
-                                        <div ng-repeat="z in serverData" ng-show="prof3Ctrl.value() == z.proficiencyId">
-                                            <br>
-                                                <p>{{z.description}}</p>
-                                        </div>
+                <h2>Skill 3: </h2>
+                <select ng-model="prof3Ctrl.value" ng-model-options="{ getterSetter: true }">
+                    <option ng-repeat="z in serverData" value="{{z.proficiencyId}}">{{z.name}}</option>
+                </select>
+                <br>
+                <div ng-repeat="z in serverData" ng-show="prof3Ctrl.value() == z.proficiencyId">
+                    <br>
+                    <p>{{z.description}}</p>
+                </div>
             </form>
 
 
         </div>
 
         <div layout="row" ng-show="curPage===7">
-            <b>Equipment: </b>
-            <form novalidate>
-
-                <label> Choose a Weapon:
-                    <select ng-model="weaponCtrl.value" ng-model-options="{ getterSetter: true }">
-                        <option ng-repeat="x in serverData" value="{{x.weaponId}}">{{x.name}}</option>
-                    </select>
-                </label>
-                <br> <br>
-                <p>Weapon Description:</p>
-                <div ng-repeat="x in serverData" ng-show="weaponCtrl.value() == x.weaponId">
-                    <p> Weapon Name: {{x.name}} <br>
-                        Weapon Type : {{x.type}} <br>
-                        Weapon Damage : {{x.damage}} <br>
-                        Weapon Weight : {{x.weight}} <br>
-                        Weapon Properties : {{x.properties}} </p>
-                </div>
+            <form novalidate layout="column"><label>Weapon Selector 1: </label>
+                <select ng-model="weaponCtrl.value" ng-model-options="{ getterSetter: true }">
+                    <option ng-repeat="x in serverData" ng-show="x.weaponName" value="{{x.weaponId}}">{{x.weaponName}}
+                    </option>
+                </select>
+                {{weaponCtrl.value()}}
             </form>
+
+            <form novalidate layout="column"><label>Weapon Selector 2: </label>
+                <select ng-model="weapon2Ctrl.value" ng-model-options="{ getterSetter: true }">
+                    <option ng-repeat="x in serverData" ng-show="x.weaponName" value="{{x.weaponId}}">{{x.weaponName}}
+                    </option>
+                </select>
+                {{weapon2Ctrl.value()}}
+            </form>
+
+            <form novalidate layout="column"><label>Armor Slot: </label>
+                <select ng-model="armorCtrl.value" ng-model-options="{ getterSetter: true }">
+                    <option ng-repeat="x in serverData" ng-show="x.armorName" value="{{x.armorId}}">{{x.armorName}}
+                    </option>
+                </select>
+                {{armorCtrl.value()}}
+            </form>
+            <div style="display: flex">
+                <div>
+
+                    <h3> Weapon Slot 1 </h3>
+                    <div ng-repeat="x in serverData" ng-show="weaponCtrl.value() == x.weaponId">
+                        <p> Chosen Weapon: {{x.weaponName}} <br>
+                            Weapon Type: {{x.weaponType}} <br>
+                            Weapon Damage: {{x.damage}} <br>
+                            Weapon Weight: {{x.weaponWeight}}</p>
+                        <p ng-show="x.properties"> Weapon Properties: {{x.properties}}</p>
+                    </div>
+                </div>
+                &nbsp;&nbsp;&nbsp;
+                <div>
+
+                    <h3> Weapon Slot 2 </h3>
+                    <div ng-repeat="x in serverData" ng-show="weapon2Ctrl.value() == x.weaponId">
+                        <p> Chosen Weapon: {{x.weaponName}} <br>
+                            Weapon Type: {{x.weaponType}} <br>
+                            Weapon Damage: {{x.damage}} <br>
+                            Weapon Weight: {{x.weaponWeight}}</p>
+                        <p ng-show="x.properties"> Weapon Properties: {{x.properties}}</p>
+                    </div>
+                </div>
+                &nbsp;&nbsp;&nbsp;
+                <div>
+                    <h3> Armor Detail</h3>
+                    <div ng-repeat="x in serverData" ng-show="armorCtrl.value() == x.armorId">
+                        <p> Chosen Armor: {{x.armorName}} <br>
+                            Armor Class : {{x.AC}} <br>
+                            Armor Weight: {{x.armorWeight}}
+                        </p>
+                        <p ng-show="armorCtrl.value() == x.armorId" ng-if="x.Requirement"> Armor Requirement : {{x.Requirement}}</p>
+                        <p ng-show="armorCtrl.value() == x.armorId" ng-if="x.Stealth">   Armor Stealth : {{x.Stealth}} </p>
+                    </div>
+                </div>
+            </div>
+
         </div>
+
         <div layout="row" ng-show="curPage===8">
             <b>Characteristics</b>
         </div>
@@ -221,7 +272,9 @@
         <button ng-click="submitEdits()" ng-hide="curPage!=9">Submit</button>
     </div>
     <div layout="row" ng-show="logged_in && curPage===0 && !loading">
-        <input type="text" name="textfield" id="newCharBox" placeholder="Character Name"/><input name="" type="button" value="Create New Character" ng-click="newCharacter()">
+        <input type="text" name="textfield" id="newCharBox" placeholder="Character Name"/><input name="" type="button"
+                                                                                                 value="Create New Character"
+                                                                                                 ng-click="newCharacter()">
     </div>
 
 </div>

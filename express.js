@@ -181,15 +181,33 @@ app.get("/meta", function (req, res) {
             console.log("Got proficencies!");
             break;
 
-        // Proficiencies
+        // Weapons
         case "7":
-            console.log("Ayyy case 7 squad");
-            var sql = "SELECT * FROM dnd_weapons";
-            var result = DoQuery(sql);
-            var resolve = Promise.resolve(result);
-            resolve.then(function (rows) {
-                // console.log("here are the rows!!", rows);
-                res.send(rows);
+            var weaponsSQL = "SELECT * FROM dnd_weapons";
+            var weaponResult = DoQuery(weaponsSQL);
+            var weaponResolve = Promise.resolve(weaponResult);
+            weaponResolve.then(function(weaponResponse)
+            {
+                var armorSQL = "SELECT * FROM dnd_armor";
+                var armorResult = DoQuery(armorSQL);
+                var armorResolve = Promise.resolve(armorResult);
+                armorResolve.then(function(armorResponse)
+                {
+                    // final response array
+                    var finalResponse = [];
+
+                    // Populate weapons into final response
+                    for(var weaponKey in weaponResponse) {
+                        finalResponse.push(weaponResponse[weaponKey]);
+                    }
+
+                    // Populate armors into final response
+                    for( var armorKey in armorResponse){
+                        finalResponse.push(armorResponse[armorKey]);
+                    }
+
+                    res.send(finalResponse);
+                });
             });
             break;
 
