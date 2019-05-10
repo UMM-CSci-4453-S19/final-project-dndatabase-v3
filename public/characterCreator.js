@@ -44,12 +44,20 @@ function MainCtrl($scope, mainApi)
     };
 
     //Page 3 Class/subclass
-    $scope.classCtrl = '';
+
+    page2CtrlArr = ['classCtrl', 'subclassCtrl'];
 
     var classVal = '';
     $scope.classCtrl = {
         value: function (newVal) {
             return arguments.length ? (classVal = newVal) : classVal;
+        }
+    };
+
+    var subclassVal = '';
+    $scope.subclassCtrl = {
+        value: function (newVal) {
+            return arguments.length ? (subclassVal = newVal) : subclassVal;
         }
     };
 
@@ -190,7 +198,10 @@ function MainCtrl($scope, mainApi)
                 break;
             case 2:
                 console.log('page 2!');
-                genericCall(null, null, 'serverData');
+                //genericCall(null, null, 'serverData');
+                extendedGenericCall($scope.currentCharacter.characterId, null,
+                    null, null, null,
+                    'serverData', 'formCtrlData', page2CtrlArr);
                 break;
             case 3:
                 console.log('page 3!');
@@ -312,7 +323,7 @@ function MainCtrl($scope, mainApi)
             // page 1 ctrl values
             {raceId: $scope.raceCtrl.value()},
             // page 2 ctrl values
-            {},
+            {class: $scope.classCtrl.value(), subclass: $scope.subclassCtrl.value()},
             // page 3 ctrl values
             {},
             // page 4 ctrl values

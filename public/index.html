@@ -83,17 +83,28 @@
         <div layout="row" ng-show="curPage===2">
             <b>Class + subclass</b>
             <h2>Class: </h2>
+            <form novalidate layout="column"> <label>Class Selector: </label>
             <select ng-model="classCtrl.value" ng-model-options="{ getterSetter: true }">
                 <option ng-repeat="x in serverData | unique: 'class'" value="{{x.classId}}">{{x.class}}</option>
             </select>
-            <select>
-            <option ng-repeat="x in serverData" ng-show="classCtrl.value() == x.classId">{{x.subclass}}</option>
-            </select>
-            <br>
-            <div ng-repeat="x in serverData" ng-show="classCtrl.value() == x.classId"> <!-- Shows both subclass descriptions... -->
-                <br>
-                <p>{{x.description}}</p>
+                {{classCtrl.value()}}
+            </form>
+
+            <form novalidate layout="column"> <label>Subclass Selector: </label>
+                <select ng-model="subclassCtrl.value" ng-model-options="{ getterSetter: true }">
+                    <option ng-repeat="x in serverData" value="{{x.subclassId}}" ng-show="classCtrl.value() == x.classId">{{x.subclass}}</option>
+                </select>
+                {{subclassCtrl.value()}}
+            </form>
+
+            <div ng-repeat="x in serverData | unique: 'class'" ng-show="classCtrl.value() == x.classId"> <!-- Shows both subclass descriptions... -->
+                <p>Chosen Class:{{x.class}}</p>
             </div>
+            <div ng-repeat="x in serverData" ng-show="subclassCtrl.value() == x.subclassId"> <!-- Shows both subclass descriptions... -->
+                <p>Chosen Subclass: {{x.subclass}}</p>
+                <p>Subclass Description: {{x.description}}</p>
+            </div>
+
         </div>
 
         <div layout="row" ng-show="curPage===3">
