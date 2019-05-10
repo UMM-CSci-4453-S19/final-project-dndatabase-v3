@@ -112,7 +112,18 @@ function MainCtrl($scope, mainApi)
     };
     $scope.wisCtrl.value(8);
 
-    // page 5 skills/abilities
+    //Page 5
+
+    var page4CtrlArr = ['featCtrl'];
+
+    var featVal = '';
+    $scope.featCtrl = {
+        value: function(newVal) {
+            return arguments.length ? (featVal = newVal) : featVal;
+        }
+    };
+
+    // page 6 skills/abilities
 
     var page5CtrlArr = ['power1Ctrl', 'power2Ctrl'];
 
@@ -185,6 +196,7 @@ function MainCtrl($scope, mainApi)
     function setPage(pageNum) {
         $scope.serverData = null;
         $scope.loading = true;
+        console.log('setPage?!?!?');
         switch(pageNum) {
             case 0:
                 console.log('page 0!');
@@ -214,7 +226,10 @@ function MainCtrl($scope, mainApi)
                 break;
             case 4:
                 console.log('page 4!');
-                genericCall(null, null, 'serverData');
+                //genericCall(null, null, 'serverData');
+                extendedGenericCall($scope.currentCharacter.characterId, null,
+                    null, null, null,
+                    'serverData', 'formCtrlData', page4CtrlArr);
                 break;
             case 5:
                 // formCtrlData is being set here!!
@@ -304,6 +319,7 @@ function MainCtrl($scope, mainApi)
     function next() {
         if ($scope.curPage < 9) {
             $scope.curPage++;
+            console.log('current page is: ', $scope.curPage);
             setPage($scope.curPage);
             console.log($scope.curPage);
         }
@@ -333,7 +349,7 @@ function MainCtrl($scope, mainApi)
             {strength: $scope.strCtrl.value(), dexterity: $scope.dexCtrl.value(), constitution: $scope.conCtrl.value(),
                 intelligence: $scope.intCtrl.value(), wisdom: $scope.wisCtrl.value(), charisma: $scope.chaCtrl.value()},
             // page 4 ctrl values
-            {},
+            {feat: $scope.featCtrl.value()},
             // page 5 ctrl values
             {power1: $scope.power1Ctrl.value(), power2: $scope.power2Ctrl.value()},
             // page 6 ctrl values
