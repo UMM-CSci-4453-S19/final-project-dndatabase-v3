@@ -152,9 +152,7 @@ function MainCtrl($scope, mainApi)
     $scope.serverData = [];
 
     // page 7 proficiencies
-    $scope.prof1Ctrl = '';
-    $scope.prof2Ctrl = '';
-    $scope.prof3Ctrl = '';
+    var page6CtrlArr = ['prof1Ctrl', 'prof2Ctrl', 'prof3Ctrl'];
 
     var prof1Val = '';
     $scope.prof1Ctrl = {
@@ -240,7 +238,10 @@ function MainCtrl($scope, mainApi)
                 break;
             case 6:
                 console.log('page 6!');
-                genericCall(null, null, 'serverData');
+                //genericCall(null, null, 'serverData');
+                extendedGenericCall($scope.currentCharacter.characterId, null,
+                    null, null, null,
+                    'serverData', 'formCtrlData', page6CtrlArr);
                 break;
             case 7:
                 console.log('page 7!');
