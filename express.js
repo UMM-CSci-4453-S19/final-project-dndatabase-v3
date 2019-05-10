@@ -213,13 +213,37 @@ app.get("/meta", function (req, res) {
 
         // Proficiencies
         case "7":
-            console.log("Ayyy case 7 squad");
-            var sql = "SELECT * FROM dnd_weapons";
-            var result = DoQuery(sql);
-            var resolve = Promise.resolve(result);
-            resolve.then(function (rows) {
-                // console.log("here are the rows!!", rows);
-                res.send(rows);
+            var weaponsSQL = "SELECT * FROM dnd_weapons";
+            var weaponResult = DoQuery(weaponsSQL);
+            var weaponResolve = Promise.resolve(weaponResult);
+            var charId = req.param('opt1');
+            weaponResolve.then(function(weaponResponse)
+            {
+                var armorSQL = "SELECT * FROM dnd_armor";
+                var armorResult = DoQuery(armorSQL);
+                var armorResolve = Promise.resolve(armorResult);
+                armorResolve.then(function(armorResponse)
+                {
+                    // final response array
+                    var finalResponse = [];
+
+                    // Populate weapons into final response
+                    for(var weaponKey in weaponResponse) {
+                        finalResponse.push(weaponResponse[weaponKey]);
+                    }
+
+                    // Populate armors into final response
+                    for( var armorKey in armorResponse){
+                        finalResponse.push(armorResponse[armorKey]);
+                    }
+
+                    var inventorySql = 'Select weaponSlotOne, weaponSlotTwo, armorSlot from dnd_inventory WHERE characterId=' + charId;
+                    var inventoryResult = DoQuery(inventorySql);
+                    var inventoryResolved = Promise.resolve(inventoryResult);
+                    inventoryResolved.then( function(charInventory) {
+                        res.send([finalResponse, charInventory]);
+                    });
+                });
             });
             break;
 
@@ -262,6 +286,7 @@ app.post("/character", function (req, res) {
     page4submit(user, charId, req.body);
     page5submit(user, charId, req.body);
     page6submit(user, charId, req.body);
+    page7submit(user, charId, req.body);
 
 
     res.send('{}');
@@ -373,6 +398,29 @@ function page6submit(user, charId, pageArr) {
             return addResult;
             // var addResolve = Promise.resolve(addResult);
             // return addResolve;
+        }
+    })
+}
+
+function page7submit(user, charId, pageArr) {
+    var sql = "SELECT * FROM dnd_inventory Where characterId = " + charId;
+    var pResult = DoQuery(sql);
+    var pResolve = Promise.resolve(pResult);
+    pResolve.then(function (res) {
+        if (res[0]) {
+            var updateSql = "UPDATE dnd_inventory SET weaponSlotOne = " + pageArr[6].weapon + ", weaponSlotTwo = " + pageArr[6].weapon2 + ", armorSlot = " + pageArr[6].armor +
+            " WHERE characterId = " + charId;
+
+            var updateResult = DoQuery(updateSql);
+            return updateResult;
+            // var updateResolve = Promise.resolve(updateResult);
+            // return updateResolve;
+        } else {
+            var addSql = "INSERT INTO dnd_inventory (userId, characterId, weaponSlotOne, weaponSlotTwo, armorSlot) VALUES ( '" +
+                user + "', " + charId + ", " + pageArr[6].weapon + ", " + pageArr[6].weapon2 + ", " + pageArr[6].armor + ")";
+
+            var addResult = DoQuery(addSql);
+            return addResult;
         }
     })
 }

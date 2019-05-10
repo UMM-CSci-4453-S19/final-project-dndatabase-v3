@@ -142,10 +142,26 @@ function MainCtrl($scope, mainApi)
     };
 
     // page 8 weapons as part of equipment
+    var page7CtrlArr = ['weaponCtrl', 'weapon2Ctrl', 'armorCtrl'];
+
     var weaponVal = '';
     $scope.weaponCtrl = {
         value: function(newVal) {
             return arguments.length ? (weaponVal = newVal) : weaponVal;
+        }
+    };
+
+    var weapon2Val = '';
+    $scope.weapon2Ctrl = {
+        value: function(newVal) {
+            return arguments.length ? (weapon2Val = newVal) : weapon2Val;
+        }
+    };
+
+    var armorVal = '';
+    $scope.armorCtrl = {
+        value: function(newVal) {
+            return arguments.length ? (armorVal = newVal) : armorVal;
         }
     };
 
@@ -245,7 +261,10 @@ function MainCtrl($scope, mainApi)
                 break;
             case 7:
                 console.log('page 7!');
-                genericCall(null, null, 'serverData');
+                // genericCall(null, null, 'serverData');
+                extendedGenericCall($scope.currentCharacter.characterId, null,
+                    null, null, null,
+                    'serverData', 'formCtrlData', page7CtrlArr);
                 break;
             case 8:
                 console.log('page 8!');
@@ -356,7 +375,7 @@ function MainCtrl($scope, mainApi)
             // page 6 ctrl values
             {prof1: $scope.prof1Ctrl.value(), prof2: $scope.prof2Ctrl.value(), prof3: $scope.prof3Ctrl.value()},
             // page 7 ctrl values
-            {},
+            {weapon: $scope.weaponCtrl.value(), weapon2: $scope.weapon2Ctrl.value(), armor: $scope.armorCtrl.value()},
             // page 8 ctrl values
             {},
             // page 9 ctrl values

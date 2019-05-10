@@ -219,25 +219,68 @@
         </div>
 
         <div layout="row" ng-show="curPage===7">
-            <b>Equipment: </b>
-            <form novalidate>
-
-                <label> Choose a Weapon:
-                    <select ng-model="weaponCtrl.value" ng-model-options="{ getterSetter: true }">
-                        <option ng-repeat="x in serverData" value="{{x.weaponId}}">{{x.name}}</option>
-                    </select>
-                </label>
-                <br> <br>
-                <p>Weapon Description:</p>
-                <div ng-repeat="x in serverData" ng-show="weaponCtrl.value() == x.weaponId">
-                    <p> Weapon Name: {{x.name}} <br>
-                        Weapon Type : {{x.type}} <br>
-                        Weapon Damage : {{x.damage}} <br>
-                        Weapon Weight : {{x.weight}} <br>
-                        Weapon Properties : {{x.properties}} </p>
-                </div>
+            <form novalidate layout="column"><label>Weapon Selector 1: </label>
+                <select ng-model="weaponCtrl.value" ng-model-options="{ getterSetter: true }">
+                    <option ng-repeat="x in serverData" ng-show="x.weaponName" value="{{x.weaponId}}">{{x.weaponName}}
+                    </option>
+                </select>
+                {{weaponCtrl.value()}}
             </form>
+
+            <form novalidate layout="column"><label>Weapon Selector 2: </label>
+                <select ng-model="weapon2Ctrl.value" ng-model-options="{ getterSetter: true }">
+                    <option ng-repeat="x in serverData" ng-show="x.weaponName" value="{{x.weaponId}}">{{x.weaponName}}
+                    </option>
+                </select>
+                {{weapon2Ctrl.value()}}
+            </form>
+
+            <form novalidate layout="column"><label>Armor Slot: </label>
+                <select ng-model="armorCtrl.value" ng-model-options="{ getterSetter: true }">
+                    <option ng-repeat="x in serverData" ng-show="x.armorName" value="{{x.armorId}}">{{x.armorName}}
+                    </option>
+                </select>
+                {{armorCtrl.value()}}
+            </form>
+            <div style="display: flex">
+                <div>
+
+                    <h3> Weapon Slot 1 </h3>
+                    <div ng-repeat="x in serverData" ng-show="weaponCtrl.value() == x.weaponId">
+                        <p> Chosen Weapon: {{x.weaponName}} <br>
+                            Weapon Type: {{x.weaponType}} <br>
+                            Weapon Damage: {{x.damage}} <br>
+                            Weapon Weight: {{x.weaponWeight}}</p>
+                        <p ng-show="x.properties"> Weapon Properties: {{x.properties}}</p>
+                    </div>
+                </div>
+                &nbsp;&nbsp;&nbsp;
+                <div>
+
+                    <h3> Weapon Slot 2 </h3>
+                    <div ng-repeat="x in serverData" ng-show="weapon2Ctrl.value() == x.weaponId">
+                        <p> Chosen Weapon: {{x.weaponName}} <br>
+                            Weapon Type: {{x.weaponType}} <br>
+                            Weapon Damage: {{x.damage}} <br>
+                            Weapon Weight: {{x.weaponWeight}}</p>
+                        <p ng-show="x.properties"> Weapon Properties: {{x.properties}}</p>
+                    </div>
+                </div>
+                &nbsp;&nbsp;&nbsp;
+                <div>
+                    <h3> Armor Detail</h3>
+                    <div ng-repeat="x in serverData" ng-show="armorCtrl.value() == x.armorId">
+                        <p> Chosen Armor: {{x.armorName}} <br>
+                            Armor Class : {{x.AC}} <br>
+                            Armor Weight: {{x.armorWeight}}
+                        </p>
+                        <p ng-show="armorCtrl.value() == x.armorId" ng-if="x.Requirement"> Armor Requirement : {{x.Requirement}}</p>
+                        <p ng-show="armorCtrl.value() == x.armorId" ng-if="x.Stealth">   Armor Stealth : {{x.Stealth}} </p>
+                    </div>
+                </div>
+            </div>
         </div>
+
         <div layout="row" ng-show="curPage===8">
             <b>Characteristics</b>
         </div>
