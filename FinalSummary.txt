@@ -1,0 +1,33 @@
+Description of project:
+- DnD Character Creator is...exactly what it sounds like. We created a web app that allows users to kinda create characters, but definitely edit them. With the time given, creating kidna has to be done in the database itself.
+- Goals included:
+    - Having basic information on characters that is editable and accessible (completed)
+    - Have a character inventory system (completed)
+    - Be able to create/add characters (semi-completed, but not really)
+    - Use MySql to store all this information in tables over other databases 'cause we like it (completed)
+    - Use angular.js to navigate through the entire process (completed)
+    - Search/Display created characters (completed)
+    - Display/search characters based on choices/criteria (incomplete)
+
+Data Models:
+    - We used tables to store data, most of which were interconnected in many ways. Thus, foreign keys were used to help keep data from being asynchronous/disorganized/generally incorrect
+    - Used joins to return specific data/objects for pages
+
+Goals achieved and not achieved:
+- Look above at description
+    - We didn't complete creating characters in the way we wanted to due to time and complexity difficulties
+    - We didn't complete the displaying/searching of characters based on choices/criteria because we wanted to get the creating character goal/feature to work properly.
+    - All other goals were completed :)
+
+Potential Future Work:
+- There's a lot:
+    - Use less abstraction - instead of having queries based on pages, have queries based on information types
+    - Obviously, we'd like to get the create character feature working properly as well as displaying characters based off specific criteria
+    - General refactoring for the sake of code readability/maintainability/general understanding
+    - Add extra pages for things like character background, personality, appearance, etc...
+    - Add images of races/classes/the characters
+
+- Overall reaction:
+- Started out as an interesting and maybe even fun project
+- Ended as not that - for clarification, it was much more complex and time consuming than originally thought
+- We learned a lot - from what not to do, to things we should have done, to things that we might want to do in the future given time/reason (see potential future work section)
