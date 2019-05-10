@@ -33,6 +33,16 @@ function MainCtrl($scope, mainApi)
     $scope.submitEdits = submitEdits;
     $scope.newCharacter = newCharacter;
 
+
+    //Page 2 Race
+    var page1CtrlArr = ['raceCtrl'];
+    var _raceVal = '';
+    $scope.raceCtrl = {
+        value: function (newVal) {
+            return arguments.length ? (_raceVal = newVal) : _raceVal;
+        }
+    };
+
     //Page 3 Class/subclass
     $scope.classCtrl = '';
 
@@ -94,7 +104,7 @@ function MainCtrl($scope, mainApi)
     };
     // page 5 skills/abilities
 
-    var page5CtrlArr = ['power1Ctrl', 'power2Ctrl']
+    var page5CtrlArr = ['power1Ctrl', 'power2Ctrl'];
 
     var _power1Val = '';
     $scope.power1Ctrl = {
@@ -172,7 +182,11 @@ function MainCtrl($scope, mainApi)
                 break;
             case 1:
                 console.log('page 1!');
-                genericCall(null, null, 'serverData');
+                // genericCall(null, null, 'serverData');
+                console.log('current character Id: ' + $scope.currentCharacter.characterId);
+                extendedGenericCall($scope.currentCharacter.characterId, null,
+                    null, null, null,
+                    'serverData', 'formCtrlData', page1CtrlArr);
                 break;
             case 2:
                 console.log('page 2!');
@@ -235,7 +249,9 @@ function MainCtrl($scope, mainApi)
             } else if (scopeVar2) {
                 $scope[scopeVar2] = serverData;
             }
-            setCtrls(fCtrlArr);
+            if ($scope.formCtrlData[0]) {
+                setCtrls(fCtrlArr);
+            }
             $scope.loading = false;
         }).error(function (serverData)
         {
@@ -263,9 +279,9 @@ function MainCtrl($scope, mainApi)
         $scope.currentCharacter = {};
     }
     function selectCharacter(char) {
+        $scope.currentCharacter = char;
         $scope.curPage++;
         setPage($scope.curPage);
-        $scope.currentCharacter = char;
         $scope.addMode = false;
         console.log('addmode change', $scope.addMode);
     }
@@ -294,7 +310,7 @@ function MainCtrl($scope, mainApi)
     function submitEdits() {
         var pageArr = [
             // page 1 ctrl values
-            {},
+            {raceId: $scope.raceCtrl.value()},
             // page 2 ctrl values
             {},
             // page 3 ctrl values

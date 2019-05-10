@@ -64,16 +64,19 @@
         <div layout="row" ng-if="curPage===1 && loading === false">
             <b>Race</b>
 
-            <select ng-init="raceSelector = serverData[0]" ng-model="raceSelector" ng-options="race.race for race in serverData"></select>
+            <form novalidate layout="column">
+                <label layout="row"> Race Selector:
+                    <select ng-model="raceCtrl.value" ng-model-options="{ getterSetter: true }">
+                        <option ng-repeat="x in serverData" value="{{x.raceId}}">{{x.race}}</option>
+                    </select> </label>
+                {{raceCtrl.value()}}
+            </form>
 
-            <b>Gender</b>
-            <select>
-                <option>Male</option>
-                <option>Female</option>
-                <option>Other</option>
-            </select>
-
-            <h3>{{raceSelector.description}}</h3>
+            <div ng-repeat="x in serverData" ng-show="raceCtrl.value() == x.raceId"> <!-- Shows both subclass descriptions... -->
+                <h3>Race: {{x.race}}</h3>
+                <br>
+                <p>{{x.description}}</p>
+            </div>
 
         </div>
 
