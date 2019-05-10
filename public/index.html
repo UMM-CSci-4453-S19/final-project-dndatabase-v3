@@ -108,7 +108,32 @@
         </div>
 
         <div layout="row" ng-show="curPage===3">
-            <b>Stats</b>
+            <h2><b>Stats</b></h2>
+
+            <p>Please use arrows to set value</p>
+
+            <h2>Strength Selector:</h2>
+            <input type="number" value ="8" max="16" min="8" onkeydown="return false" ng-model="strCtrl.value" ng-model-options="{ getterSetter: true }">
+            <p>Current Strength: {{strCtrl.value()}}</p>
+            <br>
+            <h2>Dexterity Selector:</h2>
+            <input type="number" value ="8" max="16" min="8" onkeydown="return false" ng-model="dexCtrl.value" ng-model-options="{ getterSetter: true }">
+            <p>Current Dexterity: {{dexCtrl.value()}}</p>
+            <br>
+            <h2>Constitution Selector:</h2>
+            <input type="number" value ="8" max="16" min="8" onkeydown="return false" ng-model="conCtrl.value" ng-model-options="{ getterSetter: true }">
+            <p>Current Constitution: {{conCtrl.value()}}</p>
+            <br>
+            <h2>Intelligence Selector:</h2>
+            <input type="number" value ="8" max="16" min="8" onkeydown="return false" ng-model="intCtrl.value" ng-model-options="{ getterSetter: true }">
+            <p>Current Intelligence: {{intCtrl.value()}}</p>
+            <br>
+            <h2>Wisdom Selector:</h2>
+            <input type="number" value ="8" max="16" min="8" onkeydown="return false" ng-model="wisCtrl.value" ng-model-options="{ getterSetter: true }">
+            <p>Current Wisdom: {{wisCtrl.value()}}</p>
+            <h2>Charisma Selector:</h2>
+            <input type="number" value ="8" max="16" min="8" onkeydown="return false" ng-model="chaCtrl.value" ng-model-options="{ getterSetter: true }">
+            <p>Current Charisma: {{chaCtrl.value()}}</p>
         </div>
 
         <div layout="row" ng-show="curPage===4">
