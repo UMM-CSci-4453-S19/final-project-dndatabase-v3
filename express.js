@@ -36,8 +36,11 @@ app.get("/login", function (req, res) {
 app.get("/new", function (req, res) {
     var uname = req.param('uname');
     var cname = req.param('cname');
+    var clevel = req.param('clevel');
 
-    var sql = "INSERT INTO dnd_characters (userId, name) VALUES ( (SELECT id FROM dnd_users WHERE user = '" + uname + "' ), '" + cname + "')";
+    var sql = "INSERT INTO dnd_characters (userId, name, level) VALUES ( (SELECT id FROM dnd_users WHERE user = '" + uname + "' ), '" + cname + "' , " + clevel + ")";
+    console.log("YO YO YO");
+    console.log(sql);
     var pResult = DoQuery(sql);
     var pResolve = Promise.resolve(pResult);
 
@@ -48,6 +51,7 @@ app.get("/new", function (req, res) {
         var qResolve = Promise.resolve(qResult);
 
         qResolve.then(function (char) {
+            console.log(" THE CHARACTER IS ", char);
             res.send(char);
         });
     });
@@ -101,18 +105,25 @@ app.get("/meta", function (req, res) {
         // Class
         case "2":
             var sql = "SELECT dnd_classes.classId, dnd_classes.class, dnd_subclasses.classId, dnd_subclasses.description, " +
-                "dnd_subclasses.subclass, dnd_subclasses.subclassId FROM dnd_classes left join dnd_subclasses on dnd_classes.classId = dnd_subclasses.classId;";
+                "dnd_subclasses.subclass, dnd_subclasses.subclassId, dnd_characters.subclass FROM dnd_classes left join dnd_subclasses on dnd_classes.classId = dnd_subclasses.classId" +
+                " left join dnd_characters on dnd_subclasses.subclassId = dnd_characters.subclass;";
             var charId = req.param('opt1');
             var pResult = DoQuery(sql);
             var pResolve = Promise.resolve(pResult);
             pResolve.then(function (rows) {
-                var classSql = "SELECT class, subclass FROM dnd_characters WHERE characterId = " + charId;
-                var classResult = DoQuery(classSql);
-                var classResolve = Promise.resolve(classResult);
-                classResolve.then( function (classReturn)
-                {
-                    res.send([rows,classReturn]);
-                });
+                console.log("THE ROWS AGAIN",rows);
+                var subclassVar = rows.subclass;
+                if (!subclassVar) {
+                    res.send([rows, {}]);
+                } else {
+                    var classSql = "SELECT class, subclass FROM dnd_characters WHERE characterId = " + charId;
+                    var classResult = DoQuery(classSql);
+                    var classResolve = Promise.resolve(classResult);
+                    classResolve.then(function (classReturn) {
+                        console.log("The class Returns", classReturn);
+                        res.send([rows, classReturn]);
+                    });
+                }
             });
             // console.log("Got classes!");
             break;
@@ -168,14 +179,16 @@ app.get("/meta", function (req, res) {
             var sql = "select * from dnd_powers where powerID < " + maxId +
                 " and powerID >= " + minId + " AND level <= " + level;
             // console.log('subclass: ', subClass);
-            // console.log(sql);
+            console.log(sql);
             // console.log(sql);
             var pResult = DoQuery(sql);
             var pResolve = Promise.resolve(pResult);
             pResolve.then(function (rows) {
+                console.log('powers rows!!!!!!', rows);
                 var powers = rows;
                 var charAbilitesSQL = "SELECT power1, power2 FROM dnd_character_abilities WHERE characterId = " + charId +
                     " AND userId = '" + user + "'";
+                console.log(charAbilitesSQL);
                 var subResult = DoQuery(charAbilitesSQL);
                 var subResolve = Promise.resolve(subResult);
                 subResolve.then(function (values) {

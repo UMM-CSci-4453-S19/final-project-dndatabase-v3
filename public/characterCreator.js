@@ -219,6 +219,7 @@ function MainCtrl($scope, mainApi)
             case 1:
                 console.log('page 1!');
                 // genericCall(null, null, 'serverData');
+                console.log('current character?!?!, ', $scope.currentCharacter);
                 console.log('current character Id: ' + $scope.currentCharacter.characterId);
                 extendedGenericCall($scope.currentCharacter.characterId, null,
                     null, null, null,
@@ -230,6 +231,7 @@ function MainCtrl($scope, mainApi)
                 extendedGenericCall($scope.currentCharacter.characterId, null,
                     null, null, null,
                     'serverData', 'formCtrlData', page2CtrlArr);
+                $scope.currentCharacter.race = $scope.raceCtrl.value();
                 break;
             case 3:
                 console.log('page 3!');
@@ -237,6 +239,10 @@ function MainCtrl($scope, mainApi)
                 extendedGenericCall($scope.currentCharacter.characterId, null,
                     null, null, null,
                     'serverData', 'formCtrlData', page3CtrlArr);
+                $scope.currentCharacter.classId = $scope.classCtrl.value();
+                $scope.currentCharacter.subclassId = $scope.subclassCtrl.value();
+                console.log('subclass!!!!', $scope.currentCharacter.subclassId);
+                console.log('subclass ctrl!!!, ', $scope.subclassCtrl.value());
                 break;
             case 4:
                 console.log('page 4!');
@@ -247,6 +253,8 @@ function MainCtrl($scope, mainApi)
                 break;
             case 5:
                 // formCtrlData is being set here!!
+                console.log('subclass!!!!', $scope.currentCharacter.subclassId);
+                console.log('subclass ctrl!!!, ', $scope.subclassCtrl.value());
                 console.log('page 5!');
                 extendedGenericCall($scope.currentCharacter.classId, $scope.currentCharacter.subclassId,
                     $scope.uname, $scope.currentCharacter.characterId, $scope.currentCharacter.level,
@@ -393,10 +401,11 @@ function MainCtrl($scope, mainApi)
 
     function newCharacter()
     {
-        mainApi.newCharacter($scope.uname, document.getElementById("newCharBox").value).success(function (rows){
-            $scope.currentCharacter = rows;
+        mainApi.newCharacter($scope.uname, document.getElementById("newCharBox").value, document.getElementById('newCharLevelBox').value).success(function (rows){
+            console.log('current character:', rows);
+            $scope.currentCharacter = rows[0];
+            next();
         });
-        next();
     }
 
     function displayCharacters()
@@ -422,9 +431,9 @@ function mainApi($http, apiUrl)
             var url = apiUrl + '/login?uname=' + uname + '&pword=' + pword;
             return $http.get(url);
         },
-        newCharacter: function(uname, cname)
+        newCharacter: function(uname, cname, clevel)
         {
-            var url = apiUrl + '/new?uname=' + uname + '&cname=' + cname;
+            var url = apiUrl + '/new?uname=' + uname + '&cname=' + cname + "&clevel=" + clevel;
             return $http.get(url);
         },
         // This is a abstract function that can be called with a value between 1-10 to reach different pages

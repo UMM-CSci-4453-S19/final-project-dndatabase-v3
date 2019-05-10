@@ -295,7 +295,9 @@
         <button ng-click="submitEdits()" ng-hide="curPage!=9">Submit</button>
     </div>
     <div layout="row" ng-show="logged_in && curPage===0 && !loading">
-        <input type="text" name="textfield" id="newCharBox" placeholder="Character Name"/><input name="" type="button" value="Create New Character" ng-click="newCharacter()">
+        <input type="text" name="textfield" id="newCharBox" placeholder="Character Name">
+        <input type="number" min="1" name="textfield" id="newCharLevelBox" placeholder="Character Level">
+        <input name="" type="button" value="Create New Character" ng-click="newCharacter()">
     </div>
 
 </div>
